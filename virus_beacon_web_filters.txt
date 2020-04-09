@@ -4,12 +4,11 @@
 - Sequence length (nt/aa)> all/>29000nt/9700aa
 - % of completeness of target region (filtered selected region)
 - Genomic region: full lenght/5UTR/ORForprotein/protein domain/3UTR
-- Region by function> untranslated regios/structural ORFs/nonstructuralORFs
+- Region by function> untranslated regions/structural ORFs/nonstructuralORFs
 - Mutation rate (polymorphic/hypervariable vs conserved regions)> e.g 0/0-0.03 /0.3-0.01/0.01-0.1/>0.3
 - Mutation type> SNP/del/ins
 - Mutation effect> silent/synonymous/non-synonymous
 
-*Filters have to match, if nucleotide, nt positions and no UTRs as genomic region; if protein, pt position 
 
 * Host
 - Geo location
