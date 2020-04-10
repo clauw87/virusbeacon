@@ -1,0 +1,31 @@
+# Queries narratives
+1. Query by variant (VARIANT  DEFAULT  )
+U queries for an specific variant by entering  variant descriptor (nt26141 A>C) and wants to know if this specific variant has been found elsewhere, and if so, -in what frequency- and in which sample types (BALF vs Oro-pharyngeal swab) and in which host  (e.g human vs others, country, sex or clinical outcome fatal) . U may want to filter by any of this, for example, is interested only in results from human, from sample type BALF, country USA, a specific viral strain and missense variants
+
+Response will include Biosample and Host/Individual endpoints, and will be limited by filters from these two and also from Variant Annotation and Virus schema.
+
+Filters: 
+BIOSAMPLE:sample_type= "Bronchoalveolar lavage fluid”
+HOST:taxon_id= "9606" (default)
+HOST:geo_origin= "USA"
+VIRUS:strain_name=”2019-nCoV/USA-WI1/2020" 
+VARIANT_ANNOTATION:variant_type= “missense variant”
+
+Response:
+
+
+
+
+
+2. Query by region annotation
+
+U queries for all variants in ORF8 by entering only a filter by VARIANT  ANNOTATION:region
+and if so, in what frequency has each of them been found, in which sample types (BALF vs Oro-pharyngeal swab) and  associated to which clinical outcome. U may want to filter to select only missense variants
+
+Response will include Variant in Sample, Biosample and Host/Individual endpoints, and will be limited by filter from Variant Annotation.
+
+Filters: 
+HOST:taxon_id= "9606" (default)
+VARIANT_ANNOTATION:variant_type= “missense variant”
+
+Response:
