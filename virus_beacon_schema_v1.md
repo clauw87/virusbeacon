@@ -15,7 +15,7 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 - [ ] variant_id: (external ref if it exists)
 - [ ] variant_type: e.g “missense variant”  (SO variant type ontology)
 - [ ] genomic_region: categorical, from genomic annotation file for taxon_id (SARS-CoV2: 5UTR,ORF1ab, S, ORF3a, Intergenic, E,M, ORF6, ORF7a, ORF8, N, ORF10, 3UTR)
-- [ ] functional_region: HVR1
+- [ ] functional_region:  categorical, from functional annotation e.g HVR1
 
 
 
@@ -25,8 +25,7 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 - [ ] variant_file_id: (external ref -or internal if we run pipeline)
 - [ ] sequence_file_id:  (external ref) e.g "SRR10903401"
 - [ ] variant_frequency_dataset (dataset):
-- [x] variant_frequency_accross (all datasets 
-- [ ] INFO
+- [ ] info
 	- [ ] study_info: 
 		- [ ] study_id: (study accession): e.g  "SRP242226"
 		- [ ] study_ref: (article PUMED ID or URL)
@@ -41,29 +40,33 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 		- [ ] exp_platform_model: (“Illumina MiSeq”, “Illumina MiniSeq” , ”Illumina HiSeq 2500” ,”NextSeq 500” , ”NextSeq 550”, “Illumina iSeq 100”, "GridION" ) 
 
 
-—BIOSAMPLE 
-- [ ] biosample_id: (external ref ) e.g "SRS6007144"
-- [ ] biosample_alt_id: (external ref ) e.g "SAMN13872787" 
-- [ ] biosample_type: (sample type/source) e.g "Bronchoalveolar lavage fluid”
-- [ ] culture_cell: e.g: "Vero E6 cells (CRL-1586)" (NULL or none if not culture)
-- [ ] culture_passage_history e.g "Original (not passaged)" (NULL or none if not culture)
+—BIOSAMPLE  
 - [ ] collection_date:  e.g  "2020-02-14" 
-- [ ] study_ref: (article PUMED ID)
+- [ ] biosample_type: (sample type/source) e.g "Bronchoalveolar lavage fluid” or “Cellular passage”
+- [ ] procedure:
+	- [ ] culture_cell: e.g: "Vero E6 cells (CRL-1586)" (NULL or none if not culture)
+	- [ ] culture_passage_history e.g "Original (not passaged)" (NULL or none if not culture)
+- [ ] info
+	- [ ] biosample_id: (external ref ) e.g "SRS6007144"
+	- [ ] biosample_alt_id: (external ref ) e.g "SAMN13872787"
+	- [ ] biosample_ref_material: e.g "BEI Resources catalog NR-52281 (lot 70033135)
+
 
 
 —HOST/INDIVIDUAL  (1 ENCOUNTER )
-- [ ] host_taxon_id e.g "9606" (“Homo sapiens”)
+- [ ] host_taxon_id: e.g "9606" (“Homo sapiens”)
 - [ ] host_age: e.g “21”  (age in default schema)
 - [ ] host_sex:  “female”, “male” (sex in default schema)
 - [ ] geo_origin:  (different formats) e.g "USA:WI:Madison”/ "USA: CA, San Diego County”/ “30.52 N 114.31 E"  > harmonise, map to GAZ ontology (geographic origin in default schema)
-- [ ] disease (virus-related disease e.g ("nCoV pneumonia”, "COVID-19" , "severe acute respiratory syndrome"))
+- [ ] disease: (relevant virus-related diseases) e.g ("nCoV pneumonia”, "COVID-19" , "severe acute respiratory syndrome"))
 - [ ] disease_stage: e.g “acute” (only one ca)
-- [ ] comorbidities (individualDiseases from default schema): underlying chronic diseases 
-- [ ] disease_course: e.g ”mild” 
+- [ ] comorbidities: (underlying chronic diseases, format as individualDiseases from default schema): 
+- [ ] disease_course: categorical ”mild”, “severe” or “fatal”
 - [ ] disease_outcome: e.g ”resolution/discharge” (harmonized from “Survived”)
 - [ ] info 
-	- [ ] study_ref (article PUMED ID)
+	- [ ] individual_id: (external ref ) 
 
+	
 
 — VIRUS
 - [ ] taxon_id:  e.g ”433733”
