@@ -13,23 +13,24 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 
 —VARIANT  ANNOTATION  
 - [ ] variant_id: (external ref if it exists)
-- [ ] variant_type: e.g “missense variant”  (SO variant type ontology)
-- [ ] genomic_region: categorical, from genomic annotation file for taxon_id (SARS-CoV2: 5UTR,ORF1ab, S, ORF3a, Intergenic, E,M, ORF6, ORF7a, ORF8, N, ORF10, 3UTR)
-- [ ] functional_region:  categorical, from functional annotation e.g HVR1
+- [ ] variant_type: e.g “del”
+- [ ] variant effect: e.g “missense variant” 
+- [ ] genomic_region: categorical, from virus genomic annotation in VIRUS: annotation (SARS-CoV2: 5UTR,ORF1ab, S, ORF3a, Intergenic, E,M, ORF6, ORF7a, ORF8, N, ORF10, 3UTR)
+- [ ] functional_region:  categorical, from functional annotation file VIRUS: annotation e.g “HVR”, “RBD”, “RNA modification site”
 
 
 
 —VARIANT IN SAMPLE
-- [ ] biosample_id: (external ref ) e.g "SRS6007144"
-- [ ] host_id: (external ref if it exists)
 - [ ] variant_file_id: (external ref -or internal if we run pipeline)
-- [ ] sequence_file_id:  (external ref) e.g "SRR10903401"
-- [ ] variant_frequency_dataset (dataset):
+- [ ] variant_frequency_dataset: from vcf
 - [ ] info
+	- [ ] biosample_id: (external ref ) e.g "SRS6007144"
+	- [ ] host_id: (external ref if it exists)
 	- [ ] study_info: 
 		- [ ] study_id: (study accession): e.g  "SRP242226"
 		- [ ] study_ref: (article PUMED ID or URL)
 	- [ ] experiment_info
+		- [ ] sequence_file_id:  (run accession) e.g "SRR10903401"
 		- [ ] exp_id (experiment accession): e.g  "SRX7571571"
 		- [ ] exp_title: e.g ”Total RNA sequencing of BALF (human reads removed)”
 		- [ ] exp_lib_strategy: (“RNA-Seq”, “WGS”, “AMPLICON”, “Targeted-Capture”) 
@@ -57,12 +58,12 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 - [ ] host_taxon_id: e.g "9606" (“Homo sapiens”)
 - [ ] host_age: e.g “21”  (age in default schema)
 - [ ] host_sex:  “female”, “male” (sex in default schema)
-- [ ] geo_origin:  (different formats) e.g "USA:WI:Madison”/ "USA: CA, San Diego County”/ “30.52 N 114.31 E"  > harmonise, map to GAZ ontology (geographic origin in default schema)
-- [ ] disease: (relevant virus-related diseases) e.g ("nCoV pneumonia”, "COVID-19" , "severe acute respiratory syndrome"))
-- [ ] disease_stage: e.g “acute” (only one ca)
-- [ ] comorbidities: (underlying chronic diseases, format as individualDiseases from default schema): 
+- [ ] geo_origin:  e.g "USA:WI:Madison”
+- [ ] disease: (relevant virus-related diseases) e.g "pneumonia”
+- [ ] disease_stage: e.g “acute”
+- [ ] comorbidities: (underlying chronic diseases, format as individualDiseases from default schema): e.g ICD10 for “diabetes mellitus type II”
 - [ ] disease_course: categorical ”mild”, “severe” or “fatal”
-- [ ] disease_outcome: e.g ”resolution/discharge” (harmonized from “Survived”)
+- [ ] disease_outcome: e.g ”resolution/discharge” , “death”
 - [ ] info 
 	- [ ] individual_id: (external ref ) 
 
@@ -70,8 +71,11 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 
 — VIRUS
 - [ ] taxon_id:  e.g ”433733”
-- [ ] taxon_name: e.g “Severe acute 	 respiratory syndrome coronavirus 2”
+- [ ] taxon_name: e.g “Severe acute respiratory syndrome coronavirus 2”
 - [ ] strain_id: 
 - [ ] strain_name: e.g "2019-nCoV/USA-WI1/2020" 
+- [ ] annotation
+	- [ ] genomic annotation: file url
+	- [ ] functional annotation: file url
 
 
