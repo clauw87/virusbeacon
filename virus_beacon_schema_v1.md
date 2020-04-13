@@ -62,8 +62,8 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 - [ ] disease: (relevant virus-related diseases) e.g "pneumonia”
 - [ ] disease_stage: e.g “acute”
 - [ ] comorbidities: (underlying chronic diseases, format as individualDiseases from default schema): e.g ICD10 for “diabetes mellitus type II”
-- [ ] disease_course: categorical ”mild”, “severe” or “fatal”
-- [ ] disease_outcome: e.g ”resolution/discharge” , “death”
+- [ ] disease_course: categorical “asymptomatic”, ”mild”, “severe”  
+- [ ] disease_outcome: e.g ”resolution/discharge” , “fatal”
 - [ ] info 
 	- [ ] individual_id: (external ref ) 
 
