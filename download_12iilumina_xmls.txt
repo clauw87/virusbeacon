@@ -1,0 +1,13 @@
+## Download XMLs for all VCF files
+## path=/Users/claudiavasallovega/Downloads
+
+
+filename=srr_12.txt
+names=(`cat "$filename"`)
+
+for ELEMENT in ${names[@]}
+do
+echo File:$ELEMENT
+curl -s "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=sra&amp;id=$ELEMENT" > "$ELEMENT"
+done
+
