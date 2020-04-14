@@ -39,6 +39,8 @@ NOTE: (Metadata fields should be extracted from XML files. See metadata fields f
 		- [ ] exp_lib_layout: (“PAIRED” “SINGLE”) 
 		- [ ] exp_platform: (“Illumina , “Nanopore”)
 		- [ ] exp_platform_model: (“Illumina MiSeq”, “Illumina MiniSeq” , ”Illumina HiSeq 2500” ,”NextSeq 500” , ”NextSeq 550”, “Illumina iSeq 100”, "GridION" ) 
+		- [ ] variant caller
+	
 
 
 —BIOSAMPLE  
