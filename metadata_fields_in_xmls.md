@@ -27,7 +27,7 @@
 - [ ] biosample_type: attributes_values$isolation_source, sample_attributes_values$tissue
 - [ ] procedure
 	- [ ] culture_cell: sample_attributes_values$`Laboratory Host`, attributes_values$passage_history > Map to CL ontology (NULL or none if not culture)
-	- [ ] procedure:culture_passage_history: attributes_values$passage_history e.g "Original (not passaged)" (NULL or none if not culture)
+	- [ ] procedure: passage_history: attributes_values$passage_history e.g "Original (not passaged)" (NULL or none if not culture)
 - [ ] info
 	- [ ] biosample_id:  xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]
 	- [ ] biosample_alt_id:  xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL_ID[[1]]
@@ -35,7 +35,7 @@
 
 
 —HOST/INDIVIDUAL 
-- [ ] host_taxon_id: sample_attributes_values$host, sample_attributes_values$env_broad_scale, sample_attributes_values$host_description, sample_attributes_values$country
+- [ ] host_taxon_id: sample_attributes_values$host, sample_attributes_values$env_broad_scale, sample_attributes_values$host_description, ~~sample_attributes_values$country~~
 - [ ] host_age: sample_attributes_values$host_age, sample_attributes_values$age
 - [ ] host_sex:  sample_attributes_values$host_sex, sample_attributes_values$sex
 - [ ] geo_origin: sample_attributes_values$geo_loc_name 
