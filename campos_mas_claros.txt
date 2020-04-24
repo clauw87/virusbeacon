@@ -11,13 +11,16 @@ variant caller (for now it is Galaxy pipeline more or less based on “GATK”, 
 info/handover> maybe run_id eg SRR10903401 /  la url de esa run en el archive de NCBI SRA 
 
 Biosample:
+biosample_id
 biosample_type
 collection_date
-info> biosample_id
+
 
 Individual:
+individual id
 host_age
 host_sex
 geo_origin
 disease
 disease_stage
+disease_outcome
