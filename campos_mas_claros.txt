@@ -1,0 +1,23 @@
+Variant in sample:
+Variant ID (como si es 1, 2, 3, 4..no se)
+Frequency in dataset (as found in VCF)
+
+
+Variant annotation: (aunq creo q esto aun no lo teneis)
+variant effect (as found in VCF)
+genomic region (as found in VCF)
+exp_platform
+variant caller (for now it is Galaxy pipeline more or less based on “GATK”, dont low if you have that from Dietmar)
+info/handover> maybe run_id eg SRR10903401 /  la url de esa run en el archive de NCBI SRA 
+
+Biosample:
+biosample_type
+collection_date
+info> biosample_id
+
+Individual:
+host_age
+host_sex
+geo_origin
+disease
+disease_stage
