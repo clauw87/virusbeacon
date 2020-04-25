@@ -64,7 +64,7 @@ in generic beacon v2 schema, see arrows)
 — -HOST/- INDIVIDUAL  -> INDIVIDUAL 
 - [ ] :::: individual_id:  ::::  -> Individual individualId
 - [ ] individual_taxon_id:  -> Organism taxonId
-- [ ] age:  -> Variant in sample IndividualAgeAtCollection  and  Individual diseases disease ageOfOnset
+- [ ] age:  -> Biosample IndividualAgeAtCollection and  Individual diseases disease ageOfOnset
 - [ ] sex:   -> Individual sex
 - [ ] geo_origin:   -> Individual geographicOrigin
 - [ ] disease: -> Individual diseases diseaseId

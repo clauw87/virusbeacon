@@ -1,26 +1,56 @@
-Variant in sample:
-Variant ID (como si es 1, 2, 3, 4..no se)
-Frequency in dataset (as found in VCF)
+*Variant in sample:
+-frequency_dataset (as found in VCF)
+-variant_caller (for now it is Galaxy pipeline more or less based on “GATK”, dont now if you have that from Dietmar)
 
 
-Variant annotation: (aunq creo q esto aun no lo teneis)
-variant effect (as found in VCF)
-genomic region (as found in VCF)
-exp_platform
-variant caller (for now it is Galaxy pipeline more or less based on “GATK”, dont low if you have that from Dietmar)
+*Variant annotation: (aunq creo q esto aun no lo teneis)
+-variant_effect (as found in VCF)
+-genomic_region (as found in VCF)
+-exp_platform
 info/handover> maybe run_id eg SRR10903401 /  la url de esa run en el archive de NCBI SRA 
 
-Biosample:
-biosample_id
+*Biosample:
+biosample_id (quiza esto en info)
 biosample_type
 collection_date
 
 
-Individual:
-individual id
+*Individual:
 host_age
 host_sex
 geo_origin
 disease
-disease_stage
-disease_outcome
+
+
+
+
+# Here same info, if instead of these names you are using new generic default schema names that were mapped/ added to map to these fields:
+
+*Variant in sample:
+- Variant in Sample variantFrequency 
+- Variant in Sample variantCaller
+
+*Variant annotation: (aunq creo q esto aun no lo teneis)
+-Variant Annotation molecularConsequence
+-Variant Annotation genomicRegion class, Variant Annotation genomicRegion featureId
+
+
+*Run
+- Run platform, platformModel
+- Run runId  (quiza esto en info)
+
+
+*Biosample:
+Biosample biosampleId  (quiza esto en info)
+sampleOriginType or sampleOriginDetail
+Biosample collectionDate
+Biosample IndividualAgeAtCollection
+
+
+
+*Individual:
+Individual sex
+(age goes now in biosample)
+Individual geographicOrigin
+Individual diseases diseaseId
+
