@@ -26,7 +26,7 @@ human < - c(”Homo sapiens”, ”Human”, "Isolated from clinical sample from
 geo_origin tags > geo_loc_name,  country, at_lon 
 geo_origin_values > sample_attributes_values$geo_loc_name, sample_attributes_values$country, sample_attributes_values$at_lon
 (different formats) e.g "USA:WI:Madison”/ "USA: CA, San Diego County”/ “30.52 N 114.31 E"  ->  harmonise to format Country, State/Sub, City and map to GAZ ontology (geographic origin in default schema)
-- [ ] disease_stage: sample_attributes_values$disease_stage e.g “Acute” -> harmonise maybe to “acute”, “relapse”, “reinfection”
+- [ ] disease_stage: sample_attributes_values$host_disease_stage for now only “Acute” -> harmonise values in this field maybe to “acute”, “relapse”, “reinfection”
 - [ ] disease_outcome
 host_disease_outcome_values> e.g “Survived”  -> harmonise to resolutiondischarge or death
-
+- [ ] disease: sample_attributes_values$host_disease   (Is pneumonia a disease or a syndrome or a clinical finding? severe acute respiratory syndrome is obviously a syndrome? where those would go?- maybe map to ontology “Diseases, Signs and Syndromes”)

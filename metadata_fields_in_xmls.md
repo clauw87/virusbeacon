@@ -43,12 +43,12 @@
 
 
 —INDIVIDUAL 
-- [ ] individual\_taxon\_id: sample\_attributes\_values$host, sample \_attributes\_values$env\_broad\_scale, sample\_attributes\_values$host\_description
+- [ ] individual\_taxon\_id: sample\_attributes\_values$host
 - [ ] sex:  sample\_attributes\_values$host\_sex, sample\_attributes\_values$sex
 -   [ ] age \of\onset: sample\_attributes\_values$host\_age, sample\_attributes\_values$age (This is extracted to Biosample already)
 - [ ] geo\_origin: sample\_attributes\_values$geo\_loc\_name 
 - [ ] disease:  sample\_attributes\_values$host\_disease
-- [ ] disease\_stage: sample\_attributes\_values $host\_disease\_stage (e.g “acute” harmonization needed) 
+- [ ] disease\_stage: sample\_attributes\_values $host\_disease\_stage
 - [ ] host\_disease\_outcome: sample\_attributes\_values$host\_disease\_outcome
 - [ ] info 
 
