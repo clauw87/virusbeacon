@@ -11,8 +11,9 @@
 
 —VARIANT  ANNOTATION   (highlighted are new fields that weren’t before :  Annotations to get from VCF Dietmar will send)
 - [ ] variant_id: -> Variant Annotation variantId
-- [ ] variant effect: -> Variant Annotation molecularConsequence
-- [ ] genomic_region: ->   Variant Annotation genomicRegion class and featureId
+- [ ] variant_effect: -> Variant Annotation molecularEffect
+- [ ] variant_consequence: -> Variant Annotation molecularConsequence
+- [ ] genomic_region: ->   Variant Annotation genomicRegion featureClass and Variant Annotation genomicRegion featureId
 - [ ] ::annotation_tool_version::: ->   Variant Annotation annotationToolVersion
 - [ ] ::molecular_effect::: ->   Variant Annotation molecularEffect
 - [ ] ::aminoacid_change::: ->   Variant Annotation aminoacid change
@@ -41,7 +42,7 @@ in generic beacon v2 schema, see arrows)
 - [ ]  :::: variant_id  :::: -> Variant in Sample variantId  
 - [ ]  :::: biosample_id:  ::::  -> Variant in Sample biosampleId 
 - [ ]  :::: run_id:  :::: -> Variant in Sample runId 
-- [ ]  :::: variant caller: ::::  ->  Variant in Sample variantCaller
+- [ ]  :::: variant_caller: ::::  ->  Variant in Sample variantCaller
 - [ ]  :::: host_id:   :::: -> Variant in Sample individualId
 - [ ] variant_frequency_dataset:  ->  Variant in Sample variantFrequency
 - [x] info
