@@ -5,6 +5,7 @@
 
 *Variant annotation: (aunq creo q esto aun no lo teneis)
 -variant_effect (Functional_Class in VCF / Dietmar)
+-variant_consequence (Effect in VCF / Dietmar)
 -genomic_region (Gene_Name and Transcript_ID in VCF, add both separated by commas)
 -exp_platform
 info/handover> maybe run_id eg SRR10903401 /  la url de esa run en el archive de NCBI SRA 
@@ -31,8 +32,11 @@ disease
 - Variant in Sample variantCaller (not avaliable yet, next interation by Dietmar)
 
 *Variant annotation: (aunq creo q esto aun no lo teneis)
+-Variant Annotation molecularEffect (Effect in VCF / Dietmar)
 -Variant Annotation molecularConsequence (Functional_Class in VCF / Dietmar)
--Variant Annotation genomicRegion featureId (Gene_Name and Transcript_ID in VCF, add both separated by commas)
+-Variant Annotation genomicRegion featureId (values in Gene_Name and Transcript_ID in VCF, add both separated by commas)
+-(Maybe this one not for first example because needs transformation) Variant Annotation genomicRegion class (Gene_Name and Transcript_ID in VCF> not actual value, but trasnformation. if Gene_Name is present, add “gene” to class and if transcriptID is present add “transcript”+transcriptBiotype to class)
+
 
 
 *Run
@@ -41,16 +45,15 @@ disease
 
 
 *Biosample:
-Biosample biosampleId  (quiza esto en info)
-sampleOriginType or sampleOriginDetail
-Biosample collectionDate
-Biosample IndividualAgeAtCollection
+- Biosample biosampleId  
+- sampleOriginType or sampleOriginDetail
+- Biosample collectionDate
+- Biosample IndividualAgeAtCollection
 
 
 
 *Individual:
-Individual sex
-(age goes now in biosample)
-Individual geographicOrigin
-Individual diseases diseaseId
+- Individual sex
+- Individual geographicOrigin
+- Individual diseases diseaseId
 
