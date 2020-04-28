@@ -1,0 +1,30 @@
+* Beacon Summary statistics main
+
+- # variants in database
+
+- # variant frequency per position > needle ()
+
+splits> # variants:
+
+- # by original repository
+
+- # by geo location
+
+- # by sex
+
+- # by age pyramid
+
+- # by variant effect
+
+- # by molecular consequence
+
+- # by annotation: region type: intergenic feature Class ORFs and proteins, feature IDs
+
+- # by platform
+
+- # by disease/ disease_stage/ disease_outcome
+
+
+* Utilities
+- Visualization as Jordi was saying of Freq of variants and these covariates: sex, geo loc, age (maybe some simple statistics analysis could be allowed/included such as PCA?) so user can spot if there could be some association of some variants with some covariates?
+
