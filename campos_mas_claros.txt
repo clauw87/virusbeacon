@@ -1,11 +1,11 @@
 *Variant in sample:
--frequency_dataset (as found in VCF)
+-variant_frequency_dataset (AF in VCF)
 -variant_caller (for now it is Galaxy pipeline more or less based on “GATK”, dont now if you have that from Dietmar)
 
 
 *Variant annotation: (aunq creo q esto aun no lo teneis)
--variant_effect (as found in VCF)
--genomic_region (as found in VCF)
+-variant_effect (Functional_Class in VCF / Dietmar)
+-genomic_region (Gene_Name and Transcript_ID in VCF, add both separated by commas)
 -exp_platform
 info/handover> maybe run_id eg SRR10903401 /  la url de esa run en el archive de NCBI SRA 
 
@@ -23,16 +23,16 @@ disease
 
 
 
-
 # Here same info, if instead of these names you are using new generic default schema names that were mapped/ added to map to these fields:
 
+
 *Variant in sample:
-- Variant in Sample variantFrequency 
-- Variant in Sample variantCaller
+- Variant in Sample variantFrequency (AF in VCF)
+- Variant in Sample variantCaller (not avaliable yet, next interation by Dietmar)
 
 *Variant annotation: (aunq creo q esto aun no lo teneis)
--Variant Annotation molecularConsequence
--Variant Annotation genomicRegion class, Variant Annotation genomicRegion featureId
+-Variant Annotation molecularConsequence (Functional_Class in VCF / Dietmar)
+-Variant Annotation genomicRegion featureId (Gene_Name and Transcript_ID in VCF, add both separated by commas)
 
 
 *Run
