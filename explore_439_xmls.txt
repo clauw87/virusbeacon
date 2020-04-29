@@ -1,4 +1,4 @@
-As a result of exploration of the additional 439 xmls coming from sra.
+As a result of exploration of the 439 xmls coming from sra.
 
 - Only 1 new sample attribute tag was found that was not on any of the 50 previously checked, host_tissue_sampled, found only in 18 samples and anyway this info is already in other tags (“isolation_source” and “tissue”) that are also found in those 18 xmls, so, the info was redundant and the tag doesn’t need to be extracted.
 
@@ -14,7 +14,7 @@ Distribution of some experiment attribute values such as platform model and libr
 Notes>
 
 Statistics
-489 runs, corresponding to
+439 runs, corresponding to
 	-439 experiments 
 	-(18 submissions)
 	-12 studies

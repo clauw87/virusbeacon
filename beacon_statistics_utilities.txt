@@ -28,3 +28,8 @@ splits> # variants:
 * Utilities
 - Visualization as Jordi was saying of Freq of variants and these covariates: sex, geo loc, age (maybe some simple statistics analysis could be allowed/included such as PCA?) so user can spot if there could be some association of some variants with some covariates?
 
+
+* Annotations
+- Annotations file of proteins and domains in this coronavirus
+- Is there any repository/database of motifs (nt or pt ones) found in coronaviruses/ betacoronaviruses? (including the RNA modification sites ones and these TRSs core sequence) that we can use to have those readily available?
+
