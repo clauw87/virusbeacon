@@ -1,0 +1,54 @@
+# VADR
+https://www.biorxiv.org/content/10.1101/852657v2.full.pdf
+
+The most updated , COVID 19 aware ..files for download? 
+De novo annotation. It is recommended that atleast 64Gb of RAM are available when analyzing full length coronavirus genomes.)
+
+“Due to the COVID-19 outbreak beginning
+in December 2019, we have made 55 Coronaviridae
+models available for download and analysis of coronavirus sequences including SARS-CoV-2, even though
+VADR was not designed for sequences as large as coronavirus genomes (∼30Kb). It is recommended that at
+least 64Gb of RAM are available when analyzing full
+length coronavirus genomes. Download and usage instructions for these models can be found on github
+(https://github.com/nawrockie/vadr/wiki/AvailableVADR-model-files).”
+
+
+
+
+# VIGOR  (JCVI) - check this one out, seems good, needs only fasta file, works natively on Mac and Linux 
+
+https://doi.org/10.1186/1471-2105-11-451
+
+“VIGOR is an extremely fast and automatic viral annotator that is able to correctly annotate any number of virus genomes without prior knowledge of viral species or type. VIGOR also is able to correctly handle RNA editing and ribosomal slippage – needing only an input FASTA file with the genome to be annotated”
+
+
+# vgas
+a system combining an ab initio method and a similarity-based method to automatically find viral genes and perform gene function annotation.
+When combining Vgas with GeneMarkS and Prodigal, better prediction results could be obtained than with each of the three individual programs, suggesting that collaborative prediction using several different software programs is an alternative for gene prediction. Vgas is freely available at http://cefg.uestc.cn/vgas/ or http://121.48.162.133/vgas/. We hope that Vgas could be an alternative virus gene finder to annotate new genomes or reannotate existing genome.
+
+
+
+
+# viral-ngs suite (Broad Institute)
+
+https://viral-ngs.readthedocs.io/en/latest/
+
+
+
+
+
+# VAPiD 
+
+https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-019-2606-y
+
+https://github.com/rcs333/VAPiD
+
+python vapid.py example.fasta example.sbt --metadata_loc example_metadata.csv]
+
+example.fasta example.sbt
+
+example_metadata.csv is optional
+
+
+VAPiD does not perform ab initio gene annotation. Instead VAPiD simply transfers annotations from the closest reference genome with a few quality control steps, such as allowing for slightly different gene lengths and RNA editing. A significant limitation of this strategy is that because the new annotation is generated from a downloaded reference, any errors that are in the downloaded reference will be transferred to the new genome.
+
