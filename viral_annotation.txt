@@ -1,6 +1,8 @@
 # VADR
 https://www.biorxiv.org/content/10.1101/852657v2.full.pdf
 
+VADR is freely available (https://github.com/nawrockie/vadr) 
+
 The most updated , COVID 19 aware ..files for download? 
 De novo annotation. It is recommended that atleast 64Gb of RAM are available when analyzing full length coronavirus genomes.)
 
