@@ -16,44 +16,37 @@
 * exp\_platform\_model: xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT\_MODEL[[1]]
 * INFO
 	* experiment\_info
-	* exp\_id: xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY\_ID
-* study\_info: 
-	* study\_id: (study accession): xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$STUDY$IDENTIFIERS$PRIMARY\_ID[[1]]
-	* study\_title: xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$STUDY$DESCRIPTOR$STUDY\_TITLE[[1]]
-	* study\_ref: (article PUMED ID or URL): \~\~sample\_attributes\_values$link\_addit\_analys\~\~ \~\~STUDY/STUDY\_ATTRIBUTES/STUDY\_ATTRIBUTE/TAG&VALUE\~\~ STUDY/STUDY\_LINKS/STUDY\_LINK/XREF\_LINK/ID&DB
+		* exp\_id: xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY\_ID
+	* study\_info: 
+		* study\_id: (study accession): xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$STUDY$IDENTIFIERS$PRIMARY\_ID[[1]]
+		* study\_title: xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$STUDY$DESCRIPTOR$STUDY\_TITLE[[1]]
+		* study\_ref: (article PUMED ID or URL): \~\~sample\_attributes\_values$link\_addit\_analys\~\~ \~\~STUDY/STUDY\_ATTRIBUTES/STUDY\_ATTRIBUTE/TAG&VALUE\~\~ STUDY/STUDY\_LINKS/STUDY\_LINK/XREF\_LINK/ID&DB
 
 
 
+### VARIANT IN SAMPLE
+* biosample\_id:   xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY\_ID[[1]]
 
-—VARIANT IN SAMPLE
-- [ ] biosample\_id:   xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY\_ID[[1]]
+### BIOSAMPLE 
+* biosample\_id:  xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY\_ID[[1]], xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL\_ID[[1]]
+* collection\_date: attributes\_values$collection\_date 
+* host\_age \at \sampling: sample\_attributes\_values$host\_age, sample\_attributes\_values$age
+* biosample\_type: attributes\_values$isolation\_source, sample\_attributes\_values$tissue
+* procedure: sample\_attributes\_values$`Laboratory Host`, attributes\_values$passage\_history \> Map to CL ontology (NULL or none if not culture), attributes\_values$passage\_history 
+* biosample\_description: sample\_attribute\_values $isolate, sample\_attribute\_values$collected\_by
+* info
 
+### NDIVIDUAL 
+* individual\_taxon\_id: sample\_attributes\_values$host
+* sex:  sample\_attributes\_values$host\_sex, sample\_attributes\_values$sex
+* age \of\onset: sample\_attributes\_values$host\_age, sample\_attributes\_values$age (This is extracted to Biosample already)
+* geo\_origin: sample\_attributes\_values$geo\_loc\_name 
+* disease:  sample\_attributes\_values$host\_disease
+* disease\_stage: sample\_attributes\_values $host\_disease\_stage
+* host\_disease\_outcome: sample\_attributes\_values$host\_disease\_outcome
+* info 
 
-
-
-—BIOSAMPLE 
-- [ ] biosample\_id:  xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY\_ID[[1]], xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL\_ID[[1]]
-- [ ] collection\_date: attributes\_values$collection\_date 
--  [ ] host\_age \at \sampling: sample\_attributes\_values$host\_age, sample\_attributes\_values$age
-- [ ] biosample\_type: attributes\_values$isolation\_source, sample\_attributes\_values$tissue
-- [ ] procedure: sample\_attributes\_values$`Laboratory Host`, attributes\_values$passage\_history \> Map to CL ontology (NULL or none if not culture), attributes\_values$passage\_history 
--  [ ] biosample\_description: sample\_attribute\_values $isolate, sample\_attribute\_values$collected\_by
-- [ ] info
-
-
-
-—INDIVIDUAL 
-- [ ] individual\_taxon\_id: sample\_attributes\_values$host
-- [ ] sex:  sample\_attributes\_values$host\_sex, sample\_attributes\_values$sex
--   [ ] age \of\onset: sample\_attributes\_values$host\_age, sample\_attributes\_values$age (This is extracted to Biosample already)
-- [ ] geo\_origin: sample\_attributes\_values$geo\_loc\_name 
-- [ ] disease:  sample\_attributes\_values$host\_disease
-- [ ] disease\_stage: sample\_attributes\_values $host\_disease\_stage
-- [ ] host\_disease\_outcome: sample\_attributes\_values$host\_disease\_outcome
-- [ ] info 
-
-
-— ORGANISM
-- [ ] taxon\_id:    
-- info
-	- [ ] strain\_name: sample\_attributes\_values$strain
+### ORGANISM
+* taxon\_id:    
+* info
+	* [ ] strain\_name: sample\_attributes\_values$strain
