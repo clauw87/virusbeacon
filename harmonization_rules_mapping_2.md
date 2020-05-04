@@ -10,7 +10,7 @@ Harmonize these values so they can be reached through queries and or filters
 - [ ] env_medium
 - [ ] isolation
 
-**Only good values**
+**Valid values**
 "Human BALF sample", 
 "Bronchoalveolar lavage fluid", 
 "bronchoalveolar lavage fluid(BALF)", 
@@ -18,11 +18,15 @@ Harmonize these values so they can be reached through queries and or filters
 "oropharyngeal swab",  
 "nasopharynx",  
 "swab"
-
 * rest of values in the column change to NULL (leave empty)
 
-**Groups to harmonize**
+**Values to show** (these ones we’ll get after harmonization)
+“bronchoalveolar lavage fluid" 
+"oropharyngeal swab” 
+“naso-pharyngeal swab”
+“pharyngeal swab”
 
+**Values to harmonize**
 - [ ] BALF values 
 (pattern: “broncho”| “alveolar”|“balf”):
 "Bronchoalveolar lavage fluid", 
@@ -51,7 +55,6 @@ name: oropharynx
 id: UBERON:0001728
 name: nasopharynx
 
-
 - [ ] swab only values
 “swab”  
 -> These values would be shown as “pharyngeal swab” and mapped  to :
@@ -64,16 +67,20 @@ name: pharynx
 **XML tags**
 collection_date 
 
-**Good values**
-Note: All values are dates, but come in different formats e.g "02-Jan-2020”, "2020-02-14" , "2020”, "2020-03”. We want to homogenize to ISO 8601 international standard, i.e “%Y-%m-%d” 
+**Valid values**
+All values are dates, but come in different formats e.g "02-Jan-2020”, "2020-02-14" , "2020”, "2020-03”. 
 
-**Groups of formats to harmonize**
-Note:
+**Values to show** (these ones we’ll get after harmonization)
+We want to homogenize to ISO 8601 international standard, i.e “%Y-%m-%d” 
+
+**Values to harmonize**
+
 ”%d-%B-%Y” 
 “%Y-%m” 
 %Y”
 -> harmonize all to “%Y-%m-%d”
-(for “%Y-%m”, %Y”, not really only if there is a standard way of replacing missing month and day- I think usually they do replacement of missing month/date by “01”)
+
+- [ ] “%Y-%m”, %Y”, not really necessary, only harmonize if there is a standard way of replacing missing month and day- I think usually they do replacement of missing month/date by “01”
 
 - [ ] “%d-%B-%Y” values 
 "01-Mar-2020"
@@ -103,20 +110,20 @@ Note:
 - [ ] env_broad_scale
 - [ ] host_description
 
-**Only good values**
+**Valid values**
 ”Homo sapiens”, 
 ”Human”, 
 "Isolated from clinical sample from the first case of nCov in US from Washington State”)  
- -> convert all these to ”Homo sapiens” an map to 9606
-
+ -> convert all these to ”Homo sapiens” an map to “9606”
 * rest of values in the column change to NULL (leave empty)
 
 
 1. geo_origin
+
 **XML tags**
 - [ ] geo_loc_name
 
-**Only good values**
+**Valid values**
 All are geo doc values, but different formats, e.g "USA:WI:Madison”, "USA: CA, San Diego County”
 These are all values:
 "China: Wuhan"                  
@@ -133,10 +140,17 @@ These are all values:
 "Australia: Victoria"           
 "Australia: Northern Territory" 
 
-Group by countries by patterns, for filters only:
-
-**Groups of formats to harmonize**
 Note: It would be nice to harmonize to format Country, State_Sub, City and then map to GAZ ontology (geographic origin). To this GAZ ontology (and abbreviations for USA states) would have to be used to detect country_city names in values. But since now ontology structure is not working (so, searching for USA won’t return Madison), we better use grouping by countries for now.
+
+
+**Values to show**  (these ones we’ll get after harmonization)
+“Australia”
+“United States of America”
+“China”
+“Nepal”
+
+
+**Values to harmonize** 
 
 - [ ] "Australia|USA|China|Nepal"
 So, do:
@@ -144,5 +158,26 @@ everything containing string “Australia” ->  “Australia”
 everything containing string “USA” ->  “United States of America”
 everything containing string “China” ->  “China”
 everything containing string “Nepal” ->  “Nepal”
+
+
+— SPECIES (VIRUS)
+1. taxon_id
+
+**XML tags**
+- [ ] EXPERIMENT_PACKAGE_SET> EXPERIMENT_PACKAGE> SAMPLE> SAMPLE_NAME> TAXON_ID[[1]]
+    
+**Valid values**
+All values are taxon ids, only 3 need harmonization
+
+**Values to show** (these ones we’ll get after harmonization)
+“2697049” (“Severe acute respiratory syndrome coronavirus 2”) 436/439 xml have it  is what should appear here for all samples.
+NOTE: In title and abstract they all described that they attempted sequencing SARS-CoV2, so, despite the taxon they applied they only used novel reads (not mapped to human, so we could convert all values to “2697049” for the sake of taxon\_id as filtering)
+
+**Values to harmonize/fix**
+"9606"  (Homo sapiens) - 2 xml have it
+ "433733” ("human lung metagenome" ) - 1 xml have it
+-> change all to “2697049”
+
+
 
 
