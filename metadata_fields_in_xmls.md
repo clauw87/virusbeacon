@@ -18,7 +18,7 @@
 	* experiment_info
 		* exp_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY_ID`
 	* study_info: 
-		* study_id: `(study accession): xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]`
+		* study_id: (study accession): `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]`
 		* study_title: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TITLE[[1]]`
 		* study_ref: (article PUMED ID or URL): `STUDY/STUDY_LINKS/STUDY_LINK/XREF_LINK/ID&DB`
 
@@ -30,7 +30,9 @@
 	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]`
 	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL_ID[[1]]`
 * collection_date: `attributes_values$collection_date`
-* host_age \at \sampling: `sample_attributes_values$host_age, sample_attributes_values$age`
+* host_age \at \sampling: 
+	* `sample_attributes_values$host_age`
+	* `sample_attributes_values$age`
 * biosample_type: 
 	* `attributes_values$isolation_source`
 	* `sample_attributes_values$tissue`
