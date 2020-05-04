@@ -43,7 +43,7 @@
 	* `sample_attribute_values$collected_by`
 * info
 
-### NDIVIDUAL 
+### INDIVIDUAL 
 * individual_taxon_id: `sample_attributes_values$host`
 * sex:  
 	* `sample_attributes_values$host_sex`
