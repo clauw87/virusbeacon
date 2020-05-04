@@ -1,50 +1,64 @@
-# metadata\_fields\_in\_xmls
+# metadata_fields_in_xmls
 
 ## Metadata fields from NCBI xml files to feed virus beacon schema v1 table
 
-\*NOTE: some values need to be harmonized among datasets (see harmonization rules and mapping ontologies doc (harmonization\_rules\_mapping.md))
+\*NOTE: some values need to be harmonized among datasets (see harmonization rules and mapping ontologies doc (harmonization_rules_mapping.md))
 
 
 
 ### RUN
-* run\_id:   `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$RUN\_SET$RUN$IDENTIFIERS$PRIMARY\_ID[[1]]`
-* exp\_lib\_source: `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$DESIGN$LIBRARY\_DESCRIPTOR$LIBRARY\_SOURCE[[1]]`
-* exp\_lib\_strategy: `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$DESIGN$LIBRARY\_DESCRIPTOR$LIBRARY\_STRATEGY`
-* exp\_lib\_selection:  `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$DESIGN$LIBRARY\_DESCRIPTOR$LIBRARY\_SELECTION[[1]]`
-* exp\_lib\_layout: `names(xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$DESIGN$LIBRARY\_DESCRIPTOR$LIBRARY\_LAYOUT)`
-* exp\_platform: `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$PLATFORM`
-* exp\_platform\_model: `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT\_MODEL[[1]]`
+* run_id:   `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$IDENTIFIERS$PRIMARY_ID[[1]]`
+* exp_lib_source: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SOURCE[[1]]`
+* exp_lib_strategy: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_STRATEGY`
+* exp_lib_selection:  `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION[[1]]`
+* exp_lib_layout: `names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_LAYOUT)`
+* exp_platform: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM`
+* exp_platform_model: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]`
 * INFO
-	* experiment\_info
-		* `exp\_id: xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY\_ID`
-	* study\_info: 
-		* study\_id: `(study accession): xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$STUDY$IDENTIFIERS$PRIMARY\_ID[[1]]`
-		* study\_title: `xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$STUDY$DESCRIPTOR$STUDY\_TITLE[[1]]`
-		* study\_ref: (article PUMED ID or URL): `STUDY/STUDY\_LINKS/STUDY\_LINK/XREF\_LINK/ID&DB`
+	* experiment_info
+		* exp_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY_ID`
+	* study_info: 
+		* study_id: `(study accession): xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]`
+		* study_title: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TITLE[[1]]`
+		* study_ref: (article PUMED ID or URL): `STUDY/STUDY_LINKS/STUDY_LINK/XREF_LINK/ID&DB`
 
 ### VARIANT IN SAMPLE
-* biosample\_id:   xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY\_ID[[1]]
+* biosample_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]`
 
 ### BIOSAMPLE 
-* biosample\_id:  xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY\_ID[[1]], xml$EXPERIMENT\_PACKAGE\_SET$EXPERIMENT\_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL\_ID[[1]]
-* collection\_date: attributes\_values$collection\_date 
-* host\_age \at \sampling: sample\_attributes\_values$host\_age, sample\_attributes\_values$age
-* biosample\_type: attributes\_values$isolation\_source, sample\_attributes\_values$tissue
-* procedure: sample\_attributes\_values$`Laboratory Host`, attributes\_values$passage\_history \> Map to CL ontology (NULL or none if not culture), attributes\_values$passage\_history 
-* biosample\_description: sample\_attribute\_values $isolate, sample\_attribute\_values$collected\_by
+* biosample_id: 
+	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]`
+	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL_ID[[1]]`
+* collection_date: `attributes_values$collection_date`
+* host_age \at \sampling: `sample_attributes_values$host_age, sample_attributes_values$age`
+* biosample_type: 
+	* `attributes_values$isolation_source`
+	* `sample_attributes_values$tissue`
+* procedure: 
+	* `sample_attributes_values$Laboratory Host`
+	* `attributes_values$passage_history` \> Map to CL ontology (NULL or none if not culture), 
+	* `attributes_values$passage_history`
+* biosample_description: 
+	* `sample_attribute_values $isolate`
+	* `sample_attribute_values$collected_by`
 * info
 
 ### NDIVIDUAL 
-* individual\_taxon\_id: sample\_attributes\_values$host
-* sex:  sample\_attributes\_values$host\_sex, sample\_attributes\_values$sex
-* age \of\onset: sample\_attributes\_values$host\_age, sample\_attributes\_values$age (This is extracted to Biosample already)
-* geo\_origin: sample\_attributes\_values$geo\_loc\_name 
-* disease:  sample\_attributes\_values$host\_disease
-* disease\_stage: sample\_attributes\_values $host\_disease\_stage
-* host\_disease\_outcome: sample\_attributes\_values$host\_disease\_outcome
+* individual_taxon_id: `sample_attributes_values$host`
+* sex:  
+	* `sample_attributes_values$host_sex`
+	* `sample_attributes_values$sex`
+* age \of\onset: 
+	* `sample_attributes_values$host_age`
+	* `sample_attributes_values$age`
+	(This is extracted to Biosample already)
+* geo_origin: `sample_attributes_values$geo_loc_name`
+* disease:  `sample_attributes_values$host_disease`
+* disease_stage: `sample_attributes_values $host_disease_stage`
+* host_disease_outcome:` sample_attributes_values$host_disease_outcome`
 * info 
 
 ### ORGANISM
-* taxon\_id:    
+* taxon_id:    
 * info
-	* [ ] strain\_name: sample\_attributes\_values$strain
+	* strain_name: `sample_attributes_values$strain`
