@@ -1,0 +1,56 @@
+%latex.default(full_table, file = "~/repolab/work/virusbeacon/annot_coord_table")%
+\begin{table}[!tbp]
+\begin{center}
+\begin{tabular}{lllrrlllll}
+\hline\hline
+\multicolumn{1}{l}{full}&\multicolumn{1}{c}{class}&\multicolumn{1}{c}{type}&\multicolumn{1}{c}{start}&\multicolumn{1}{c}{end}&\multicolumn{1}{c}{name}&\multicolumn{1}{c}{syn_alias}&\multicolumn{1}{c}{locus_tag}&\multicolumn{1}{c}{id}&\multicolumn{1}{c}{accession}\tabularnewline
+\hline
+1&gene&coding&$  266$&$21555$&ORF1ab&&GU280_gp01&43740578&\tabularnewline
+2&gene&coding&$21563$&$25384$&S&spike glycoprotein&GU280_gp02&43740568&\tabularnewline
+3&gene&coding&$25393$&$26220$&ORF3a&&GU280_gp03&43740569&\tabularnewline
+4&gene&coding&$26245$&$26472$&E&&GU280_gp04&43740570&\tabularnewline
+5&gene&coding&$26523$&$27191$&M&&GU280_gp05&43740571&\tabularnewline
+6&gene&coding&$27202$&$27387$&ORF6&&GU280_gp06&43740572&\tabularnewline
+7&gene&coding&$27394$&$27759$&ORF7a&&GU280_gp07&43740573&\tabularnewline
+8&gene&coding&$27756$&$27887$&ORF7b&&GU280_gp08&43740574&\tabularnewline
+9&gene&coding&$27894$&$28259$&ORF8&&GU280_gp09&43740577&\tabularnewline
+10&gene&coding&$28274$&$29533$&N&&GU280_gp10&43740575&\tabularnewline
+11&gene&coding&$29558$&$29674$&ORF10&&GU280_gp11&43740576&\tabularnewline
+12&cds&product&$  266$&$21555$&ORF1ab polyprotein&pp1ab&pp1ab&pp1ab&YP_009724389.1\tabularnewline
+13&cds&product&$  266$&$13483$&ORF1a polyprotein&pp1a&pp1a&pp1a&YP_009725295.1\tabularnewline
+14&cds&mature peptide&$  206$&$  805$&leader protein&leader&nsp1&nsp1&YP_009725297.1, YP_009742608.1\tabularnewline
+15&cds&mature peptide&$  806$&$ 2719$&nsp2&nsp2&&&YP_009725298.1, YP_009742609.1\tabularnewline
+16&cds&mature peptide&$ 2720$&$ 8554$&nsp3&nsp3&&&YP_009725299.1, YP_009742610.1\tabularnewline
+17&cds&mature peptide&$ 8555$&$10054$&nsp4&nsp4&&&YP_009725300.1, YP_009742611.1\tabularnewline
+18&cds&mature peptide&$10055$&$10972$&3C-like proteinase&3C-like&nsp5&nsp5&YP_009725301.1, YP_009742612.1\tabularnewline
+19&cds&mature peptide&$10973$&$11842$&nsp6&nsp6&&&YP_009725302.1, YP_009742613.1\tabularnewline
+20&cds&mature peptide&$11843$&$12091$&nsp7&nsp7&&&YP_009725303.1, YP_009742614.1\tabularnewline
+21&cds&mature peptide&$12092$&$12685$&nsp8&nsp8&&&YP_009725304.1, YP_009742615.1\tabularnewline
+22&cds&mature peptide&$12686$&$13024$&nsp9&nsp9&&&YP_009725305.1, YP_009742616.1\tabularnewline
+23&cds&mature peptide&$13025$&$13441$&nsp10&nsp10&&&YP_009725306.1, YP_009742617.1\tabularnewline
+24&cds&mature peptide&$13442$&$13480$&nsp11&nsp11&&&YP_009725312.1\tabularnewline
+25&cds&mature peptide&$13442$&$16236$&RNA-dependent RNA polymerase&RdRp&nsp12&nsp12&YP_009725307.1\tabularnewline
+26&cds&mature peptide&$16237$&$18039$&helicase&helicase&nsp13&nsp13&YP_009725308.1\tabularnewline
+27&cds&mature peptide&$18040$&$19620$&3'-to-5' exonuclease&3'-5' exoN&nsp14&nsp14&YP_009725309.1\tabularnewline
+28&cds&mature peptide&$19621$&$20658$&endoRNAse&enoRNAse&nsp15&nsp15&YP_009725310.1\tabularnewline
+29&cds&mature peptide&$20659$&$21552$&2-O-ribose methyltransferase&2'-o-MT&nsp16&nsp16&YP_009725311.1\tabularnewline
+30&cds&product&$21563$&$25384$&surface glycoprotein&Spike&spike protein, spike glycoprotein&spike protein, spike glycoprotein&YP_009724390.1\tabularnewline
+31&cds&product&$25393$&$26220$&ORF3a protein&ORF3ap&&&YP_009724391.1\tabularnewline
+32&cds&product&$26245$&$26472$&envelop protein&envelop&E&E&YP_009724392.1\tabularnewline
+33&cds&product&$26523$&$27191$&membrane glycoprotein&membrane&M&M&YP_009724393.1\tabularnewline
+34&cds&product&$27202$&$27387$&ORF6 protein&ORF6p&&&YP_009724394.1\tabularnewline
+35&cds&product&$27394$&$27759$&ORF7a protein&ORF7ap&&&YP_009724395.1\tabularnewline
+36&cds&product&$27756$&$27887$&ORF7b protein&ORF7bp&&&YP_009725318.1\tabularnewline
+37&cds&product&$27894$&$28259$&ORF8 protein&ORF8p&&&YP_009724396.1\tabularnewline
+38&cds&product&$28274$&$29533$&nucleocapsid phosphoprotein&nucleocapsid&N&N&YP_009724397.2\tabularnewline
+39&cds&product&$29558$&$29674$&ORF10 protein&ORF10p&&&YP_009725255.1\tabularnewline
+40&utr&5utr&$    1$&$  265$&5'UTR&5'UTR&NC_045512.2:1..265&&NC_045512.2:1..265\tabularnewline
+41&utr&3utr&$29675$&$29903$&3'UTR&3'UTR&NC_045512.2:29675..29903&&NC_045512.2:29675..29903\tabularnewline
+42&functional&stem loop&$13476$&$13503$&Coronavirus frameshifting stimulation element stem-loop 1&fsSE SL1&GU280_gp01&&\tabularnewline
+43&functional&stem loop&$13488$&$13542$&Coronavirus frameshifting stimulation element stem-loop 2&fsSE SL2&GU280_gp01-2&&\tabularnewline
+44&functional&stem loop&$29609$&$29644$&Coronavirus 3' UTR pseudoknot stem-loop 1&3utr ps SL1&GU280_gp11&&\tabularnewline
+45&functional&stem loop&$29629$&$29657$&Coronavirus 3' UTR pseudoknot stem-loop 2&3utr ps SL2&GU280_gp11-2&&\tabularnewline
+46&functional&stem loop&$29728$&$29768$&Coronavirus 3' stem-loop II-like motif (s2m)&s2m&NC_045512.2:29728..29768&&\tabularnewline
+\hline
+\end{tabular}\end{center}
+\end{table}

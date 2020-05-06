@@ -1,0 +1,196 @@
+\documentclass[a4paper, 10pt]{article}        %\documentclass{} slides report proc book 
+\usepackage[margin=1in]{geometry}
+\usepackage[]{graphicx}
+\usepackage[]{longtable}
+\usepackage[hyperref]{xcolor}
+\definecolor{teal}{RGB}{0, 128, 128}
+\usepackage{hyperref, xcolor}
+\hypersetup{
+        colorlinks = true,
+        allcolors={teal},
+        linkcolor={teal}
+       %urlcolor=[rgb]{0,128,128},
+     }
+\title{Spec for query region -by name/alias}     %query by annotation
+
+\begin{document}
+\date{}
+\maketitle
+%\author{{\color{teal}Claudia Vasallo}}
+
+\section{Definition}
+
+%This query uses aliases to refer to genomic regions that will be mapped to a \texttt{query by region -(by coordinates)}  that is already implemented. The mapping of these aliases to \texttt{query by region} parameters (\textbf{refseqId} and \textbf{start}, \textbf{end} positions) comes from genome annotation file. 
+
+This query implementation will use aliases to refer to genomic regions that will be mapped to a \texttt{query by region -(by coordinates)}, so it can be considered a special case of \texttt{query by region} and be implemented on top of it. The mapping of names/aliases to \texttt{query by region} parameters (\textbf{refseqId} and \textbf{start}, \textbf{end} positions) comes from genome annotation file. 
+
+%For \texttt{query by region -(by name/alias)} in Viral Beacon NCBI RefSeq annotation for SARS-CoV2 reference sequence (NC\_045512.2) will be used in backend as a dictionary. This annotation file contains the RefSeqID ("NC\_045512.2") and the region coordinates that can be given to dev-team as a table like in table \ref{table:genomic}- \ref{table:matpt}. In frontend either a dropdown menu or a suggesting-while-typing menu should appear based on the dictionary region names like in figure \ref{fig:querybox}.
+
+Note: This query type implementation could be deprecated after we have better annotated VCFs that include mature proteins and possibly other functional domains. Then, \texttt{query by annotation}, an implementation that uses variant annotations from VCF regardless of RefSeqID, can substitute for this.
+
+
+ 
+\section{Query}
+Parameters for query are \texttt{query by region} ones, i.e, \textbf{taxonId}, \textbf{assemblyId} or \textbf{refseqId}, \textbf{start} and \textbf{end}
+
+(For the time being \textbf{taxonId} and \textbf{refseqId} are set to default values since we only have one virus with one RefSeq in Viral Beacon: taxonId: , refseqId:, but when more viruses come (and in generic Beacon) there should be a table in backend mapping all accepted taxonIds and their available assemblyIds and other table mapping assemblyIds to their corresponding sets of refseqs when they have more than one)
+
+(Otherwise - and later when we have more viruses in Viral Beacon, before this example point user has already selected \textbf{taxonId} and \textbf{assemblyId} or \textbf{refseqId} e.g from dropdown menu)
+
+For the query then, user enters a genomic region or protein name/alias/or identifier in query box like in figure \ref{fig:querybox}. Either a dropdown menu or a suggesting-while-typing menu should appear - based on the dictionary region names stored in backend for this refseqId.
+ 
+     \begin{figure}[h!]
+     \centering
+    \includegraphics[width=0.75\textwidth]{query_by_region_box.pdf}
+     \caption{Query by region box}
+     \label{fig:querybox}
+     \end{figure}
+     
+(Later, when we have implementation for multiple query by regions at once, we would be able to search for also for lists of those IDs, and for grouping annotation terms such as "coding", "non-coding", "utr", "stem loops" that would translate into a list of start:end coordinates)
+
+
+%\subsection{What is necessary} 
+\section{Prerequisites} 
+\begin{itemize}
+%\item[-] A table/dictionary mapping names/aliases/accessions accepted in this field to genomic region coordinates (a plain text file looking like tables below, containing reference genome annotation- coordinates for genes, UTRs, stem loops, CDSs and mature proteins), given by bio-team.
+
+\item[1] A table/dictionary mapping names/aliases/accessions accepted in this field to genomic region coordinates. For \texttt{query by region -(by name/alias)} in Viral Beacon NCBI RefSeq annotation for SARS-CoV2 reference sequence (NC\_045512.2) will be used in backend as a dictionary. This annotation file contains the RefSeqID ("NC\_045512.2") and the names/ aliases with their corresponding region coordinates that can be given to dev-team as a table like in table \ref{table:genomic}- \ref{table:matpt}. 
+
+name field in table is the name that should appear. other name/aliases are in column alias and ids i column id should be findable as well and showed as name.]
+Annotations for 
+coding regions > 11 genes, 12 CDSs (protein products), 26 mature peptides (processed proteins)
+non coding regions > 2 utrs
+functional > structural: 5 stem loops
+
+
+	TO DO
+links to files >
+original gff
+my refseq> same info on gff plus mature peptides.
+
+
+
+\section{Implementation} 
+\item[1] Entries from table should be converted to options to appear in frontend as suggestions preferably while user types a part of the names, or as a dropdown menu, eg. gene:ORF8, stem\_loop:Coronavirus 3' UTR pseudoknot stem-loop 1, locus: GU280 gp08. For example, for genomic regions, see table \ref{table:genomic}, options would be value in \underline{region}:value in  \underline{name}
+
+\item[2] Do implementation to call query by region \texttt{query by region -(by coordinates)} obtaining coordinates from these tables/dictionaries
+\end{itemize}
+
+
+%latex.default(genomic\_short\_ok[, c(1, 2, 3, 4, 6)], file = "~/repolab/work/virusbeacon/genomic\_coords",     rowname = NULL)%
+\begin{table}[!h]
+\begin{center}
+\caption{Table for genomic region coordinates and name/aliases}
+\label{table:genomic}
+\begin{tabular}{lrrll}
+\hline\hline
+\multicolumn{1}{c}{region}&\multicolumn{1}{c}{start}&\multicolumn{1}{c}{end}&\multicolumn{1}{c}{name}&\multicolumn{1}{c}{locus\_id}\tabularnewline
+\hline
+utr&$    1$&$  265$&5'UTR&NC\_045512.2:1..265\tabularnewline
+gene&$  266$&$21555$&ORF1ab&GU280\_gp01\tabularnewline
+stem\_loop&$13476$&$13503$&Coronavirus frameshifting stimulation element stem-loop 1&GU280\_gp01\tabularnewline
+stem\_loop&$13488$&$13542$&Coronavirus frameshifting stimulation element stem-loop 2&GU280\_gp01-2\tabularnewline
+gene&$21563$&$25384$&S&GU280\_gp02\tabularnewline
+gene&$25393$&$26220$&ORF3a&GU280\_gp03\tabularnewline
+gene&$26245$&$26472$&E&GU280\_gp04\tabularnewline
+gene&$26523$&$27191$&M&GU280\_gp05\tabularnewline
+gene&$27202$&$27387$&ORF6&GU280\_gp06\tabularnewline
+gene&$27394$&$27759$&ORF7a&GU280\_gp07\tabularnewline
+gene&$27756$&$27887$&ORF7b&GU280\_gp08\tabularnewline
+gene&$27894$&$28259$&ORF8&GU280\_gp09\tabularnewline
+gene&$28274$&$29533$&N&GU280\_gp10\tabularnewline
+gene&$29558$&$29674$&ORF10&GU280\_gp11\tabularnewline
+stem\_loop&$29609$&$29644$&Coronavirus 3' UTR pseudoknot stem-loop 1&GU280\_gp11\tabularnewline
+stem\_loop&$29629$&$29657$&Coronavirus 3' UTR pseudoknot stem-loop 2&GU280\_gp11-2\tabularnewline
+utr&$29675$&$29903$&3'UTR&NC\_045512.2:29675..29903\tabularnewline
+stem\_loop&$29728$&$29768$&Coronavirus 3' stem-loop II-like motif (s2m)&NC\_045512.2:29728..29768\tabularnewline
+\hline
+\end{tabular}\end{center}
+\end{table}
+
+
+%This is table for CDS
+
+%latex.default(proteins\_table[c(1, 2, 5, 4, 8)], file = "~/repolab/work/virusbeacon/proteins\_coords")%
+\begin{table}[!tbp] %[h!]
+\begin{center}
+\caption{Table for CDSs coordinates and name/aliases}
+\label{table:cds}
+\begin{tabular}{lrrlll}
+\hline\hline
+\multicolumn{1}{l}{proteins}&\multicolumn{1}{c}{start}&\multicolumn{1}{c}{end}&\multicolumn{1}{c}{protein\_name}&\multicolumn{1}{c}{protein\_id}&\multicolumn{1}{c}{parent\_gene\_name}\tabularnewline
+\hline
+1&$  266$&$13468$&ORF1ab polyprotein&YP\_009724389.1&ORF1ab\tabularnewline
+2&$13468$&$21555$&ORF1ab polyprotein&YP\_009724389.1&ORF1ab\tabularnewline
+3&$  266$&$13483$&ORF1a polyprotein&YP\_009725295.1&ORF1ab\tabularnewline
+4&$21563$&$25384$&surface glycoprotein&YP\_009724390.1&S\tabularnewline
+5&$25393$&$26220$&ORF3a protein&YP\_009724391.1&ORF3a\tabularnewline
+6&$26245$&$26472$&envelope protein&YP\_009724392.1&E\tabularnewline
+7&$26523$&$27191$&membrane glycoprotein&YP\_009724393.1&M\tabularnewline
+8&$27202$&$27387$&ORF6 protein&YP\_009724394.1&ORF6\tabularnewline
+9&$27394$&$27759$&ORF7a protein&YP\_009724395.1&ORF7a\tabularnewline
+10&$27756$&$27887$&ORF7b&YP\_009725318.1&ORF7b\tabularnewline
+11&$27894$&$28259$&ORF8 protein&YP\_009724396.1&ORF8\tabularnewline
+12&$28274$&$29533$&nucleocapsid phosphoprotein&YP\_009724397.2&N\tabularnewline
+13&$29558$&$29674$&ORF10 protein&YP\_009725255.1&ORF10\tabularnewline
+\hline
+\end{tabular}\end{center}
+\end{table}
+
+
+%latex.default(proteins\_table[c(1, 2, 5, 4, 8)], file = "~/repolab/work/virusbeacon/proteins\_coords")%
+\begin{table}[!tbp] %[h!]
+\begin{center}
+\caption{Table for mature proteins coordinates and name/aliases}
+\label{table:matpt}
+\begin{tabular}{lrrlll}
+\hline\hline
+\multicolumn{1}{l}{proteins}&\multicolumn{1}{c}{start}&\multicolumn{1}{c}{end}&\multicolumn{1}{c}{protein\_name}&\multicolumn{1}{c}{protein\_id}&\multicolumn{1}{c}{alias}\tabularnewline
+\hline
+1&$  206$&$805$&leader protein&YP\_009725297.1, YP\_009742608.1&nsp1\tabularnewline
+2&$806$&$2719$&nsp2&YP\_009725298.1, YP\_009742609.1&-\tabularnewline
+3&$2720$&$8554$&nsp3&YP\_009725299.1, YP\_009742610.1&-\tabularnewline
+4&$8555$&$10054$&nsp4&YP\_009725300.1, YP\_009742611.1&-\tabularnewline
+5&$10055$&$10972$&3C-like proteinase&YP\_009725301.1, YP\_009742612.1&nsp5\tabularnewline
+6&$10973$&$11842$&nsp6&YP\_009725302.1, YP\_009742613.1&-\tabularnewline
+7&$11843$&$12091$&nsp7&YP\_009725303.1, YP\_009742614.1&-\tabularnewline
+8&$12092$&$12685$&nsp8&YP\_009725304.1, YP\_009742615.1&-\tabularnewline
+9&$12686$&$13024$&nsp9&YP\_009725305.1, YP\_009742616.1&-\tabularnewline
+10&$13025$&$13441$&nsp10&YP\_009725306.1, YP\_009742617.1&-\tabularnewline
+11&$13442$&$13480$&nsp11&YP\_009725312.1&ORF1ab\tabularnewline
+12&$13442$&$16236$&RNA-dependent RNA polymerase&YP\_009725307.1&nsp12\tabularnewline
+13&$16237$&$18039$&helicase&YP\_009725308.1&nsp13\tabularnewline
+14&$18040$&$19620$&3'-to-5' exonuclease&YP\_009725309.1&nsp14\tabularnewline
+15&$19621$&$20658$&endoRNAse&YP\_009725310.1&nsp15\tabularnewline
+16&$20659$&$21552$&2-O-ribose methyltransferase&YP\_009725311.1 &nsp6\tabularnewline
+\hline
+\end{tabular}\end{center}
+\end{table}
+
+
+
+
+
+
+\section{Response}
+Should be same as that of a \texttt{query by region} 
+%\subsection{How to show many query by regions}
+%\subsection{Statistics in genomic region}
+%\begin{itemize}
+%\item[-] Freq variants per variantType
+%\item[-] dN/dS in region
+%\end{itemize}
+%\subsection{Statistics per position within region}
+%\begin{itemize}
+%\item[-] Needle for region freq alternate per position
+%\item[-] Freq variants per variantType
+%\item[-] dN/dS per position
+%\end{itemize}
+
+%\subsection{What is necessary} 
+
+\end{document}
+
+
+
+
