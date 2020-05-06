@@ -163,7 +163,9 @@ Note: It would be nice to harmonize to format Country, State_Sub, City and then 
   All values are taxon ids, only 3 need harmonization
 
 * **Values to show** (these ones we’ll get after harmonization)
+  
   “2697049” (“Severe acute respiratory syndrome coronavirus 2”) 436/439 xml have it  is what should appear here for all samples.
+  
   NOTE: In title and abstract they all described that they attempted sequencing SARS-CoV2, so, despite the taxon they applied they only used novel reads (not mapped to human, so we could convert all values to “2697049” for the sake of taxon\_id as filtering)
 
 * **Values to harmonize/fix**
