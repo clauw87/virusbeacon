@@ -15,8 +15,6 @@ Org-ref_taxname -> taxonName
 
 SubSource_subtype: SubSource_name tag values pairs(country, isolation-source, collection-date, extract values to columns: -> geographicOrigin,  -> sampleOriginDetail,  -> collectionDate
 
-User-field>User-field_label>Object-id> User-field_data_str corresponding to Object-id_str “Sequencing Technology” 
-
 OrgMod_subtype:OrgMod_subname tag values pairs(isolate , nat-host, gb-acronym, extract values to columns: -> isolateName,  -> hostName,  -> taxonNameAbbr 
 
 
