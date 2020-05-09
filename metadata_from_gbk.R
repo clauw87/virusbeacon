@@ -23,7 +23,7 @@ gbk_list <-  lapply(all_files_names, function(e){
 })
 
 length(gbk_list)                   
-gbk <- gbk_list[[1]]
+
 
 
 ##### METADATA TO EXTRACT
@@ -41,6 +41,16 @@ gbk <- gbk_list[[1]]
 #Academy of Medical Sciences & Peking Union Medical
 #College"
 #/note="host_disease: nCov Pneumonia"
+
+#f <- gbk_list[[1]]
+
+mol_type <- sapply(gbk_list, function(f){
+        gsub("\"", "", str_match(f[str_detect(f, "mol_type")], "mol_type=(.*?)$")[2])
+}) # for librarySource
+
+length <- sapply(gbk_list, function(f){
+        str_split(f[str_detect(f, "LOCUS")], pattern = " ")[[1]][23]
+}) # for completeness for librarySource
 
 accession <- sapply(gbk_list, function(f){
         str_split(f[str_detect(f, "ACCESSION")], pattern = " ")[[1]][4]
