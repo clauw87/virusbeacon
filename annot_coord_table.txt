@@ -34,7 +34,7 @@
 "cds","product",26523,27191,"membrane glycoprotein","membrane",NA,NA,"YP_009724393.1","structural protein"
 "cds","product",27202,27387,"ORF6 protein",NA,NA,NA,"YP_009724394.1",NA
 "cds","product",27394,27759,"ORF7a protein",NA,NA,NA,"YP_009724395.1",NA
-"cds","product",27756,27887,"ORF7b protein",NA,NA,NA,"YP_009725318.1",NA
+"cds","product",27756,27887,"ORF7b",NA,NA,NA,"YP_009725318.1",NA
 "cds","product",27894,28259,"ORF8 protein",NA,NA,NA,"YP_009724396.1",NA
 "cds","product",28274,29533,"nucleocapsid phosphoprotein","nucleocapsid",NA,NA,"YP_009724397.2","structural protein"
 "cds","product",29558,29674,"ORF10 protein",NA,NA,NA,"YP_009725255.1",NA
