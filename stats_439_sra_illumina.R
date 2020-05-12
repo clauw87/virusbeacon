@@ -13,27 +13,156 @@ var <-  read_delim("~/repolab/work/virusbeacon/439_genomes_claudia.txt.csv",
 nrow(var) # 36514
 
 
+# Positions with variants
+length(unique(var$position)) #  28073
+
+
+# Unique variants
 var$variant <- sapply(1:nrow(var), function(v){
-        paste(as.character(rep$position[v]), rep$alternate[v], sep = ">")
+        paste(as.character(var$position[v]), var$alternate[v], sep = ">")
 })
 length(var$variant) # 36514
-length(unique(var$variant)) # 34951
+length(unique(var$variant)) # 34951 .. 26392 are in eff
 sum(duplicated(var$variant))  # 1563
-
-
 
 var$samplecount <- unlist(lapply(var$variant, function(v){
         sum(var$sampleMatchingCount[which(var$variant==v)]) 
 }))
 
-
-
 uvar <- var[which(!(duplicated(var$variant))),]
+
+
 # Number of unique variant found
 nrow(uvar) # 34951
+# 
+# # Number of samples with variants
+# # will never know
 
-# Number of samples with variants
-# will never now
+
+########
+#########   # Variants annotation
+##########
+# Region Class
+uvar$region <- sapply(uvar$variant, function(v){
+        ifelse(v %in% var439$variant, var439$region[which(var439$variant==v)], NA)
+})
+unique(uvar$region)
+# [1] NA     
+sum(is.na(uvar$region)) # 11204
+sum(uvar$region=="CODING", na.rm = T) # 23747
+
+
+# Variant Effect
+uvar$effect <- sapply(uvar$variant, function(v){
+        ifelse(v %in% var439$variant, var439$effect[which(var439$variant==v)], NA)
+})
+unique(uvar$effect)
+# [1] NA     
+sum(is.na(uvar$effect)) # 11204
+sum(uvar$effect== "STOP_GAINED" , na.rm = T) #422
+
+
+# Functional Class
+uvar$fun <- sapply(uvar$variant, function(v){
+  ifelse(v %in% var439$variant, var439$functional_class[which(var439$variant==v)], NA)
+})
+unique(uvar$fun)
+# [1] NA         "MISSENSE" "SILENT"   "NONSENSE"
+sum(is.na(uvar$fun)) # 11204
+sum(uvar$fun=="MISSENSE",  na.rm = TRUE) #  15068
+sum(uvar$fun=="NONSENSE", na.rm = TRUE) #  422
+sum(uvar$fun=="SILENT", na.rm = TRUE) #  8257
+
+
+
+
+
+
+
+# General statistics
+# total unique variants per variant type
+dat <- data.frame(Var1=c("SNP","INDEL" ), Freq=c(34951, 1))
+dat <-  mutate(dat, Var1=fct_relevel(Var1,   
+                                     "SNP","INDEL"))
+vt <- ggplot(dat, aes(Var1, Freq)) +
+        geom_col(fill="hotpink4", position = "identity") +
+        ggtitle("Unique variants per variant type") +
+        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+        labs(x="") +
+        labs(y="Unique variant counts") +
+        #geom_text(label=dat$Freq, vjust=-0.1, size=2.5, colour = "red") +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
+vt
+
+
+# total unique variants per region
+reg <- table(uvar$region, useNA = "ifany")
+dat <- data.frame(reg)
+
+reg <- ggplot(dat, aes(Var1, Freq)) +
+        geom_col(fill="hotpink4", position = "identity") +
+        ggtitle("Unique variants per region class") +
+        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+        labs(x="") +
+        labs(y="Unique variant counts") +
+        #geom_text(label=dat$Freq, vjust=-0.1, size=2.5, colour = "red") +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
+reg
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/region_class.pdf",  height =5.83,  width =8.27)
+reg
+dev.off()
+
+
+# total unique variants per effect
+eff  <- table(uvar$effect, useNA = "ifany")
+dat <- data.frame(eff)
+
+eff <- ggplot(dat, aes(Var1, Freq)) +
+        geom_col(fill="hotpink4", position = "identity") +
+        ggtitle("Unique variants per variant effect") +
+        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+        labs(x="") +
+        labs(y="Unique variant counts") +
+        #geom_text(label=dat$Freq, vjust=-0.1, size=2.5, colour = "red") +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
+eff
+
+
+
+# total unique variants per region
+fc <- table(uvar$fun, useNA = "ifany")
+dat <- data.frame(fc)
+dat$group <- c("NONSYN", "NONSYN", "SYN", "SYN")
+
+fc <- ggplot(dat, aes(group, Freq)) +
+        geom_col(fill="hotpink4", position = "identity") +
+        ggtitle("Unique variants per mol consequence") +
+        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+        labs(x="") +
+        labs(y="Unique variant counts") +
+        #geom_text(label=dat$Freq, vjust=-0.1, size=2.5, colour = "red") +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
+fc
+
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/beacon_stats_gp.pdf")
+
+#grid.arrange(ep, nrow=2, ncol=3 ) #
+grid.arrange(vt, reg, fc, 
+             ncol=2, nrow=2,
+             layout_matrix=rbind(
+                     c(1,2),
+                     c(3,NA)#,
+                     #c(3, 3)
+             )) #
+dev.off()
+
+
+
+
 
 # Graph Number of mutations per genomic region  -------------------------------------------------------------------------
 # range

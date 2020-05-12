@@ -2,27 +2,33 @@
 
 - # variants in database
 
-- # variant frequency per position > needle ()
+- # variant frequency per position > needle 
 
 splits> # variants:
 
-- # by original repository
+- # by platform
 
-- # by geo location
+- # by original repository (SRA, GW, GISIAD)
 
-- # by sex
+- # by geo location (field country)
+
+- # by sex 
 
 - # by age pyramid
 
-- # by variant effect
+NO- # by variant effect 
 
-- # by molecular consequence
+- # by molecular consequence (grouped in SYN AND NON-SYN)
 
-- # by annotation: region type: intergenic feature Class ORFs and proteins, feature IDs
+- # by annotation: by region names (genes/ cds/mature_peptides), by region type: non/coding, coding
 
-- # by platform
+
 
 - # by disease/ disease_stage/ disease_outcome
+
+
+
+
 
 
 * Utilities

@@ -24,8 +24,6 @@ gbk_list <-  lapply(all_files_names, function(e){
 
 length(gbk_list)                   
 
-
-
 ##### METADATA TO EXTRACT
 
 #/organism="Severe acute respiratory syndrome coronavirus 2"
