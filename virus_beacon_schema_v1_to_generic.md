@@ -22,20 +22,20 @@
 
 — RUN (NOW TAKES FIELDS THAT WERE IN VARIANT IN SAMPLE, SEE VARIANT IN SAMPLE BELOW)
 in generic beacon v2 schema, see arrows)
-		- [ ] run_id:  (run accession)  ->  Run runId
-		- [ ] exp_lib_source: ->  Run librarySource 
-		- [ ] exp_lib_strategy: (“RNA-Seq”, “WGS”, “AMPLICON”, “Targeted-Capture”)  ->  Run libraryStrategy
-		- [ ] exp_lib_selection: -> Run librarySelection
-		- [ ] exp_lib_layout: -> Run libraryLayout
-		- [ ] exp_platform: -> Run platform
-		- [ ] exp_platform_model: -> Run platformModel
-		- [ ] info 
-			- [ ] experiment_info
-				- [ ] exp_id (experiment accession):  ->  Run info experimentId
-			- [ ] study_info
-				- [ ] studyId ->  Run info studyId
-				- [ ] study_title: e.g ”Total RNA sequencing of BALF (human reads removed)”  ->  Run info studyTitle
-				- [ ] studyRef ->  Run info studyRef
+- [ ] run_id:  (run accession)  ->  Run runId
+- [ ] exp_lib_source: ->  Run librarySource 
+- [ ] exp_lib_strategy: (“RNA-Seq”, “WGS”, “AMPLICON”, “Targeted-Capture”)  ->  Run libraryStrategy
+- [ ] exp_lib_selection: -> Run librarySelection
+- [ ] exp_lib_layout: -> Run libraryLayout
+- [ ] exp_platform: -> Run platform
+- [ ] exp_platform_model: -> Run platformModel
+- [ ] info 
+	- [ ] experiment_info
+		- [ ] exp_id (experiment accession):  ->  Run info experimentId
+	- [ ] study_info
+		- [ ] studyId ->  Run info studyId
+		- [ ] study_title: e.g ”Total RNA sequencing of BALF (human reads removed)”  ->  Run info studyTitle
+		- [ ] studyRef ->  Run info studyRef
 
 
 —VARIANT IN SAMPLE 
@@ -77,9 +77,9 @@ in generic beacon v2 schema, see arrows)
 	
 
 VIRUS -> ORGANISM
-	- [ ] taxon_id (taxon of sequenced species) -> Organism taxonId
-	- [ ] info
-		- [ ] strain_name
+- [ ] taxon_id (taxon of sequenced species) -> Organism taxonId
+- [ ] info
+	- [ ] strain_name
 
 
 
