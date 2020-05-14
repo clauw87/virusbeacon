@@ -97,7 +97,7 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
     * name: pharynx
 
   * mix 
-   * "oral swab; nasal swab; tracheal wash"   
+    * "oral swab; nasal swab; tracheal wash"   
 
 2. collection_date
 
