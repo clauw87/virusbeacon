@@ -37,8 +37,7 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
   * “naso-pharyngeal swab”
   * “pharyngeal swab”
   * ”tracheal swab" 
-  * “mix” 
-
+  * ~~“mix”~~ "oropharingeal swab; nasopharyngeal swab; traqueal whash"
 
 * **Values to harmonize**
   * BALF values (pattern: “broncho”| “alveolar”|“balf”):
