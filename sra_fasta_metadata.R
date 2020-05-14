@@ -5,11 +5,11 @@ library(ggplot2)
 library(gridExtra)
 
 
-folder <-  "~/repolab/work/virusbeacon/sra_fasta_xmls"
+folder <-  "~/repolab/work/virusbeacon/enbank_fasta_xmls/gbk"
 length(list.files(folder))
 all_files <- paste(folder, list.files(folder), sep = "/")
-xml_list <-  lapply(all_files, function(e){
-        xml2::as_list(xml2::read_xml(e)) 
+xml_list <-  lapply(all_files, function(f){
+        xml2::as_list(xml2::read_xml(f)) 
 })
 length(xml_list)                   
 xml <- xml_list[[1]]

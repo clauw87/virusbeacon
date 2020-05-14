@@ -66,7 +66,7 @@ For the time being \textbf{refseqId} is set to default value since we only have 
 
 \item[1] A table/dictionary mapping names/aliases or synonyms/accessions accepted in this field to genomic region coordinates. \\
 To do this, the genomic annotation file for the specified \textbf{refseqId} was fetched. For SARS-CoV2 we will use reference sequence NCBI RefSeq NC\_045512.2 annotation available at \href{https://www.ncbi.nlm.nih.gov/nuccore/NC\_045512.2?report=gbwithparts&log$=seqview}{NCBI web}.
-%(relevant raws are here \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/annot_file.txt}{annot.file\_txt}).
+%(relevant rows are here \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/annot_file.txt}{annot.file\_txt}).
 This annotation contains the \textbf{refseqId} ("NC\_045512.2") and the names/ aliases of genomic regions with their corresponding \textbf{start} and \textbf{end} coordinates. \\
 The relevant data was parsed as a table like in table \ref{table:1} (download the table as \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/annot_coord_table.txt}{csv}).
 \end{itemize}
@@ -92,7 +92,7 @@ The relevant data was parsed as a table like in table \ref{table:1} (download th
 % IMPLEMENTATION
 \section{Implementation} 
 \begin{itemize}
-\item[1] Entries from table should be converted to 'options' for frontend. The 'option' would work as a dictionary key for all names/aliases in the table raw. The 'option' is what should appear as suggestions while user types a part of either \texttt{name}, \texttt{syn\_alias},  \texttt{locus\_tag}, \texttt{id} or \texttt{accession} of its raw, so some flexibility is allowed. Alternatively, 'options' will appear in a dropdown menu (so, no flexibility but user knows his options).
+\item[1] Entries from table should be converted to 'options' for frontend. The 'option' would work as a dictionary key for all names/aliases in the table row. The 'option' is what should appear as suggestions while user types a part of either \texttt{name}, \texttt{syn\_alias},  \texttt{locus\_tag}, \texttt{id} or \texttt{accession} of its row, so some flexibility is allowed. Alternatively, 'options' will appear in a dropdown menu (so, no flexibility but user knows his options).
 
 'Options' will be constructed by concatenating 'value in \underline{\texttt{class}}:value in \underline{\texttt{name}}' from table \ref{table:1}, eg. gene: ORF8, cds: ORF1a polyprotein, functional: RNA-dependent RNA polymerase, functional: Coronavirus 3' UTR pseudoknot stem-loop 1, non-coding: 5'UTR.
 

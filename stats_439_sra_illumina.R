@@ -132,7 +132,7 @@ eff
 
 
 
-# total unique variants per region
+# total unique variants per func class
 fc <- table(uvar$fun, useNA = "ifany")
 dat <- data.frame(fc)
 dat$group <- c("NONSYN", "NONSYN", "SYN", "SYN")

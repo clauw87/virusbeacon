@@ -4,15 +4,16 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 
-
-folder <-  "~/repolab/work/virusbeacon/439_xmls"
-length(list.files(folder))
+folder <-  "~/repolab/work/virusbeacon/6_05_2020_release"
+length(list.files(folder)) # 1094
 all_files <- paste(folder, list.files(folder), sep = "/")
-xml_list <-  lapply(all_files, function(e){
-        xml2::as_list(xml2::read_xml(e)) 
+
+xml_list <-  lapply(all_files, function(f){
+        xml2::as_list(xml2::read_xml(f)) 
 })
-length(xml_list)                   
-xml <- xml_list[[439]]
+
+length(xml_list)  #   1094             
+xml <- xml_list[[1]]
 
 # EXPERIMENT 
 
@@ -22,7 +23,7 @@ exp_primary_id <- #unlist(unique(
    xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY_ID[[1]]
 })
 #))
-     
+length(unique(exp_primary_id))
 
 
 # EXPERIMENT > DESIGN > LIBRARY_DESCRIPTORS > LIBRARY NAME 
@@ -31,7 +32,7 @@ exp_library_name <- #unlist(unique(
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_NAME
 })
 #))
-
+length(unique(exp_library_name))
 
 # EXPERIMENT > DESIGN > LIBRARY STRATEGY
 exp_library_strategy <- #unlist(unique(
@@ -40,7 +41,8 @@ exp_library_strategy <- #unlist(unique(
 })
 #))
 # (“RNA-Seq”, "WGS”, "AMPLICON”, "Targeted-Capture”)
-
+length(unique(exp_library_strategy ))
+unique(exp_library_strategy)
 
 # EXPERIMENT > DESIGN > LIBRARY SOURCE
 exp_library_source <- #unlist(unique(
@@ -48,7 +50,8 @@ exp_library_source <- #unlist(unique(
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SOURCE
 })
 #))
-
+length(unique(exp_library_source ))
+unique(exp_library_source )
 
 # EXPERIMENT > DESIGN > LIBRARY SELECTION
 exp_library_selection <- #unlist(unique(
@@ -56,8 +59,9 @@ exp_library_selection <- #unlist(unique(
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION
 })
 #))
-
-
+length(unique(exp_library_selection )) #6
+unique(exp_library_selection )
+# "RANDOM" "RT-PCR"  "RANDOM PCR"  "unspecified" "PCR" "cDNA"
         
 # EXPERIMENT > DESIGN > LIBRARY LAYOUT
 exp_library_layout <- #unlist(unique(
@@ -65,7 +69,8 @@ exp_library_layout <- #unlist(unique(
         names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_LAYOUT) #PAIRED
 })
 #)) # "PAIRED" "SINGLE"
-
+length(unique(exp_library_layout)) #2
+unique(exp_library_layout)
 
  
 
@@ -75,12 +80,15 @@ exp_platform <- #unlist(unique(
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]
         })
 #)) 
-
+length(unique(exp_platform)) #6
+unique(exp_platform)
+# [1] "Illumina MiSeq"      "Illumina MiniSeq"    "Illumina HiSeq 2500"
+# [4] "NextSeq 500"         "NextSeq 550"         "Illumina iSeq 100"  
+# Fix this value "Illumina iSeq 100"  
 
 ################## SUBMISSION  ##########################################################################################
 names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION)
 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION$IDENTIFIERS$PRIMARY_ID
-xml2$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION$IDENTIFIERS
 
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION)
 
@@ -119,19 +127,21 @@ org_country <- #unlist(unique(
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$Country[[1]]
         })
 #))  #  "USA"   , "United States of America" homogenise
+unique(org_country)
 
 org_sub<- #unlist(unique(
         sapply(xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$Sub[[1]]
         })
 #))  #  "WA"  "wa" homogenise
+unique(org_sub)
 
 org_city <- #unlist(unique(
         sapply(xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$City[[1]]
         })
 #))  # "Seattle" ,  "seattle" homogenise
-
+unique(org_city)
 
 
 
@@ -166,14 +176,16 @@ study_external_id <- #unlist(unique(
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$EXTERNAL_ID[[1]]
         })
 #)) 
-
+unique(study_external_id)
 study_alias <- #unlist(unique(
         sapply(xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY)$alias
         })
 #))  
 
-identical(study_external_id, study_alias) # TRUE
+unique(study_alias)
+identical(study_external_id, study_alias) # FALSE 
+# "Rapid metagenomic Sequencing" not identical
 
 
 
@@ -189,24 +201,31 @@ study_title <- #unlist(unique(
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TITLE[[1]]
         })
 #))
+length(unique(study_title)) # 18
+
 # STUDY_TYPE
 study_type <- #unlist(unique(
         sapply(xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TYPE)
         })
 #)) 
+length(unique(study_type)) # 13
+
 # STUDY_ABSTRACT
 study_abstract <- #unlist(unique(
         sapply(xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_ABSTRACT[[1]]
         })
 #)) 
+length(unique(study_abstract)) # 13
+
 # CENTER_PROJECT_NAME
 study_center <- unlist(unique(
         sapply(xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$CENTER_PROJECT_NAME[[1]]
         })
 )) 
+length(unique(study_center)) # 6
 
 
 ##################    "SAMPLE"    ##########################################################################################
@@ -308,6 +327,7 @@ sample_attributes_tags <- unique(
         )
 )
 
+length(sample_attributes_tags) # 49
 
 
 # all unique tags unlisted
@@ -367,28 +387,48 @@ sample_attributes_values <- lapply(u_tags, function(t){
 names(sample_attributes_values) <- u_tags
 
 
-sample_attributes_values$host
-sample_attributes_values$host_disease_outcome # "Survived"
+
+
+# Host taxon
+sample_attributes_values$host_disease_outcome #  "Survived" "missing"  "recovery"
 sample_attributes_values$host_disease
-sample_attributes_values$host_disease_stage # "Acute"
-sample_attributes_values$passage_history
+sample_attributes_values$host_disease_stage #  "Acute"   "missing"
+
+
+# Host taxon
+sample_attributes_values$host_taxid # "9606"
+sample_attributes_values$host #  "Panthera tigris jacksoni"??? WHAT
+
+
+# Host sex
 sample_attributes_values$sex
 sample_attributes_values$host_sex
 
-# How many xml has each tag
-# Plot
 
-## Duplicated info in tags?
-#### SAMPLE ORIGIN
+# Sample source
+sample_attributes_values$BioSampleModel
+sample_attributes_values$source_uvig
+sample_attributes_values$isolation_source
 sample_attributes_values$culture_collection
 sample_attributes_values$tissue    # good one
 sample_attributes_values$isolation_source # good one   
 sample_attributes_values$host_tissue_sampled  # good one 
 sample_attributes_values$env_medium  # good one 
+
+
+# Geo loc
 sample_attributes_values$geo_loc_name
+sample_attributes_values$geo_loc_name_harmonized <- sample_attributes_values$geo_loc_name
+#countries
+countries <- unique(str_match(sample_attributes_values$geo_loc_name_harmonized, "^(.*?):"))[,2][!(is.na(unique(str_match(sample_attributes_values$geo_loc_name_harmonized, "^(.*?):"))[,2]))]
+#sample_attributes_values$geo_loc_name_harmonized[str_detect(sample_attributes_values$geo_loc_name, "China")] <- "China"
 
-
-
+for (c in countries) {
+ sample_attributes_values$geo_loc_name_harmonized[str_detect(sample_attributes_values$geo_loc_name, c)] <- as.character(c)
+        
+}
+        
+        
 which(str_detect(all_tags_per_xml,"tissue"))
 # Biosample sample type tags> Non/redundant
 length(which(str_detect(all_tags_per_xml,"tissue"))) # 20
@@ -506,6 +546,15 @@ attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET) # names "RUN"
 names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET) # "RUN"
 
 # "RUN"
+
+run_id <-  sapply(xml_list, function(xml){
+        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$IDENTIFIERS$PRIMARY_ID[[1]] # "SRR10903401"
+})
+
+length(run_id) # 1094
+length(unique(run_id)) # 1094
+
+
 
 # names
 names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN) 
