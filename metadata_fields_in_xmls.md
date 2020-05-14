@@ -25,15 +25,16 @@ NOTE: some values need to be harmonized among datasets (see harmonization rules 
 
 ### BIOSAMPLE 
 * biosample_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]`
-* [x] biosample_alt_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL_ID[[1]]`
-* [x] biosample_ref_material: `sample_attribute_values$ref_biomaterial`
+* biosample_model:
+	* `attributes_values$source_uvig`
+	* `attributes_values$BioSampleModel`
 * collection_date: `attributes_values$collection_date`
 * biosample_type: 
 	* `attributes_values$isolation_source`
 	* `sample_attributes_values$env_medium`
 	* `sample_attributes_values$$host_tissue_sampled`
 	* `sample_attributes_values$tissue`
-* procedure
+*[x] procedure
 	* culture_cell: 
 		* `sample_attributes_values$Laboratory Host`
 		* `sample_attributes_values$passage_history`
