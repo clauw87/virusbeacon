@@ -691,7 +691,7 @@ dat <-  mutate(dat, reg=fct_relevel(reg,
 
 vsl <- ggplot(dat, aes(reg, count)) +
         geom_col(fill="honeydew3") +
-        ggtitle("Variants per non-coding region") +
+        ggtitle("Variants per stem loops") +
         #theme(title = element_text(vjust = 0.5, colour = "red")) +
         #theme(title = element_text(size = 3)) +
         labs(x="") +
