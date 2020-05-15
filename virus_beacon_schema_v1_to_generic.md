@@ -6,7 +6,7 @@
 - [ ] end_nucleotide -> Variant Basic  endPos
 - [ ] ref_sequence  -> _Variant Basic ref
 - [ ] alt_sequence -> _Variant Basic  alt
-- [ ] variantType: SNV, indel, CNV, structural variant -> Variant Basic  variantType
+- [ ] variantType -> Variant Basic  variantType
 
 
 —VARIANT  ANNOTATION   (highlighted are new fields that weren’t before :  Annotations to get from VCF Dietmar will send)
@@ -34,7 +34,7 @@ in generic beacon v2 schema, see arrows)
 		- [ ] exp_id (experiment accession):  ->  Run info experimentId
 	- [ ] study_info
 		- [ ] studyId ->  Run info studyId
-		- [ ] study_title: e.g ”Total RNA sequencing of BALF (human reads removed)”  ->  Run info studyTitle
+		- [ ] study_title ->  Run info studyTitle
 		- [ ] studyRef ->  Run info studyRef
 
 
