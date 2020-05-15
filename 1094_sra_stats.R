@@ -82,15 +82,40 @@ length(var$variant) # 55911
 length(unique(var$variant)) # 51313
 sum(duplicated(var$variant))  # 4598 *(These appear in separate original vcfs )
 
+# See duplicated frequency
+example61 <- read(file = "/Users/claudiavasallovega/repolab/work/virusbeacon/example61.rows.txt", stringsAsFactors = FALSE)
+
+
+example5387 <- read(file = "/Users/claudiavasallovega/repolab/work/virusbeacon/example5387.rows.txt", stringsAsFactors = FALSE)
+
+
+
+
+
+
+
+
 var$MyCount <- unlist(lapply(var$variant, function(v){
         sum(var$sampleMatchingCount[which(var$variant==v)]) 
 }))
 
+
+var$MyFrequency <- unlist(lapply(var$variant, function(v){
+        sum(var$frequency[which(var$variant==v)]) 
+}))
+
 # See duplicated
 head(var[duplicated(var$variant)]$position) # 61
+
+dups <-  var[duplicated(var$variant)]$position
+trips <- var[duplicated(var$variant)]$position
+
+dup_trips <- dups[dups%in% trips]
+
+        vp$Var1[which(vp$Freq==3)]
 filter(var, position==61)
 
-
+filter(var, position==5387)
 # What happens with variants when more than one is found in a sample?????
 
 
@@ -100,22 +125,23 @@ uvar <- var[which(!(duplicated(var$variant))),]
 # Number of unique variant found
 nrow(uvar) #  51313
 
-var <- uvar
+
 
 
 
 
 # Variant Type
-unique(var$svType) # "SNP"
+unique(uvar$svType) # "SNP"
 
 
 # Frequency
 # Plot frequency per position
 # recontrabasic needle plot
-#plot(var$position, var$frequency, type = "h") 
-needle <- ggplot(data.frame(pos=var$position, freq=var$frequency),
-        #ggplot(data.frame(pos=var$position, freq=var$sampleMatchingCount),
-        #ggplot(data.frame(pos=var$position, freq=var$frequency),
+#plot(uvar$position, uvar$frequency, type = "h") 
+needle <- ggplot(data.frame(pos=uvar$position, freq=uvar$MyFrequency),
+        #ggplot(data.frame(pos=uvar$position, freq=uvar$frequency),
+        #ggplot(data.frame(pos=uvar$position, freq=uvar$sampleMatchingCount),
+        #ggplot(data.frame(pos=uvar$position, freq=uvar$frequency),
                  aes(x=pos, ymax=freq, ymin=0)) + 
         geom_linerange(color="orangered2") +
         theme_minimal() +
@@ -130,7 +156,7 @@ dev.off()
 
 # Total unique variants per position
 title <- "VARIANTS PER POSITION"
-Var1 <- var$position
+Var1 <- uvar$position
 unique(Var1)
 vp <-  as.data.frame(table(Var1))
 vp$Var1 <- as.numeric(vp$Var1)
@@ -155,24 +181,71 @@ dev.off()
 #########   # Variants annotation
 ##########
 # Region Class
-unique(var$Gene_Coding) # "" (this is noncoding)      "CODING"   
+unique(uvar$Gene_Coding) # "" (this is noncoding)      "CODING"   
 
 # Functional Class
-unique(var$Functional_Class) # ""  (this is noncoding)       "MISSENSE" "NONSENSE" "SILENT"  
+unique(uvar$Functional_Class) # ""  (this is noncoding)       "MISSENSE" "NONSENSE" "SILENT"  
 
 # "Amino_Acid_Change"  
-length(unique(var$Amino_Acid_Change)) # 30641 distincts aminoacid changes across 
+length(unique(uvar$Amino_Acid_Change)) # 28916 distinct aminoacid changes across 
 
 #"Gene_Name" 
-unique(var$Gene_Name) # ""  (this is noncoding) : all genes     "orf1ab" "S"      "ORF3a"  "E"      "M"      "ORF6"   "ORF7a"  "ORF7b"  "ORF8"   "N"      "ORF10" 
+unique(uvar$Gene_Name) # ""  (this is noncoding) : all genes     "orf1ab" "S"      "ORF3a"  "E"      "M"      "ORF6"   "ORF7a"  "ORF7b"  "ORF8"   "N"      "ORF10" 
 
-# unique(var$Genotype)
+# unique(uvar$Genotype)
 
 
 
 ############################################################################
 
 # General statistics graphs
+
+# Total unique variants per frequency
+plot(vf$Freq, vf$Var1)
+title <- "FREQUENCY"
+Var1 <- uvar$frequency
+unique(Var1)
+#quantiles <- quantile(uvar$frequency, prob=seq(0,1, length = 5), type = 5)
+# Var1 <- cut2(Var1, cuts = as.numeric(quantiles))
+vf <- as.data.frame(table(Var1), stringsAsFactors = F)
+vf$group <- rep(NA, length(vf$Var1))
+vf$group <- ifelse(vf$Var1<=0.001, "<0.001",vf$group) 
+vf$group <- ifelse(vf$Var1>0.001&vf$Var1<=0.01, "0.001-0.01", vf$group) 
+vf$group <- ifelse(vf$Var1>0.01&vf$Var1<=0.1, "0.01-0.1", vf$group) 
+vf$group <- ifelse(vf$Var1>0.1, ">0.1", vf$group) 
+
+
+# vf <- vf  %>% mutate(quantile=ntile(Var1,10))
+# vf$Freq <- as.numeric(vf$Freq)
+vf$Var1 <- as.numeric(vf$Var1)
+vf$group <- as.character(vf$group)
+
+vf <- mutate(vf, group=fct_relevel(group,
+                                   "<0.001", "0.001-0.01", "0.01-0.1",">0.1"
+))
+
+vfg <- vf %>% group_by(group) %>% summarise_at(vars(Freq), funs(sum(., na.rm=TRUE)))
+
+vfg$group <- as.character(vfg$group)
+
+vfg <- mutate(vfg, group=fct_relevel(group,
+                                     "<0.001", "0.001-0.01", "0.01-0.1",">0.1"
+))
+
+vfp <- ggplot(vfg, aes(x=group, y=Freq)) +
+        #geom_col(aes(x=quantile, y=Freq)) +
+        geom_col(fill="dodgerblue4") +
+        ggtitle(title) +
+        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+        labs(x="") +
+        labs(y="Number of variants") +
+        theme_minimal() +
+        geom_text(aes(label=Freq, vjust=-0.1), size=2.5) +
+        theme(axis.text.x = element_text(angle = 0, hjust=1, vjust = 1))
+vfp
+
+
+
 
 # Total unique variants per variant type
 vt <- data.frame(Var1=c("SNP","INDEL" ), Freq=c(34951, 0))
@@ -214,7 +287,7 @@ vtp_pie
 
 # Total unique variants per Region class
 title <- "REGION CLASS"
-Var1 <- var$Gene_Coding
+Var1 <- uvar$Gene_Coding
 Var1[which(Var1=="")] <- "NON-CODING"
 unique(Var1)
 # "NON-CODING" "CODING"  
@@ -247,7 +320,7 @@ rcp_pie
 
 # Total unique variants per variant effect
 title <- "VARIANT EFFECT"
-Var1 <- var$Effect
+Var1 <- uvar$Effect
 unique(Var1)
 Var1[which(Var1==".")] <- "NON-CODING"
 unique(Var1)
@@ -290,7 +363,7 @@ vep_pie
 
 # Total unique variants per functional class
 title <- "FUNCTIONAL CLASS"
-Var1 <- var$Functional_Class
+Var1 <- uvar$Functional_Class
 unique(Var1)
 Var1[which(Var1=="")] <- "NON-CODING"
 unique(Var1)
@@ -336,42 +409,6 @@ grid.arrange(vtp_pie, rcp_pie,
                      c(3,4)
                    ), left) 
 dev.off()
-
-# Total unique variants per frequency
-plot(vf$Freq, vf$Var1)
-title <- "FREQUENCY"
-Var1 <- var$frequency
-unique(Var1)
-#quantiles <- quantile(var$frequency, prob=seq(0,1, length = 5), type = 5)
-# Var1 <- cut2(Var1, cuts = as.numeric(quantiles))
-vf <- as.data.frame(table(Var1), stringsAsFactors = F)
-vf$group <- rep(NA, length(vf$Var1))
-vf$group <- ifelse(vf$Var1<=0.001, "<0.001",vf$group) 
-vf$group <- ifelse(vf$Var1>0.001&vf$Var1<=0.01, "0.001-0.01", vf$group) 
-vf$group <- ifelse(vf$Var1>0.01&vf$Var1<=0.1, "0.01-0.1", vf$group) 
-vf$group <- ifelse(vf$Var1>0.1, ">0.1", vf$group) 
-
-
-# vf <- vf  %>% mutate(quantile=ntile(Var1,10))
-# vf$Freq <- as.numeric(vf$Freq)
-vf$Var1 <- as.numeric(vf$Var1)
-vfg <- vf %>% group_by(group) %>% summarise_at(vars(Freq), funs(sum(., na.rm=TRUE)))
-
-vf <- mutate(vf, group=fct_relevel(group,
-                                   "<0.001", "0.001-0.01", "0.01-0.1",">0.1"
-                                   ))
-
-vfp <- ggplot(vfg, aes(x=group, y=Freq)) +
-        #geom_col(aes(x=quantile, y=Freq)) +
-        geom_col(fill="dodgerblue4") +
-        ggtitle(title) +
-        #theme(title = element_text(vjust = 0.5, colour = "red")) +
-        labs(x="") +
-        labs(y="Number of variants") +
-        theme_minimal() +
-        geom_text(aes(label=Freq, vjust=-0.1), size=2.5) +
-        theme(axis.text.x = element_text(angle = 0, hjust=1, vjust = 1))
-vfp
 
 
 ####################### Region query 
@@ -431,7 +468,7 @@ genomic_regions <-  genes_table$gene_name
 # )
 
 n <- sapply(genomic_regions, function(q) {
-        nrow(filter(var, position %in% region_filter(region_id = q)))
+        nrow(filter(uvar, position %in% region_filter(region_id = q)))
 })
 
 dat <- data.frame(reg=genomic_regions, count=n)
@@ -473,11 +510,15 @@ genomic_regions <- genomic_regions[-c(1,2)] # remove polyproteins
 
 # Number of variants per region - Codig region : CDS+ mature proteins
 n <- sapply(genomic_regions, function(q) {
-        nrow(filter(var, position %in% region_filter(region_id = q)))
+        nrow(filter(uvar, position %in% region_filter(region_id = q)))
 })
 
-
-dat<- data.frame(reg=genomic_regions, count=n)
+# FIXME: making stack bars for S vs NS
+# syn <-  sapply(genomic_regions, function(q) {
+#        sum(filter(uvar, position %in% region_filter(region_id = genomic_regions[2]))$Functional_Class=="SILENT")
+# })
+        
+dat <- data.frame(reg=genomic_regions, count=n)
 
 # change names for abbrev
 dat$reg <- as.character(dat$reg)
@@ -546,7 +587,7 @@ dev.off()
 
 
 
-reg <- table(var$region, useNA = "ifany")
+reg <- table(uvar$region, useNA = "ifany")
 dat <- data.frame(reg)
 
 reg <- ggplot(dat, aes(Var1, Freq)) +
@@ -566,11 +607,11 @@ dev.off()
 
 # NON CODING
 
-nc_positions <- unique(var$position[which(var$Gene_Coding=="")])
+nc_positions <- unique(uvar$position[which(uvar$Gene_Coding=="")])
 length(nc_positions) # 504
 
 utr_positions <- sapply(genomic_regions, function(q) {
-        unique(filter(var, position %in% region_filter(region_id = q))$position)
+        unique(filter(uvar, position %in% region_filter(region_id = q))$position)
 })
 length(unlist(utr_positions)) #  355
 
@@ -582,12 +623,12 @@ length(intergenic) # 149
 # utrs
 genomic_regions <-  utrs_table$utr_name
 n <- sapply(genomic_regions, function(q) {
-        nrow(filter(var, position %in% region_filter(region_id = q)))
+        nrow(filter(uvar, position %in% region_filter(region_id = q)))
 })
 # intergenic
 genomic_regions2 <-  intergenic 
 n2 <- sum(sapply(genomic_regions2, function(q) {
-        nrow(filter(var, position %in% q))
+        nrow(filter(uvar, position %in% q))
 }))
 
 
