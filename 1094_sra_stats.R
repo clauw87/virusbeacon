@@ -135,17 +135,27 @@ unique(uvar$svType) # "SNP"
 
 
 # Frequency
+title <- "FREQUENCY VARIANTS PER POSITION"
+# dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency)
+dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency, class=uvar$Functional_Class, stringsAsFactors = F)
+dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
+dat$class[which(dat$class!="NS")] <- "S"
+#dat_sil <- filter(dat, class=="SILENT")
+
 # Plot frequency per position
 # recontrabasic needle plot
 #plot(uvar$position, uvar$frequency, type = "h") 
-needle <- ggplot(data.frame(pos=uvar$position, freq=uvar$MyFrequency),
-        #ggplot(data.frame(pos=uvar$position, freq=uvar$frequency),
-        #ggplot(data.frame(pos=uvar$position, freq=uvar$sampleMatchingCount),
-        #ggplot(data.frame(pos=uvar$position, freq=uvar$frequency),
-                 aes(x=pos, ymax=freq, ymin=0)) + 
+
+needle <- ggplot(dat, 
+                 aes(x=pos, ymax=freq, ymin=0)) +
         geom_linerange(color="orangered2") +
+        #aes(x=pos, ymax=freq, ymin=0, color=class) +
+        #geom_linerange() +
+        #scale_color_manual(values = c("orangered2", "blue")) +
         theme_minimal() +
+        ggtitle(title) +
         labs(x="Genomic Position") +
+        theme(legend.title = element_blank())+
         labs(y="Freq") 
 needle 
 pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/needle.pdf",  height =5.83,  width =8.27)
@@ -166,6 +176,7 @@ vpp <- ggplot(vp,
         aes(x=Var1, ymax=Freq, ymin=0)) + 
         geom_linerange(color="orangered2") +
         theme_minimal() +
+        ggtitle(title) +
         labs(x="Genomic Position") +
         labs(y="Number of variants") 
 vpp
@@ -204,6 +215,8 @@ unique(uvar$Gene_Name) # ""  (this is noncoding) : all genes     "orf1ab" "S"   
 plot(vf$Freq, vf$Var1)
 title <- "FREQUENCY"
 Var1 <- uvar$frequency
+hist(uvar$frequency, breaks=c(0, 0.001,0.01,0.1, 0.6))
+hist( uvar$frequency,breaks=1000 )
 unique(Var1)
 #quantiles <- quantile(uvar$frequency, prob=seq(0,1, length = 5), type = 5)
 # Var1 <- cut2(Var1, cuts = as.numeric(quantiles))
@@ -510,15 +523,27 @@ genomic_regions <- genomic_regions[-c(1,2)] # remove polyproteins
 
 # Number of variants per region - Codig region : CDS+ mature proteins
 n <- sapply(genomic_regions, function(q) {
-        nrow(filter(uvar, position %in% region_filter(region_id = q)))
+        #nrow(filter(uvar, position %in% region_filter(region_id = q)))
+        length(unique(filter(uvar, position %in% region_filter(region_id = q))$variant))
 })
 
 # FIXME: making stack bars for S vs NS
-# syn <-  sapply(genomic_regions, function(q) {
-#        sum(filter(uvar, position %in% region_filter(region_id = genomic_regions[2]))$Functional_Class=="SILENT")
-# })
-        
-dat <- data.frame(reg=genomic_regions, count=n)
+s <-  sapply(genomic_regions, function(q) {
+   length(unique(filter(uvar, position %in% region_filter(region_id = q), Functional_Class=="SILENT")$variant))
+})
+ 
+ns <-  sapply(genomic_regions, function(q) {
+        length(unique(filter(uvar, position %in% region_filter(region_id = q), Functional_Class=="MISSENSE"|Functional_Class=="NONSENSE")$variant))
+})
+
+aa <-   sapply(genomic_regions, function(q) {
+        length(unique(
+       filter(uvar, position %in% region_filter(region_id = q), Functional_Class=="MISSENSE"|Functional_Class=="NONSENSE", Amino_Acid_Change!="")$Amino_Acid_Change
+          ))
+})
+
+# skip for stacked chart
+dat <- data.frame(reg=genomic_regions, count=n, ns_count=ns, s_count=s, aa_changes=aa)
 
 # change names for abbrev
 dat$reg <- as.character(dat$reg)
@@ -551,15 +576,18 @@ dat <-  mutate(dat, reg=fct_relevel(reg,
                                     "nucleocapsid", "ORF10 protein"
 ))
 
+dat 
 
-vprot <- ggplot(dat, aes(reg, count)) +
-        geom_col(fill="honeydew3") +
+vprot <- ggplot(dat ) +
+        geom_col(aes(reg, count), fill="honeydew4") +
+        geom_col(aes(reg, s_count), fill="honeydew3") +
+        #geom_col(aes(reg, aa_changes), fill="dodgerblue4") +
         ggtitle("Variants per mature protein") +
         #theme(title = element_text(vjust = 0.5, colour = "red")) +
         #theme(title = element_text(size = 3)) +
         labs(x="") +
         labs(y="Unique variant counts") +
-        geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
+        #geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
         theme_minimal() +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 vprot
@@ -568,18 +596,97 @@ vprot
 dev.off()
 
 
+# Total unique aminoacid changes per region
+aa <- ggplot(dat) +
+        geom_col(aes(reg, aa_changes), fill="dodgerblue4") +
+        ggtitle("AA changes per mature protein") +
+        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+        #theme(title = element_text(size = 3)) +
+        labs(x="") +
+        labs(y="Unique aa changes") +
+        #geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
+aa
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/aa_per_protein.pdf",  height =5.83,  width =8.27)
+aa
+dev.off()
+
+
+# S, NS stacked with legend
+dat <- data.frame(reg=genomic_regions, NS=ns, S=s)
+
+
+# change names for abbrev
+dat$reg <- as.character(dat$reg)
+dat$reg[1] <- "leader"
+dat$reg[5] <- "3C-like"
+dat$reg[12] <- "RdRp"
+dat$reg[14] <- "3'-5' exoN"
+dat$reg[15] <- "endoRNAse"
+dat$reg[16] <- "2'-o-MT"
+dat$reg[17] <- "Spike"
+dat$reg[18] <- "ORF3a protein"
+dat$reg[19] <- "envelop"
+dat$reg[20] <- "membrane"
+dat$reg[21] <- "ORF6 protein"
+dat$reg[22] <- "ORF7a protein"
+dat$reg[23] <- "ORF7b"
+dat$reg[24] <- "ORF8 protein"
+dat$reg[25] <- "nucleocapsid"
+dat$reg[26] <- "ORF10 protein"
+#rownames(dat) <- names(t)
+dat <-  mutate(dat, reg=fct_relevel(reg,   
+                                    "leader", 
+                                    #"pp1a" , "pp1ab",
+                                    "nsp2", "nsp3", "nsp4", "3C-like", 
+                                    "nsp6", "nsp7","nsp8", "nsp9", "nsp10",
+                                    "nsp11", "RdRp",  "helicase",
+                                    "3'-5' exoN", "endoRNAse", "2'-o-MT",
+                                    "Spike", "ORF3a protein", "envelop", "membrane",
+                                    "ORF6 protein", "ORF7a protein", "ORF7b", "ORF8 protein",
+                                    "nucleocapsid", "ORF10 protein"
+))
+
+# dat <- as_tibble(dat)
+dat <-gather(dat, "class", "count", -reg)
+
+
+stacked <- ggplot(dat, aes(fill=class, y=count, x=reg))+
+        geom_bar(position = "stack", stat = "identity" ) +
+        ggtitle("Variants per mature protein") +
+        labs(x="") +
+        labs(y="Unique variant counts") +
+        #geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
+        theme_minimal() +
+        theme(legend.title = element_blank()) +
+        scale_fill_manual(values = c("honeydew4", "honeydew3")) +
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
+
+stacked
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/variants_per_protein.pdf",  height =5.83,  width =8.27)
+stacked
+dev.off()
 
 
 
-
-
-
-
-
-
-
-
-
+# # eX
+# library(viridis)
+# library(hrbrthemes)
+# 
+# specie <- c(rep("sorgho", 3), rep("poacee", 3), rep("banana", 3), rep("triticum", 3) )
+# condition <- rep(c("normal", "stress", "N"), 4)
+# value <- abs(rnorm(12,0,15))
+# data <- data.frame(specie, condition, value)
+# 
+# specie <- dat$reg
+# condition <- c("S", "NS")
+# value <- dat$ns_count
+# 
+# ggplot(data, aes(fill=condition, y=value, x=specie))+
+#         geom_bar(position = "stack", stat = "identity" )# 
+# 
+# 
 
 
 
@@ -654,7 +761,7 @@ dat <-  mutate(dat, reg=fct_relevel(reg,
 
 
 vnc <- ggplot(dat, aes(reg, count)) +
-        geom_col(fill="honeydew3", width = 0.5, position = "dodge") +
+        geom_col(fill="honeydew3", position = "dodge") +
         ggtitle("Variants per non-coding region") +
         #theme(title = element_text(vjust = 0.5, colour = "red")) +
         labs(x="") +
@@ -705,8 +812,26 @@ vsl
 dev.off()
 
 
+# # Both as a grid
+# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/variants_per_nc.pdf",  height =5.83,  width =8.27)
+# vnc
+# dev.off()
+# 
+# 
+# 
+# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/nc_sl.pdf",  height =5.83,  width =3.5)
+# 
+# #grid.arrange(ep, nrow=2, ncol=3 ) #
+# grid.arrange(vnc, vsl,
+#              ncol=1, nrow=2,
+#              layout_matrix=rbind(
+#                      c(1),
+#                      c(2)
+#                      # c(4,5,6),
+#                      # c(7,8,9)
+#              )) #
+# dev.off()
 
-# Total unique variants per aminoacid change (this is maybe too much)
 
 
 
