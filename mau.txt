@@ -1,0 +1,22 @@
+For Mau:
+
+These xmls were in previous release you shared with me before but are not in current galaxy folder: (were these remove on purpose?)
+[1] "SRR10903401.xml" "SRR10903402.xml" "SRR10971381.xml"
+[4] "SRR11587600.xml" "SRR11587601.xml" "SRR11587602.xml"
+[7] "SRR11587604.xml" "SRR11587605.xml" "SRR11587606.xml"
+
+
+These xmls from nanopore are also in illumina folder:
+[1] "SRR11140745" "SRR11140747" "SRR11140749" "SRR11140751"
+
+
+
+These xmls are empty:
+[1] "ERR4165029.xml"
+[2] "ERR4165038.xml"
+[3] "ERR4165039.xml"
+[4] "ERR4165046.xml"
+[5] "ERR4165048.xml"
+[6] “ERR4165099.xml"
+
+
