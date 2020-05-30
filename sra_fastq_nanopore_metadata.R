@@ -5,7 +5,9 @@ library(ggplot2)
 library(gridExtra)
 
 
-folder <- "~/repolab/work/virusbeacon/nanopore_ones_xml"
+#folder <- "~/repolab/work/virusbeacon/nanopore_ones_xml"
+folder <- "~/repolab/work/virusbeacon/21_05_2020_ont_metadata"
+
 list.files(folder)
 all_files <- paste(folder, list.files(folder), sep = "/")
 xml_list <-  lapply(all_files, function(e){
@@ -35,6 +37,8 @@ exp_library_strategy <- unlist(unique(sapply(xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_STRATEGY
 })))
 # (“RNA-Seq”, "WGS”, "AMPLICON”, "Targeted-Capture”)
+unique(exp_library_strategy)
+
 
 # Graph EXPERIMENT > DESIGN > LIBRARY STRATEGY -------------------------------------------------------------------------
 t <-     unlist(sapply(xml_list, function(xml){
@@ -86,11 +90,11 @@ edlso
         
 
 # EXPERIMENT > DESIGN > LIBRARY SELECTION
-exp_library_selection <- unlist(unique(
-        sapply(xml_list, function(xml){
-        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION
+exp_library_selection <-  sapply(xml_list, function(xml){
+        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION[[1]]
 })
-))
+unique(exp_library_selection)
+#)
 
 # Graph EXPERIMENT > DESIGN > LIBRARY SELECTION -------------------------------------------------------------------------
 t <-     unlist(sapply(xml_list, function(xml){
@@ -114,11 +118,11 @@ edls
         
         
 # EXPERIMENT > DESIGN > LIBRARY LAYOUT
-exp_library_layout <- unlist(unique(
+exp_library_layout <- #unlist(unique(
         sapply(xml_list, function(xml){
         names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_LAYOUT) #PAIRED
 })
-)) # "PAIRED" "SINGLE"
+#)) # "PAIRED" "SINGLE"
 
 
 # Graph EXPERIMENT > DESIGN > LIBRARY LAYOUT -------------------------------------------------------------------------

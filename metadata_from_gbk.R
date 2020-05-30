@@ -52,7 +52,7 @@ length <- sapply(gbk_list, function(f){
 
 accession <- sapply(gbk_list, function(f){
         str_split(f[str_detect(f, "ACCESSION")], pattern = " ")[[1]][4]
-})
+}) # for "run primary id"
 
 version <- sapply(gbk_list, function(f){
         str_split(f[str_detect(f, "VERSION")], pattern = " ")[[1]][6]
@@ -61,7 +61,7 @@ version <- sapply(gbk_list, function(f){
 #organism <- gsub("\"", "", x = str_match(gbk[str_detect(gbk, "organism")], "organism=(.*?)$")[2]) # names doesn't get the 2
 organism <- sapply(gbk_list, function(f){
         gsub("\"", "", x = str_match(f[str_detect(f, "SOURCE")], "SOURCE      (.*?)$")[2])
-})
+}) # "Severe acute respiratory syndrome coronavirus 2 (SARS-CoV2)"
 
 country <- sapply(gbk_list, function(f){
         gsub("\"", "", x=str_match(f[str_detect(f, "country")], "country=(.*?)$")[2])
@@ -87,7 +87,7 @@ isolate <- sapply(gbk_list, function(f){
         gsub("\"", "", str_match(f[str_detect(f, "isolate=")], "isolate=(.*?)$")[2]) # isolate
 })
 
-isolation_source<- sapply(gbk_list, function(f){
+isolation_source <- sapply(gbk_list, function(f){
         gsub("\"", "", str_match(f[str_detect(f, "isolation")], "isolation_source=(.*?)$")[2]) # isolate
 })
 

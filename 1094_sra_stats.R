@@ -108,7 +108,7 @@ var$MyFrequency <- unlist(lapply(var$variant, function(v){
 head(var[duplicated(var$variant)]$position) # 61
 
 dups <-  var[duplicated(var$variant)]$position
-trips <- var[duplicated(var$variant)]$position
+trips <- var[which(length(unique(var$alternate)))>2]
 
 dup_trips <- dups[dups%in% trips]
 

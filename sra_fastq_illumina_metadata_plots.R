@@ -3,10 +3,10 @@ library(forcats)
 library(gridExtra)
 
 #setwd("/Users/claudiavasallovega/repolab/work/virusbeacon")
-source("/Users/claudiavasallovega/repolab/work/virusbeacon/virusbeacon_illumina_xml.R")
-
+#source("/Users/claudiavasallovega/repolab/work/virusbeacon/virusbeacon_illumina_xml.R")
+source("/Users/claudiavasallovega/repolab/work/virusbeacon/sra_fastq_illumina_metadata.R")
 #Graph EXPERIMENT > DESIGN > LIBRARY STRATEGY -------------------------------------------------------------------------
-t <-     unlist(sapply(xml_list, function(xml){
+t <-     unlist(sapply(illum_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_STRATEGY[[1]]
 }))
 data <- as.data.frame(table(t))
@@ -27,7 +27,7 @@ edlst
 
 
 # Graph EXPERIMENT > DESIGN > LIBRARY SOURCE -------------------------------------------------------------------------
-t <-     unlist(sapply(xml_list, function(xml){
+t <-     unlist(sapply(illum_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SOURCE
 }))
 data <- as.data.frame(table(t))
@@ -48,7 +48,7 @@ edlso
 
 
 # Graph EXPERIMENT > DESIGN > LIBRARY SELECTION -------------------------------------------------------------------------
-t <-     unlist(sapply(xml_list, function(xml){
+t <-     unlist(sapply(illum_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION
 }))
 data <- as.data.frame(table(t))
@@ -68,7 +68,7 @@ edls
 
 
 # Graph EXPERIMENT > DESIGN > LIBRARY LAYOUT -------------------------------------------------------------------------
-t <- sapply(xml_list, function(xml){
+t <- sapply(illum_xml_list, function(xml){
         names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_LAYOUT) #PAIRED
 })
 data <- as.data.frame(table(t))
@@ -83,6 +83,8 @@ edll<- ggplot(data) +
         theme_minimal() +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 edll
+
+
 edll_bp <- ggplot(data, aes(layout, Freq)) +
         aes(x="", y=Freq, fill=layout) +
         geom_bar(width = 1, stat = "identity") 
@@ -99,8 +101,15 @@ edll_pie
         
 
 #Graph PLATFORM > ILLUMINA MODEL -------------------------------------------------------------------------
-t <- sapply(xml_list, function(xml){
-        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]})
+t <- unlist(sapply(illum_xml_list, function(xml){
+        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]}))
+t[which(t=="Illumina MiSeq")] <- "MiSeq"  
+t[which(t=="Illumina HiSeq 2500")] <- "HiSeq 2500"  
+t[which(t=="Illumina iSeq 100")] <-  "iSeq 100" 
+t[which(t=="Illumina MiniSeq" )] <- "MiniSeq" 
+t[which(t=="Illumina NovaSeq 6000")] <- "NovaSeq 6000"
+
+
 data <- as.data.frame(table(t))
 
 colnames(data) <- c("model", "Freq")
@@ -126,11 +135,13 @@ ep_pie <- ep_pie  + scale_fill_manual(values=my_colors) +
 ep_pie 
 
 # Seq technology
-data <- data[1,]
+data <- data[1:2,]
 colnames(data) <- c("technology", "Freq")
 data$technology <- as.character(data$technology)
 data$technology[1] <- "Illumina"
-data$Freq[1] <- 1094
+data$Freq[1] <- 2649
+data$technology[2] <- "Oxford Nanopore"
+data$Freq[2] <- 2111
 tec <- ggplot(data) +
         geom_col(aes(technology, Freq)) +
         ggtitle("SEQ TECHNOLOGY") +
@@ -180,27 +191,49 @@ tec_pie
 
 
 # Graph GEO LOC  -------------------------------------------------------------------------
-t <- all_values[which(str_detect(all_tags ,"geo_loc_name|country"))]
+geos_values <- unique(c(sample_attributes_values$geo_loc_name,
+                       sample_attributes_values$`geographic location (country and/or sea)` #  "United Kingdom"
+                       #sample_attributes_values$`geographic location (region and locality)` # "Scotland"
+                       
+))
 
+
+t <- all_values[which(str_detect(all_tags ,"geo_loc_name|country"))]
+length(t) #  2489
+
+#t[(which(t== "Scotland" ))] <- "United Kingdom: Scotland"  
 #countries
-countries <- unique(str_match(
-        t , "^(.*?):"))[,2][!(is.na(unique(str_match(t, "^(.*?):"))[,2]))]
+# countries1 <- unique(str_match(
+#         t , "^(.*?):"))[,2][!(is.na(unique(str_match(t, "^(.*?):"))[,2]))]
+
+
+countries <- unique(
+        sapply(t, function(l) {
+                str_split(
+        l, ":")[[1]][1] }
+)
+)
+
 for (c in countries) {
         t[str_detect(t, c)] <- as.character(c)
         
 }
 
-loc_pattern <- paste0(unique(t), collapse = "|")
 
-t[(which(!(str_detect(string = t, pattern = loc_pattern))))] <- "missing"       
-        
-length(all_values_per_tag_per_xml[which(str_detect(all_values_per_tag_per_xml, loc_pattern))]) #1091
+t[(which(t=="missing"))] <- NA       
+t[(which(t=="not applicable"))] <- NA   
+
+length(all_values_per_tag_per_xml[which(str_detect(all_values_per_tag_per_xml, "geo_loc_name|country|geographic|locality") & str_detect(all_values_per_tag_per_xml, loc_pattern))]) # 2489
 
 
-missing_count <- length(xml_list) -length(all_values_per_tag_per_xml[which(str_detect(all_values_per_tag_per_xml, loc_pattern))])
-        
+
+#missing_count <- length(illum_xml_list) -length(all_values_per_tag_per_xml[which(str_detect(all_values_per_tag_per_xml, loc_pattern))])
+
 data <- data.frame(table(t), stringsAsFactors = F)
 data$t <- as.character(data$t)
+sum(data$Freq) # 2488
+missing_count <- length(illum_xml_list) - sum(data$Freq)
+
 data <- rbind(data , c("missing", missing_count))
 data$Freq <- as.numeric(data$Freq)
 
@@ -294,7 +327,7 @@ dis_pie
 # Graph Sex -------------------------------------------------------------------------
 t <- all_values[which(str_detect(all_tags ,"sex"))] # sex and host sex
 data <- as.data.frame(table(t))
-missing_count <- 1094 - sum(data$Freq)
+missing_count <- length(all_values_per_tag_per_xml) - sum(data$Freq)
 data$Freq[which(data$t=="missing")]  <- sum(data$Freq[which(data$t=="missing")],missing_count)
 colnames(data) <- c("sex", "Freq")
 sex <- ggplot(data, aes(sex, Freq)) +
@@ -353,7 +386,8 @@ data <- as.data.frame(table(t), stringsAsFactors = FALSE)
 # order <- as.character(data$t)
 
 sum(data$Freq) # 888
-missing_count <- 1094 - sum(data$Freq) # 206
+
+missing_count <- length(all_values_per_tag_per_xml)  - sum(data$Freq) # 206
 
 # missing
 data$t <- as.character(data$t)
@@ -414,13 +448,29 @@ t[which(t=="27-Feb-2020")] <- as.character(as.Date.character("27-Feb-2020", "%d-
 t[which(t=="28-Feb-2020")] <- as.character(as.Date.character("28-Feb-2020", "%d-%B-%Y")) # "2020-02-28"
 t[which(t=="29-Feb-2020")] <- as.character(as.Date.character("29-Feb-2020", "%d-%B-%Y")) # "2020-02-29"
 
-t[which(t=="02-Apr-2020")] <- as.character(as.Date.character("02-Apr-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="01-Mar-2020")] <- as.character(as.Date.character("01-Mar-2020", "%d-%B-%Y")) # "2020-02-29"
 t[which(t=="10-Mar-2020")] <- as.character(as.Date.character("10-Mar-2020", "%d-%B-%Y")) #"2020-03-01"
-t[which(t=="18-Mar-2020")] <- as.character(as.Date.character("18-Mar-2020", "%d-%B-%Y")) #"2020-01-02"
-t[which(t=="20-Mar-2020")] <- as.character(as.Date.character("20-Mar-2020", "%d-%B-%Y")) # "2020-01-13"
-t[which(t=="22-Mar-2020" )] <- as.character(as.Date.character("22-Mar-2020" , "%d-%B-%Y")) # "2020-02-27"
 t[which(t=="14-Mar-2020")] <- as.character(as.Date.character("14-Mar-2020", "%d-%B-%Y")) # "2020-02-28"
+t[which(t=="17-Mar-2020")] <- as.character(as.Date.character("17-Mar-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="18-Mar-2020")] <- as.character(as.Date.character("18-Mar-2020", "%d-%B-%Y")) #"2020-01-02"
+t[which(t=="19-Mar-2020")] <- as.character(as.Date.character("19-Mar-2020", "%d-%B-%Y")) # ""2020-03-19""
+t[which(t=="19-MAR-2020")] <- as.character(as.Date.character("19-MAR-2020", "%d-%B-%Y")) # ""2020-03-19""
+t[which(t=="20-Mar-2020")] <- as.character(as.Date.character("20-Mar-2020", "%d-%B-%Y")) # "2020-01-13"
+t[which(t=="21-Mar-2020")] <- as.character(as.Date.character("21-Mar-2020", "%d-%B-%Y")) # "2020-01-13"
+t[which(t=="22-Mar-2020" )] <- as.character(as.Date.character("22-Mar-2020" , "%d-%B-%Y")) # "2020-02-27"
+t[which(t=="23-Mar-2020")] <- as.character(as.Date.character("23-Mar-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="29-Mar-2020")] <- as.character(as.Date.character("29-Mar-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="30-Mar-2020")] <- as.character(as.Date.character("30-Mar-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="31-Mar-2020")] <- as.character(as.Date.character("31-Mar-2020", "%d-%B-%Y")) # "2020-02-29"
+
+
+t[which(t=="01-Apr-2020")] <- as.character(as.Date.character("01-Apr-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="02-Apr-2020")] <- as.character(as.Date.character("02-Apr-2020", "%d-%B-%Y")) # "2020-02-29"
+t[which(t=="03-Apr-2020")] <- as.character(as.Date.character("03-Apr-2020", "%d-%B-%Y")) # "2020-02-29"
 t[which(t=="05-Apr-2020")] <- as.character(as.Date.character("05-Apr-2020", "%d-%B-%Y")) # "2020-02-29"
+
+t[which(t=="not applicable")]   <- NA
+
 
 # there is an error  2019-01-19 is not a valid date for this virus!! # 19 samples
 # fixme
@@ -446,12 +496,18 @@ t[str_detect(t, "2020-04")] <- "Apr 20"
 
 # Remove "2020"
 t[t=="2020"] <- NA
+t[t=="missing"] <- NA
 
-sum(data$Freq) # 1084
-data$t <- as.character(data$t)
-data <- rbind(data, c("missing", 10))
+
+
 
 data <- as.data.frame(table(t))
+sum(data$Freq) # 2087
+
+missing_count <- length(all_values_per_tag_per_xml)  - sum(data$Freq) #  562
+data$t <- as.character(data$t)
+data <- rbind(data, c("missing", missing_count))
+
 
 data$Freq <- as.numeric(data$Freq)
 data <-  mutate(data, t=fct_relevel(t, 
@@ -500,10 +556,17 @@ sample_origin_values <- c(  "Human BALF sample",
                             "respiratory nasopharyngeal sample" ,
                             "Nasopharyngeal/throat swab",
                             "Combined nasopharyngeal and oropharyngeal swab", 
-                            "oral swab; nasal swab; tracheal wash" ,
+                            "oral swab; nasal swab; tracheal wash" , # removed
                             "Diagnostic Swab", 
                             "tracheal swab" ,
-                            "bronchoalveolar lavage")
+                            "bronchoalveolar lavage",
+                            # new ones
+                            "sputum"     ,
+                            "oralpharyngeal" ,
+                            "nasal swab", 
+                            "oropharynx"
+                            #"Stool"
+                            )
 
 sample_origin_pattern <- paste0(sample_origin_values, collapse = "|")
 
@@ -515,10 +578,11 @@ sample_origin_pattern <- paste0(sample_origin_values, collapse = "|")
 mix_pattern <- "oral swab; nasal swab; tracheal wash"
 trachea_pattern <- "tracheal swab"
 #pharinx_pattern <- "Oro-pharyngeal|oropharyngeal|Nasopharyngeal/throat|swab|Diagnostic Swab|nasopharynx|nasopharyngeal|nasal"
-pharinx_pattern <- "Oro-pharyngeal swab|oropharyngeal swab|nasopharynx|respiratory nasopharyngeal sample|Nasopharyngeal/throat|Combined nasopharyngeal and oropharyngeal swab|Diagnostic Swab"
+pharinx_pattern <- "Oro-pharyngeal swab|oropharyngeal swab|nasopharynx|respiratory nasopharyngeal sample|Nasopharyngeal/throat|Combined nasopharyngeal and oropharyngeal swab|Diagnostic Swab|oralpharyngeal|nasal swab|oropharynx"
 swab_pattern <- "swab"
 balf_pattern <- "bronchoalveolar|Bronchoalveolar|BALF|lavage"
-
+sputum_pattern <- "sputum"
+feces_pattern <- "Stool"
 #sample_origin_pattern <- paste0(c(mix_pattern, trachea_pattern, pharinx_pattern, swab, balf_pattern ), collapse = "|")
 
 # 
@@ -536,26 +600,28 @@ balf_pattern <- "bronchoalveolar|Bronchoalveolar|BALF|lavage"
 
 #data <- as.data.frame(table(t), stringsAsFactors = F)
 
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, sample_origin_pattern)]) # 59
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, mix_pattern )]) # 6
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, balf_pattern)]) # 12
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, trachea_pattern)]) # 1
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, pharinx_pattern)]) # 39 + 1 "swab"
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & (str_detect(all_values_per_tag_per_xml, swab_pattern) & !str_detect(all_values_per_tag_per_xml, paste0(c(pharinx_pattern, trachea_pattern, mix_pattern), collapse = "|")))]) # 1
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, sample_origin_pattern)]) # 59.. 183
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, mix_pattern )]) # 6...0
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, balf_pattern)]) # 12 ...9
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, trachea_pattern)]) # 1 .. 1
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, pharinx_pattern)]) # 39 + 1 "swab" ... 85
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & (str_detect(all_values_per_tag_per_xml, swab_pattern) & !str_detect(all_values_per_tag_per_xml, paste0(c(pharinx_pattern, trachea_pattern, mix_pattern), collapse = "|")))]) # 1 ..3
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, sputum_pattern)]) # 85
+length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, feces_pattern)]) # 85
 
-length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, sample_origin_pattern)]) # 59
 
-t <-  c("mix", "trachea", "oro/nasopharynx", "BALF")
+t <-  c("mix", "trachea", "BALF", "oro/nasopharynx", "sputum") # , "feces"
 Freq <- c(
         length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, mix_pattern )]) ,# 6
-        length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, balf_pattern)]) ,# 12
         length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, trachea_pattern)]) ,# 1
+        length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, balf_pattern)]) ,# 12
         sum(length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, pharinx_pattern)]) , # 39 + 1 "swab"
-           length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & (str_detect(all_values_per_tag_per_xml, swab_pattern) & !str_detect(all_values_per_tag_per_xml, paste0(c(pharinx_pattern, trachea_pattern, mix_pattern), collapse = "|")))])) # 1
+           length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & (str_detect(all_values_per_tag_per_xml, swab_pattern) & !str_detect(all_values_per_tag_per_xml, paste0(c(pharinx_pattern, trachea_pattern, mix_pattern), collapse = "|")))])) ,# 1
+        length(all_values_per_tag_per_xml[str_detect(all_values_per_tag_per_xml, isolation_pattern) & str_detect(all_values_per_tag_per_xml, sputum_pattern)]) # 85
         
 )
 data <- data.frame(t=t, Freq=Freq )
-sum(data$Freq)  # 59
+sum(data$Freq)  # 59..  183
 
 
 # update data to remove duplicates in missing
@@ -564,7 +630,7 @@ sum(data$Freq)  # 59
 # length(all_values_per_tag_per_xml[which(str_detect(all_values_per_tag_per_xml, isolation_pattern))&])
 # # 1093 There are 1093 xmls with sample origin data
 missing_count <- length(all_values_per_tag_per_xml) - sum(data$Freq)
-
+# 2466
 
 #data$Freq[which(data$t=="missing")] <- missing_count # 1044
 data$t <- as.character(data$t)
@@ -572,7 +638,7 @@ data$t <- as.character(data$t)
 data <- rbind(data, c("missing", missing_count))
 data$Freq<- as.numeric(data$Freq)
 data <-  mutate(data, t=fct_relevel(t, 
-                                    "BALF",  "oro/nasopharynx" , "trachea",
+                                    "BALF",  "trachea", "oro/nasopharynx" , "sputum",
                                     "mix",     
                                     "missing"))
 
