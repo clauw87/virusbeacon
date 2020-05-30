@@ -1,13 +1,11 @@
 # metadata_fields_in_xmls
 
-## Metadata fields from NCBI xml files to feed virus beacon schema v1 table
-
-NOTE: some values need to be harmonized among datasets (see harmonization rules and mapping ontologies doc ([harmonization_rules_mapping_2.md](harmonization_rules_mapping_2.md))
+## Metadata fields from all sources’s xml files to feed into viral beacon table
 
 
 
 ### RUN
-* run_id:  (run accession)  ->  Run runId
+* run_id:  `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$IDENTIFIERS$PRIMARY_ID`
 * exp_lib_source: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SOURCE[[1]]` 
 * exp_lib_strategy: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_STRATEGY`
 * exp_lib_selection:  `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION[[1]]`
@@ -17,19 +15,18 @@ NOTE: some values need to be harmonized among datasets (see harmonization rules 
 * INFO
 	* experiment_info
 		* exp_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY_ID`
-	* study_info
-		* studyId ->  Run info studyId
-		* study_title ->  Run info studyTitle
-		* studyRef ->  Run info studyRef
 
+
+
+ 
+## ANALYSIS
+* pipeline: (show in UI as column ASSEMBLY METHOD): `attributes_values$assembly_method`
 
 
 ### VARIANT IN SAMPLE
-* biosample_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]`
-* variant_file_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$IDENTIFIERS$PRIMARY_ID[[1]]`
 * INFO
 	* study_info: 
-		* study_id: (study accession):  `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]`
+		* study_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]`
 		* study_title: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TITLE[[1]]`
 		* study_ref: (article PUMED ID or URL) : 
 			* `STUDY/STUDY_LINKS/STUDY_LINK/XREF_LINK/ID`
@@ -55,6 +52,7 @@ NOTE: some values need to be harmonized among datasets (see harmonization rules 
 	* procedure:
 		* culture_passage_history: `attributes_values$passage_history`
 	
+
 ### HOST/INDIVIDUAL 
 * host_taxon_id: 
 	* `sample_attributes_values$host`
@@ -74,9 +72,11 @@ NOTE: some values need to be harmonized among datasets (see harmonization rules 
 * info 
 	* study_ref (article PUMED ID or URL): `sample_attributes_values$link_addit_analys`
 
+
+
 ### VIRUS
 * taxon_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_NAME$TAXON_ID[[1]]`
 * taxon_name: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_NAME$SCIENTIFIC_NAME[[1]]`
 * [x] strain_id: 
-* strain_name: sample_attributes_values$strain
-
+* strain_name: sample_attributes_values$strain,  
+* isolate: sample_attributes$isolate  

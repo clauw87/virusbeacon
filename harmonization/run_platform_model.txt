@@ -1,0 +1,6 @@
+"Illumina MiSeq"
+"Illumina HiSeq 2500"
+"Illumina iSeq 100" 
+"Illumina MiniSeq"
+"Illumina NovaSeq 6000"
+

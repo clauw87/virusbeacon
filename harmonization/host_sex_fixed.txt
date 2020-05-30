@@ -1,0 +1,16 @@
+“female"
+“male"
+NULL
+NULL
+"female"
+"male"
+"male"
+"male"
+"female"
+NULL
+NULL
+"female"  
+"female"
+NULL
+NULL       
+NULL

@@ -1,11 +1,57 @@
 # harmonization_rules_mapping_2
 Harmonize these values so they can be reached through queries and or filters
 
+## RUN
+
+1. run_platform
+
+* **XML tags**
+names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM)
+
+* **Valid values**
+“ILLUMINA”
+"OXFORD_NANOPORE"
+
+
+2. run_platform_model 
+
+* **XML tags**
+xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]
+
+* **Valid values**
+"Illumina MiSeq"        
+"Illumina HiSeq 2500"  
+"NextSeq 500"           
+"NextSeq 550"          
+"Illumina iSeq 100"     
+"Illumina MiniSeq"     
+"Illumina NovaSeq 6000"
+
+
+* ** Values to show ** 
+"MiSeq"        
+"HiSeq 2500"  
+"NextSeq 500"           
+"NextSeq 550"          
+“iSeq 100"     
+"MiniSeq"     
+"NovaSeq 6000"
+
+
+* **Values to fix**
+(in general, remove the string Illumina an the space afterwards from all values)
+"Illumina MiSeq"  ->  "MiSeq"  
+"Illumina HiSeq 2500"  ->  "HiSeq 2500"  
+"Illumina iSeq 100"     ->  "iSeq 100"  
+"Illumina MiniSeq"   ->     "MiniSeq"  
+"Illumina NovaSeq 6000" -> "NovaSeq 6000"
+
+
 ## BIOSAMPLE 
 
 1. biosample_type
 * **XML tags**
-  * tissue
+  * tissue 
   * env_medium
   * isolation_source
   * host_tissue_sampled
@@ -25,6 +71,11 @@ Harmonize these values so they can be reached through queries and or filters
   * "Diagnostic Swab" 
   * "tracheal swab" 
   * "bronchoalveolar lavage"
+  * "sputum"
+  * "oralpharyngeal" 
+  * "nasal swab"  
+  * "oropharynx"
+  * "Stool"
 
 
   Rest of values in the column change to NULL (leave empty)
@@ -37,7 +88,9 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
   * “naso-pharyngeal swab”
   * “pharyngeal swab”
   * ”tracheal swab" 
-  * ~~“mix”~~ "oropharingeal swab; nasopharyngeal swab; traqueal whash"
+  * ”sputum”
+  * ”feces”
+  * ~~“mix”~~ "oropharingeal swab; nasopharyngeal swab; traqueal whash" 
 
 * **Values to harmonize**
   * BALF values (pattern: “broncho”| “alveolar”|“balf”):
@@ -55,6 +108,8 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
     * "oropharyngeal swab” 
     * "Combined nasopharyngeal and oropharyngeal swab"
     * "oral swab; nasal swab; tracheal wash" 
+    * "oralpharyngeal"
+    * "oropharynx"
 
     These values would be shown as “oro-pharyngeal swab” and mapped to:
     * id: UBERON:0001729
@@ -66,13 +121,23 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
     * "Nasopharyngeal/throat swab"
     * "Combined nasopharyngeal and oropharyngeal swab"
     * "oral swab; nasal swab; tracheal wash"  
+    * "nasal swab"  
 
     These values would be shown as “naso-pharyngeal swab” and mapped to:
     * id: UBERON:0001728
     * name: nasopharynx
 
+
+  * swab only values (general, mixed or unspecified pharyngeal swab)
+    * “swab”
+    * "Diagnostic Swab" 
+    * "Combined nasopharyngeal and oropharyngeal swab"
+
+
+
   * tracheal swab values 
     * ”tracheal swab" 
+
 
     These values would be shown as “tracheal swab” and mapped to:
     * id: UBERON:0003126
@@ -86,17 +151,29 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
     * id: UBERON:0003126
     * name: trachea
 
-  * swab only values (general, mixed or unespecified pharyngeal swab)
-    * “swab”
-    * "Diagnostic Swab" 
-    * "Combined nasopharyngeal and oropharyngeal swab"
 
     These values would be shown as “pharyngeal swab” and mapped  to :
     * id: UBERON:0006562
     * name: pharynx
 
+  * sputum values 
+    * “sputum”   
+
+    These values would be shown as “sputum” and mapped to:
+    * id: UBERON:0007311
+    * name: sputum
+
+
+  * feces values 
+    * “Stool”   
+    These values would be shown as “feces” and mapped to:
+    * id: UBERON:0001988
+    * name: feces
+
   * mix 
     * "oral swab; nasal swab; tracheal wash"   
+
+
 
 2. collection_date
 
@@ -120,38 +197,17 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
 
   * “%d-%B-%Y” values 
     * "01-Mar-2020"
-    * "02-Jan-2020"
-    * "13-Jan-2020"
-    * "27-Feb-2020"
-    * "28-Feb-2020"
-    * "29-Feb-2020"
-
-   * "02-Apr-2020"
-   * ”10-Mar-2020"
-   * "18-Mar-2020"
-   * "20-Mar-2020"
-   * "22-Mar-2020" 
-   * "14-Mar-2020" 
-   * "05-Apr-2020"
+    * "19-MAR-2020"
 
     convert to “%Y-%m-%d” to get:
     * “2020-03-01”
-    * “2020-01-02”
-    * “2020-01-13”
-    * "2020-02-27"
-    * "2020-02-28"
-    * "2020-02-29"
-
-    * "2020-04-02"
-    * "2020-03-10"
-    * "2020-03-18"
-    * "2020-03-20"
-    * "2020-03-22"
-    * "2020-03-14"
-    * "2020-04-05"
+    * "2020-03-19"
 
 * **Value to fix**
   “2019-01-19” ->  "2020-01-19" 
+  "missing"  -> NULL
+  "not applicable"  -> NULL
+
 
 
 
@@ -179,6 +235,10 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
 * **XML tags**
   * geo_loc_name
   * country
+ (combined) * `geographic location (country and/or sea)`
+ (combined) * `geographic location (region and locality)`  
+
+(The last two are pairs country-region shown in different tags, so we could extract them in just one value as `geographic location (country and/or sea)`: `geographic location (region and locality)` to match the others i.e “United Kingdom: Scotland”)
 
 * **Valid values**
    All are geo doc values, but different formats, e.g "USA:WI:Madison”, "USA: CA, San Diego County”.
@@ -209,13 +269,117 @@ NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal
      * "Israel"
      * "Germany: Dusseldorf"
      * "Germany: Heinsberg"
+(after extracting “combined” tags ones):
+     * “United Kingdom: England”
+     * “United Kingdom: Scotland”
+
+from ONT xmls:
+
+     * "USA:WI,Madison" 
+     * "China: Wuhan"   
+     * "USA:Wisconsin"  
+     * "USA: Wisconsin" 
+     * "USA: Racine, Wisconsin"          
+     * "USA: Milwaukee, Wisconsin"      
+     * "USA: Port Washi, Wisconsin"      
+     * "USA: Thiensvill, Wisconsin"     
+     * "USA: Grafton, Wisconsin"         
+     * "USA: Mequon, Wisconsin"         
+     * "USA: Whitefish, Wisconsin"       
+     * "USA: Pewaukee, Wisconsin"       
+     * "USA: Cudahy, Wisconsin"          
+     * "USA: Glendale, Wisconsin"       
+     * "USA: Greenfield, Wisconsin"      
+     * "USA: South Milwaukee, Wisconsin"
+     * "USA: Elm Grove, Wisconsin"       
+     * "USA: Franklin, Wisconsin"       
+     * "USA: Brookfield, Wisconsin"      
+     * "USA: Campbellsp, Wisconsin"     
+     * "USA: Green Field, Wisconsin"     
+     * "USA: Oak Creek, Wisconsin"      
+     * "USA: Jackson, Wisconsin"         
+     * "USA: Wauwatosa, Wisconsin"      
+     * "USA: New Berlin, Wisconsin"      
+     * "USA: California"                
+     * "USA: Iowa"                       
+     * "USA: Massachusetts"             
+     * "USA: Virginia"                   
+     * "USA: South Carolina"            
+     * "USA: New Jersey"                 
+     * "USA: New York"                  
+     * "USA: Washington"
+
+
+
+* **Values to fix**
+
+"China:Wuhan" ->  "China: Hubei: Wuhan”
+"China: Wuhan" ->  "China: Hubei: Wuhan”
+"USA:WA" -> "USA: Washington" 
+"USA: WA"  -> "USA: Washington" 
+"USA:WI:Madison" -> "USA: Wisconsin: Madison"
+"USA: Seattle, WA"  -> "USA: Washington: Seattle“ 
+"USA: CA, San Diego County"  -> "USA: California: San Diego County”
+"Australia: Melbourne, Victoria" -> "Australia: Victoria: Melbourne” 
+"Cambodia:Sihanoukville" -> "Cambodia: Sihanoukville" 
+
+from ont xmls:
+"USA:WI,Madison" -> "USA: Wisconsin: Madison” 
+"USA:Wisconsin" -> "USA: Wisconsin” 
+"USA: Racine, Wisconsin" -> "USA: Wisconsin: Racine”
+"USA: Milwaukee, Wisconsin"    -> "USA: Wisconsin: Milwaukee”   
+"USA: Port Washi, Wisconsin"    -> "USA: Wisconsin: Racine”  
+"USA: Thiensvill, Wisconsin"    -> "USA: Wisconsin: Port Washi” 
+"USA: Grafton, Wisconsin"    -> "USA: Wisconsin: Grafton”     
+"USA: Mequon, Wisconsin"      -> "USA: Wisconsin: Mequon”   
+"USA: Whitefish, Wisconsin"    -> "USA: Wisconsin: Whitefish”   
+"USA: Pewaukee, Wisconsin"     -> "USA: Wisconsin: Pewaukee”  
+"USA: Cudahy, Wisconsin"      -> "USA: Wisconsin: Cudahy”    
+"USA: Glendale, Wisconsin"       -> "USA: Wisconsin: Glendale”
+"USA: Greenfield, Wisconsin"     -> "USA: Wisconsin: Greenfield” 
+"USA: South Milwaukee, Wisconsin"  -> "USA: Wisconsin: South Milwaukee”
+"USA: Elm Grove, Wisconsin"     -> "USA: Wisconsin: Elm Grove”  
+"USA: Franklin, Wisconsin"       -> "USA: Wisconsin: Franklin”
+"USA: Brookfield, Wisconsin"      -> "USA: Wisconsin: Brookfield”
+"USA: Campbellsp, Wisconsin"     -> "USA: Wisconsin: Campbellsp”
+"USA: Green Field, Wisconsin"     -> "USA: Wisconsin: Green Field”
+"USA: Oak Creek, Wisconsin"      -> "USA: Wisconsin: Oak Creek”
+"USA: Jackson, Wisconsin"         -> "USA: Wisconsin: Jackson”
+"USA: Wauwatosa, Wisconsin"      -> "USA: Wisconsin: Wauwatosa”
+"USA: New Berlin, Wisconsin"  -> "USA: Wisconsin: New Berlin” 
+"USA: Wauwatosa, Wisconsin"  -> "USA: Wisconsin: Wauwatosa” 
+
+
+* **Values to show**  (these ones we’ll get after harmonization )
+  * "China: Hubei: Wuhan”
+  * "USA: Washington" 
+  * "USA: Wisconsin: Madison"
+  * "Nepal: Kathmandu"  
+  * "USA: Washington: Seattle“
+  * "USA: Washington" 
+  * "USA"
+  * "USA: California: San Diego County”
+  * "USA:Virginia"
+  * "USA: New York" 
+  * "Australia: Victoria" 
+  * "Australia: Victoria: Melbourne” 
+  * "Australia: Northern Territory" 
+  * "Peru: Lima" 
+  * "Cambodia: Sihanoukville" 
+  * "Malaysia: Kuala Lumpur"
+ "Malaysia"
+  * "South Africa: KwaZulu-Natal"
+  * "India: Rajkot"
+  * "Israel"
+  * "Germany: Dusseldorf"
+  * "Germany: Heinsberg"
 
 
    Note: It would be nice to harmonize to format Country, State_Sub, City and then map to GAZ ontology (geographic origin). To this GAZ ontology (and abbreviations for USA states) would have to be used to detect country_city names in values. But since now ontology structure is not working (so, searching for USA won’t return Madison), we better use grouping by countries for now.
 
 NOTE: Group by country: countries are in all at beginning, before “:”, so we can extract whatever is before “:” (“^(.*?):”) and use that country name to group. 
 
-* **Values to show**  (these ones we’ll get after harmonization)
+* **Values to show as groups** (for filters and statistics)
   * “Australia”
   * “USA”
   * “China”
@@ -227,12 +391,36 @@ NOTE: Group by country: countries are in all at beginning, before “:”, so we
   * "India"
   * "Germany"
   * "Israel" 
+  * "United Kingdom"
+  * "Egypt"
 
-* **Values to harmonize** 
-  * all values 
 
-  So, do:
-  * everything containing string in Values to Show: -> Value to Show
+
+** Map values to show to Ontology
+  * "China: Hubei: Wuhan” 
+  * "USA: Washington" 
+  * "USA: Wisconsin: Madison"
+  * "Nepal: Kathmandu"  
+  * "USA: Washington: Seattle“
+  * "USA: Washington" 
+  * "USA"
+  * "USA: California: San Diego County”
+  * "USA:Virginia"
+  * "USA: New York" 
+  * "Australia: Victoria" 
+  * "Australia: Victoria: Melbourne” 
+  * "Australia: Northern Territory" 
+  * "Peru: Lima" 
+  * "Cambodia: Sihanoukville" 
+  * "Malaysia: Kuala Lumpur"
+ "Malaysia"
+  * "South Africa: KwaZulu-Natal"
+  * "India: Rajkot"
+  * "Israel"
+  * "Germany: Dusseldorf"
+  * "Germany: Heinsberg"
+
+
 
 
 3. host_age
@@ -244,7 +432,8 @@ NOTE: Group by country: countries are in all at beginning, before “:”, so we
 * **Values to fix** 
 “missing” -> NULL
 “4 years” -> 4 
-
+“35 y” -> 35
+“5 y” -> 5
 
 4. host_disease
 
@@ -255,11 +444,26 @@ NOTE: Group by country: countries are in all at beginning, before “:”, so we
 
   * "nCoV pneumonia"                                 
   * "COVID-19"                                                                                
-  * "severe acute respiratory syndrome" (for graph abbreviate (SARS))             
+  * "severe acute respiratory syndrome" (for graph abbreviate (SARS))  
+  * "respiratory infection"           
 
   Rest of values in the column change to NULL (leave empty)
 
+4. host_sex
 
+* **XML tags**
+  * host_sex
+
+* **Values to show**
+
+  * “female”                                 
+  * “male” 
+
+* **Values to harmonize/fix**
+Female -> “female” 
+Male -> “male” 
+
+ Rest of values in the column change to NULL (leave empty)
 
 ## SPECIES (VIRUS)
 
