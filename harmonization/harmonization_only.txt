@@ -57,12 +57,12 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
 
 * **Valid values**
 - only values in list in biosample_type.txt (also here since they are few:)
-  * "Human BALF sample", 
-  * "Bronchoalveolar lavage fluid", 
-  * "bronchoalveolar lavage fluid(BALF)", 
-  * "Oro-pharyngeal swab", 
-  * "oropharyngeal swab",  
-  * "nasopharynx",  
+  * "Human BALF sample"
+  * "Bronchoalveolar lavage fluid" 
+  * "bronchoalveolar lavage fluid(BALF)"
+  * "Oro-pharyngeal swab"
+  * "oropharyngeal swab"  
+  * "nasopharynx"
   * "swab" 
   * "respiratory nasopharyngeal sample" 
   * "Nasopharyngeal/throat swab"
@@ -79,8 +79,7 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
 
   Rest of values in the column change to NULL 
 
-NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal wash”. In those cases we should label them as “mix"and also as their component values (“oro/naso-pharyngeal swab”, ”tracheal swab/wash“). That’s why they appear duplicated in more than one “values to harmonize"set.
-
+NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal wash”. In those cases we should label them as “mix"and also as their component values (“oro/naso-pharyngeal swab”, ”tracheal swab/wash“). I have separated the two values by comma in the list in biosample_type_fixed.txt
 
 * **Values to harmonize**
 - paired values in txt lists in biosample_type.txt and biosample_type_fixed.txt
@@ -153,7 +152,7 @@ e.g
 
 
 * **Valid values**
-- only values in list in geo_loc_name.txt
+* all
      
 
 * **Values to fix/ harmonize**
@@ -170,7 +169,7 @@ e.g
   * host_age
 
 * **Valid values**
-  all
+  * all
 
 * **Values to fix** 
 -paired values in txt lists host_age.txt and host_age_fixed.txt (here since they are a few:)
