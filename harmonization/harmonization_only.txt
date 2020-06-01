@@ -153,7 +153,7 @@ e.g
 
 
 * **Valid values**
-  * all
+- only values in list in geo_loc_name.txt
      
 
 * **Values to fix/ harmonize**
@@ -161,7 +161,7 @@ e.g
 - and these two after extracting the combined tags above:
   * United Kingdom: Scotland -> "Europe:United Kingdom:Scotland:-"
   * United Kingdom: England -> "Europe:United Kingdom:England:-"
-
+-"not applicable" -> NULL
 
 3. host_age
 
