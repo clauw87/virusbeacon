@@ -20,7 +20,7 @@
 
  
 ## ANALYSIS
-* pipeline: (show in UI as column ASSEMBLY METHOD): `attributes_values$assembly_method`
+* pipeline: (show in UI as column ASSEMBLY METHOD): `sample_attributes$assembly_method`
 
 
 ### VARIANT IN SAMPLE
@@ -61,9 +61,11 @@
 * host_age: 
 	* `sample_attributes_values$host_age`
 	* `sample_attributes_values$age`
+	* `sample_attributes_values$host`
 * host_sex: 
 	* `sample_attributes_values$host_sex`
 	* `sample_attributes_values$sex`
+	* `sample_attributes_values$host`
 * geo_origin: `sample_attributes_values$geo_loc_name`
 * host_disease: `sample_attributes_values$host_disease`
 * host_disease_stage: `sample_attributes_values $host_disease_stage` (e.g “acute” harmonization needed) 
