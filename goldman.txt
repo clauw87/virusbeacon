@@ -14,7 +14,7 @@ US> out of these we found in our dataset (INDELs, still to check SNPs):
 29806 29807 29808 29809 29810 29811 29812 29813 29814 29815 29816 29817 29819 29820 29823 29824 29825 29826 29827 29828 29829 29832 29833 29834 29835 29836 29837 29838 29839 29840 29841 29842 29843 29844 29846 29847 29848 29849 29850 29851 29852 29853 29854 29855 29856 29857 29858 29859 29860 29861 29862 29863 29864 29865 29866 29867 29868 29869 29870 29873 29884 29891 29895 29896
 
 
-2. sites that appear to be highly homoplastic & with no phylogenetic signal and/or low prevalence (presumtively recurrent artifacts or otherwise hypermutable low-fitness sites)
+2. sites that appear to be highly homoplasic & with no phylogenetic signal and/or low prevalence (presumtively recurrent artifacts or otherwise hypermutable low-fitness sites)
 
 187
 1059
@@ -52,7 +52,7 @@ US> out of these we found in our dataset (INDELs, still to check SNPs):
 25563
 
 
-3. any homoplastic positions that are exclusive to a single sequencing lab or geographic location, regardless of phylogenetic signal (might presumptively occur a common source of error)
+3. any homoplasic positions that are exclusive to a single sequencing lab or geographic location, regardless of phylogenetic signal (might presumptively occur a common source of error)
 
 4050
 13402
@@ -60,7 +60,7 @@ US> out of these we found in our dataset (INDELs, still to check SNPs):
 US> none in our dataset (INDELs, still to check SNPs)
 
 
-4. positions that despite strong phylogenetic signal are also strongly homoplastic (presumptive hypermutability)
+4. positions that despite strong phylogenetic signal are also strongly homoplasic (presumptive hypermutability)
 
 11083
 15324
