@@ -20,7 +20,11 @@
 
  
 ## ANALYSIS
+<<<<<<< HEAD
 * pipeline: (show in UI as column ASSEMBLY METHOD): `sample_attributes$assembly_method`
+=======
+* pipeline: (show in UI as column ASSEMBLY METHOD): `sample_attributes_values$assembly_method`
+>>>>>>> refs/remotes/origin/raw_ideas
 
 
 ### VARIANT IN SAMPLE
