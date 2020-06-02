@@ -20,7 +20,7 @@
 
  
 ## ANALYSIS
-* pipeline: (show in UI as column ASSEMBLY METHOD): `attributes_values$assembly_method`
+* pipeline: (show in UI as column ASSEMBLY METHOD): `sample_attributes_values$assembly_method`
 
 
 ### VARIANT IN SAMPLE
