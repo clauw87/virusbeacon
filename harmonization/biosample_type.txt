@@ -8,7 +8,6 @@
 "respiratory nasopharyngeal sample" 
 "Nasopharyngeal/throat swab"
 "Combined nasopharyngeal and oropharyngeal swab" 
-"oral swab; nasal swab; tracheal wash" 
 "Diagnostic Swab" 
 "tracheal swab" 
 "bronchoalveolar lavage"
@@ -17,3 +16,11 @@
 "nasal swab"  
 "oropharynx"
 "Stool"
+"nasopharyngeal swab" 
+"Sputum"                  
+"nasopharynx, oropharynx"
+"saliva" 
+"Nasal-Swab and Oro-pharyngeal swab"  
+"oral swab; nasal swab; tracheal wash"
+
+ 

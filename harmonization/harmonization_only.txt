@@ -18,6 +18,8 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
 
 * **XML tags**
   * xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]
+  * xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$NANOPORE$INSTRUMENT_MODEL[[1]]
+  * xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ION_TORRENT$INSTRUMENT_MODEL[[1]]
 
 * **Valid values**
   * all
@@ -29,6 +31,8 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
   * "Illumina iSeq 100"     ->  "iSeq 100"  
   * "Illumina MiniSeq"   ->     "MiniSeq"  
   * "Illumina NovaSeq 6000" -> "NovaSeq 6000"
+  * "Illumina HiSeq 2000"  ->  "HiSeq 2000"
+  * "Illumina HiSeq 1500"  ->  "HiSeq 1500"
 
 
 2. library_source 
@@ -54,6 +58,7 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
   * env_medium
   * isolation_source
   * host_tissue_sampled
+  * isolation source host-associated
 
 * **Valid values**
 - only values in list in biosample_type.txt (also here since they are few:)
@@ -67,7 +72,6 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
   * "respiratory nasopharyngeal sample" 
   * "Nasopharyngeal/throat swab"
   * "Combined nasopharyngeal and oropharyngeal swab" 
-  * "oral swab; nasal swab; tracheal wash" 
   * "Diagnostic Swab" 
   * "tracheal swab" 
   * "bronchoalveolar lavage"
@@ -76,20 +80,27 @@ NOTE: “valid values"are the only values that should be extracted/kept in datab
   * "nasal swab"  
   * "oropharynx"
   * "Stool"
+  * "Sputum"
+  * "nasopharyngeal swab
+  * "nasopharynx, oropharynx"
+  * "saliva" 
+  * "Nasal-Swab and Oro-pharyngeal swab"  
+  * "oral swab; nasal swab; tracheal wash"
+
 
   Rest of values in the column change to NULL 
-
-NOTE: now there are samples that are mixes, e.g "oral swab; nasal swab; tracheal wash”. In those cases we should label them as “mix"and also as their component values (“oro/naso-pharyngeal swab”, ”tracheal swab/wash“). I have separated the two values by comma in the list in biosample_type_fixed.txt
 
 * **Values to harmonize**
 - paired values in txt lists in biosample_type.txt and biosample_type_fixed.txt
 
+NOTE: last value, "oral swab; nasal swab; tracheal wash" is coverted to two values, I have separated them by commas in on single string in biosample_type_fixed.txt
 
 
 2. collection_date
 
 * **XML tags**
   * collection_date 
+  * collection date
 
 * **Valid values**
   * all
@@ -117,6 +128,7 @@ e.g
   * "2019-01-19"->  "2020-01-19" 
   * "missing"  -> NULL
   * "not applicable"  -> NULL
+  * "NA" -> NULL
 
 
 
@@ -145,10 +157,11 @@ e.g
 * **XML tags**
   * geo_loc_name
   * country
+  * Country
   * `geographic location (country and/or sea)`       (combined)
   * `geographic location (region and locality)`       (combined)
 
-(The last two are pairs country-region shown in different tags, so we could extract them in just one value as `geographic location (country and/or sea)`: `geographic location (region and locality)` so we get in just one value for example “United Kingdom: Scotland”)
+(The last two are pairs country-region that are split in the two different tags but are meant together, so we should extract them in just one value as `geographic location (country and/or sea)`:`geographic location (region and locality)` so we get in just one value for example “United Kingdom:Scotland”). Assuming you extract them in this form, Include these values and their harmonized form in the paired values lists. NOTE: In some cases the second tag is not present (Denkmark), I added both in list in case you extract them as “Denkmark” only or as “Denkmark:”
 
 
 * **Valid values**
@@ -157,10 +170,12 @@ e.g
 
 * **Values to fix/ harmonize**
 - paired values in txt lists geo_loc_name.txt and geo_loc_name_fixed.txt
-- and these two after extracting the combined tags above:
+- and these two after extracting the combined tags above: (NO, NOW THEY ARE IN LISTS)
   * United Kingdom: Scotland -> "Europe:United Kingdom:Scotland:-"
   * United Kingdom: England -> "Europe:United Kingdom:England:-"
--"not applicable" -> NULL
+- "not applicable" -> NULL
+- "not collected" -> NULL
+- "not collected:not collected" -> NULL
 
 3. host_age
 
@@ -186,11 +201,20 @@ e.g
 
 * **Valid values**
   * "nCoV pneumonia"                                 
-  * "COVID-19"                                                                                
+  * "COVID-19"    
+  * "Covid-2019"                                                                             
   * "severe acute respiratory syndrome"   
-  * "respiratory infection"           
+  * "respiratory infection"     
+  * "pneumonia"                        
+  * "Respiratory diease"                
+  * "Acue infection"      
 
   Rest of values in the column change to NULL 
+
+* **Values to fix** 
+"Respiratory diease"  -> "respiratory disease" 
+"Acue infection"  -> "acute infection"
+"Covid-2019" -> "COVID-19" 
 
 
 4. host_sex
@@ -204,13 +228,9 @@ e.g
   * "male" 
   * "Female"                                 
   * "Male" 
-  * "Homo sapiens; gender: F; age: 61"
-  * "Homo sapiens; gender: M; age: 68"
-  * "Homo sapiens; male; 70"
-  * "Homo sapiens; male; 63"
-  * "Homo sapiens; female 63"
   * "Woman"   
   * "FEmale"
+
 
  Rest of values in the column change to NULL 
 

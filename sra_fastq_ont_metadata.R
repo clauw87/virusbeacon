@@ -5,59 +5,64 @@ library(ggplot2)
 library(gridExtra)
 
 #folder <-  "~/repolab/work/virusbeacon/6_05_2020_release"
-#illum_old <- "~/repolab/work/virusbeacon/6_05_2020_release"
-#illum_xml_folder <- "~/repolab/work/virusbeacon/18_05_2020_galaxy_pipeline/xmls"
-#illum_xml_folder <- "~/repolab/work/virusbeacon/18_05_2020_galaxy_pipeline/xmls_plus"
 
-illum_xml_folder <- "~/repolab/work/virusbeacon/galaxy_18_05_metadata"
+#folder <- "~/repolab/work/virusbeacon/nanopore_ones_xml"
+#ont_folder <- "~/repolab/work/virusbeacon/21_05_2020_ont_metadata"
+ont_folder <- "~/repolab/work/virusbeacon/24_05_ONT_metadata"
 
 
-length(list.files(illum_xml_folder)) # 2649 ... 2658 ..3310
-length(unique(list.files(illum_xml_folder))) # 2649 .. 2658 ...3310
 
-all_illum_files <- paste(illum_xml_folder, list.files(illum_xml_folder), sep = "/")
+length(list.files(ont_folder)) # 2118 ..3960 .. 3959 bc of empty one
+length(unique(list.files(ont_folder))) # 2118 .. 3960 3959 bc of empty one
 
-illum_xml_list <-  lapply(all_illum_files, function(f){
+
+all_ont_files <- paste(ont_folder, list.files(ont_folder), sep = "/")
+
+ont_xml_list <-  lapply(all_ont_files, function(f){
         xml2::as_list(xml2::read_xml(f)) 
 })
 
-length(illum_xml_list)  #   2649  .. 2658 ..3310
-length(unique(illum_xml_list)) # 2649.. 2658 ..3310
+length(ont_xml_list)  #    2118 ..3960
+length(unique(ont_xml_list)) #  2118 ..3960
 
-illum_xml <- illum_xml_list[[2649]]
 
-# this file of new style
+length(unique(ont_xml_list)) # 2112 # 6 xmls are repeated (identical to other) in folder (it's bc they yielded errors!)
+sum(duplicated(ont_xml_list)) # 6 xmls are repeated in folder
+duplicated <- all_ont_files[which(duplicated(ont_xml_list))]
+duplicated  
 
-SRR11851936.xml
+
+ont_xml <- ont_xml_list[[1]]
+
 
 # EXPERIMENT 
 
 # EXPERIMENT > IDENTIFIERS > PRIMARY_ID
 exp_primary_id <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
    xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$IDENTIFIERS$PRIMARY_ID[[1]]
 })
 #)
 )
-length(unique(exp_primary_id)) # 2649 ..  2658 ..3310
+length(unique(exp_primary_id)) # 3959
 
 
 # EXPERIMENT > DESIGN > LIBRARY_DESCRIPTORS > LIBRARY NAME 
 exp_library_name <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_NAME
 })
 #)
 )
-length(exp_library_name)  # 2779
-length(unique(exp_library_name)) #  2279..2778
+length(exp_library_name) # 1608
+length(unique(exp_library_name)) #1351
 
 # EXPERIMENT > DESIGN > LIBRARY STRATEGY
 exp_library_strategy <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_STRATEGY
 
                 })
@@ -65,73 +70,89 @@ exp_library_strategy <- unlist(
 )
 
 # (“RNA-Seq”, "WGS”, "AMPLICON”, "Targeted-Capture”)
-length(unique(exp_library_strategy )) # 6
-unique(exp_library_strategy)
+length(unique(exp_library_strategy )) # 2
+unique(exp_library_strategy) #  "WGA"      "AMPLICON" "WGS"      "RNA-Seq"   
 
 
 # EXPERIMENT > DESIGN > LIBRARY SOURCE
 exp_library_source <- 
         unlist(
                 #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SOURCE
 })
 #)
-) # "VIRAL RNA"   "METAGENOMIC" "OTHER" 
-length(unique(exp_library_source )) # 5
-unique(exp_library_source )
+)
+length(unique(exp_library_source )) # 3
+unique(exp_library_source ) 
+# "GENOMIC"            "VIRAL RNA"         
+# "METAGENOMIC"        "SYNTHETIC"         
+# "OTHER"              "METATRANSCRIPTOMIC"
 
 # EXPERIMENT > DESIGN > LIBRARY SELECTION
 exp_library_selection <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION
 })
 #)
 )
-length(unique(exp_library_selection )) # 7
+length(unique(exp_library_selection )) # 3
 unique(exp_library_selection )
-# "RANDOM" "RT-PCR"  "RANDOM PCR"  "unspecified" "PCR" "cDNA" "Hybrid Selection"
+#"RT-PCR"     "PCR"        "RANDOM"     "RANDOM PCR"
+# "Oligo-dT"   "cDNA"    
         
+
 # EXPERIMENT > DESIGN > LIBRARY LAYOUT
 exp_library_layout <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
         names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_LAYOUT) #PAIRED
 })
 #)
 ) # "PAIRED" "SINGLE"
 length(unique(exp_library_layout)) #2
 unique(exp_library_layout)
-
+#  "SINGLE"
  
 # EXPERIMENT PLATFORM or TECHNOLOGY
 exp_platform <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM)
         })
         #)
 ) 
-length(unique(exp_platform)) #  "ILLUMINA"     
+length(unique(exp_platform)) 
 unique(exp_platform)
+# "OXFORD_NANOPORE" "ION_TORRENT"  
 
 
-
-# EXPERIMENT PLATFORM > ILLUMINA MODEL
+# EXPERIMENT PLATFORM > NANOPORE MODEL
 exp_platform_model <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
-        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]
+        sapply(ont_xml_list, function(xml){
+        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$OXFORD_NANOPORE$INSTRUMENT_MODEL[[1]]
         })
 #)
 ) 
-length(unique(exp_platform_model)) # 7
-unique(exp_platform_model)
-# [1] "Illumina MiSeq"      "Illumina MiniSeq"    "Illumina HiSeq 2500"
-# [4] "NextSeq 500"         "NextSeq 550"         "Illumina iSeq 100"  
-#  "Illumina NovaSeq 6000"
 
+length(unique(exp_platform_model)) # 1
+unique(exp_platform_model)
+# "MinION"  "GridION"
+
+
+exp_platform_model2 <- unlist(
+        #unique(
+        sapply(ont_xml_list, function(xml){
+                xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ION_TORRENT$INSTRUMENT_MODEL[[1]]
+        })
+        #)
+) 
+
+length(unique(exp_platform_model2)) # 1
+unique(exp_platform_model2)
+#  "Ion Torrent S5"
 
 ##################    "SAMPLE"    ##########################################################################################
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE)
@@ -145,85 +166,95 @@ xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]
 # "IDENTIFIERS" 
 sample_primary_id <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$PRIMARY_ID[[1]]
         })
 #)
 ) 
+head(sample_primary_id) #  "ERS4399630"
 
 sample_external_id <- #unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$IDENTIFIERS$EXTERNAL_ID[[1]]
         })
 #)) 
 
+head(sample_external_id) # "SAMEA6638373"
+
 # alias
 sample_alias <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE)$alias
         })
 #)
 ) 
+head(sample_alias) # "SARS-CoV-2/Valencia003/human/2020/ES"
 
 # accesion
 sample_accession <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE)$accession
         })
 #)
-) 
+)  
+head(sample_accession ) #  "ERS4399630" 
 identical(sample_accession, sample_primary_id) # TRUE
-length(sample_accession) #  3310
-length(unique(sample_accession)) # 3238
 
 # "SAMPLE_NAME"  
 # TAXON_ID
 sample_taxon_id <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_NAME$TAXON_ID[[1]]
         })
 #)
 ) 
+unique(sample_taxon_id )
 
 # SCIENTIFIC_NAME /SPECIES NAME
 sample_scientific_name <-unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_NAME$SCIENTIFIC_NAME[[1]]
         })
 #)
 ) 
-
+unique(sample_scientific_name) # "Severe acute respiratory syndrome coronavirus 2", "Wuhan seafood market pneumonia virus"
 
 # "SAMPLE_LINKS"      
+xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_LINKS$SAMPLE_LINK$XREF_LINK$DB[[1]] # "bioproject"
+xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_LINKS$SAMPLE_LINK$XREF_LINK$ID[[1]] # "601736""
+xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_LINKS$SAMPLE_LINK$XREF_LINK$LABEL[[1]] # "PRJNA601736"
+
 sample_links_db <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_LINKS$SAMPLE_LINK$XREF_LINK$DB[[1]]
         })
 #)
 ) 
+head(unique(sample_links_db)) #  "bioproject"
 
 sample_links_id <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_LINKS$SAMPLE_LINK$XREF_LINK$ID[[1]]
         })
 #)
 ) 
+head(unique(sample_links_id )) # "601630"
 
 sample_links_label <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_LINKS$SAMPLE_LINK$XREF_LINK$LABEL[[1]] # "PRJNA601736"
                 
 })
 #)
 ) 
-
+head(unique(sample_links_label)) #  "PRJNA601630" 
 
 
 
@@ -233,9 +264,8 @@ sample_links_label <- unlist(
 
 # "SAMPLE_ATTRIBUTES" 
 
-sample_attributes_tags <- #unique(
-        #unlist(
-        lapply(illum_xml_list, function(xml){
+sample_attributes_tags <- 
+        lapply(ont_xml_list, function(xml){
                 sapply(1:length(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES), function(a){
                         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES[[a]]$TAG
                         
@@ -243,16 +273,15 @@ sample_attributes_tags <- #unique(
                 
                 
         })
-        #)
-#)
 
-length(sample_attributes_tags)  #  3310
-length(unique(sample_attributes_tags)) # 28
 
-length(unlist(sample_attributes_tags, recursive = F)) #  32770
-sample_attributes_values <- #unique(
-        #unlist(
-        lapply(illum_xml_list, function(xml){
+length(sample_attributes_tags)  #   3959
+
+
+length(unlist(sample_attributes_tags, recursive = F)) #   33808
+
+sample_attributes_values <- 
+        lapply(ont_xml_list, function(xml){
                 sapply(1:length(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES), function(a){
                         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES[[a]]$VALUE
                         
@@ -260,17 +289,15 @@ sample_attributes_values <- #unique(
                 
                 
         })
-# )
-#)
 
-length(unlist(sample_attributes_values, recursive = F)) #  32770
+length(unlist(sample_attributes_values, recursive = F)) #  3277033808
+length(sample_attributes_values)  #  3959
+length(unique(unlist(sample_attributes_values))) #   2571 unique values
 
-length(sample_attributes_values)  #  3310
-length(unique(unlist(sample_attributes_values))) #  3247
 
 run_id <- #unique(
         #unlist(
-        lapply(illum_xml_list, function(xml){
+        lapply(ont_xml_list, function(xml){
                 sapply(1:length(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES), function(a){
                         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$IDENTIFIERS$PRIMARY_ID
                         
@@ -281,101 +308,107 @@ run_id <- #unique(
 # )
 #)
 
-length(unlist(run_id, recursive = F)) #  32770
+length(unlist(run_id, recursive = F)) #  33808
 
-length(run_id)  #  3310
-length(unique(unlist(run_id))) #  3310
+length(run_id)  #   3959
+length(unique(unlist(run_id))) #   3959
 
 run <-  unlist(run_id, recursive = F)
 
 tag  <- unlist(sample_attributes_tags, recursive = F)
-# tag <- sapply(sample_attributes_tags, function(l){
-#         unlist(l)
-# })
-# 
+
 value <- unlist(sample_attributes_values, recursive = F)
-# value <- sapply(sample_attributes_values, function(l){
-#         unlist(l)
-# })
+
 
 pair_table <- data_frame(run, tag, value)
-dim(pair_table)     # 32770     3
+dim(pair_table)     # 33808     2
 colnames(pair_table) <- c("run","tag", "value")
 
-# for (l in 1:length(pair_table$tag)) {
-#         pair_table$value[l] <- unlist(pair_table$value[l])
-# }
-# for (l in 1:length(pair_table$value)) {
-#         pair_table$value[l] <- unlist(pair_table$value[l])
-# }
-# pair_table$value <- sapply(pair_table$value, function(l){
-# unlist(l)
-# })
 
-unique(pair_table$tag) # 71
-unique(pair_table$value)
+# unique(pair_table$tag) 
+# unique(pair_table$value)
+
+unique(unlist(filter(pair_table)$tag)) # 46
+
 
 ##### -----------#####--------------#####----------------#####--------------#####
-# Values
+# Values  
+
+
+# Sample ID
+unique(unlist(filter(pair_table, tag=="gisaid id")$value)) # 253 identifiers like "EPI_ISL_422810"
+unique(unlist(filter(pair_table, tag=="barcode_identifiers")$value)) # "artic_barcode02"
+unique(unlist(filter(pair_table, tag=="barcode_identifiers")$value)) # "artic_barcode02"
+unique(unlist(filter(pair_table, tag=="ARTIC barcode identifiers")$value)) # "NB12"
+
+# ----------- -----------  ----------- ----------- ----------- ----------- -----------  
+
 
 ##### Geo
-unique(unlist(unique(filter(pair_table, tag=="geo_loc_name")$value)))
-unique(unlist(unique(filter(pair_table, tag=="Country")$value))) #  "Portugal"
+unique(unlist(unique(filter(pair_table, tag=="geo_loc_name")$value))) # 67 values
 unique(unlist(unique(filter(pair_table, tag=="country")$value))) #   "USA: CA, San Diego County"
-unique(unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$value))) #   
+unique(unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$value))) #"Denmark"        "United Kingdom" "Netherlands"         "United Kingdom" "Netherlands" 
 unique(unlist(unique(filter(pair_table, tag=="geographic location (region and locality)")$value))) #   
+# "not provided"  "England"       "Scotland"     
+# "Delft"         "Nieuwendijk"   "Diemen"       
+# "Oss"           "Houten"        "Helmond"      
+# "Utrecht"       "Loon"          "Tilburg"      
+# "Coevorden"     "Rotterdam"     "Eindhoven"    
+#  "Haarlem"       "Dalen"         "Andel"        
+# "Berlicum"      "Hardinxveld"   "Oisterwijk"   
+# "Blaricum"      "Naarden"       "Zeewolde"     
+# "Nootdorp"      "NoordBrabant"  "Limburg"      
+# "Overijssel"    "ZuidHolland"   "Gelderland"   
+# "NoordHolland"  "Flevoland"     "not collected"
+# "Wales"   
 
-# with geo region only  NONE
-setdiff(unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)),
+# with geo contry
+length(unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run))) # 2289
+length(unlist(unique(filter(pair_table, tag=="geographic location (region and locality)")$run))) # 1994
+
+# with geo contry only
+country_only <- setdiff(unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)),
         unlist(unique(filter(pair_table, tag=="geographic location (region and locality)")$run)))
+# 293
+
+country_only_val <- unique(unlist(filter(pair_table, run %in% country_only,
+                           tag=="geographic location (country and/or sea)")$value))
+
+# # with geo region -NONE
+region_only <- setdiff(unlist(unique(filter(pair_table, tag=="geographic location (region and locality)")$run)),
+                       unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)))
 # 0
 
-# with geo region, loc only  NONE
-setdiff(unlist(unique(filter(pair_table, tag=="geographic location (region and locality)")$run)),
-        unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)))
-# 0
 
-# with both > combi
-unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)) # 365
+# combis
+both <- intersect(unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)),
+                unlist(unique(filter(pair_table, tag=="geographic location (region and locality)")$run)))
+        # 1994
+co <- filter(pair_table, run %in% both,
+             tag=="geographic location (country and/or sea)")$value
 
-co <- filter(pair_table, run %in% unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)),
-       tag=="geographic location (country and/or sea)")$value
-
-reg <- filter(pair_table, run %in% unlist(unique(filter(pair_table, tag=="geographic location (country and/or sea)")$run)),
-       tag=="geographic location (region and locality)")$value
+reg <- filter(pair_table, run %in% both,
+              tag=="geographic location (region and locality)")$value
 
 
-combi <- unique(paste(unlist(co), unlist(reg), sep=":"))
+combi <- paste(unlist(co), unlist(reg), sep=":")
 
 
-
-geo <- unique(c(
+geo_ont  <- unique(c(
         unique(unlist(unique(filter(pair_table, tag=="geo_loc_name")$value))),
-        unique(unlist(unique(filter(pair_table, tag=="Country")$value))), #  "Portugal"
-        unique(unlist(unique(filter(pair_table, tag=="country")$value))) , #   "USA: CA, San Diego County"
-        combi #  "Scotland" "Wales"    "England"  "Valencia"
-        
+        unique(unlist(unique(filter(pair_table, tag=="country")$value))),
+       country_only_val,
+        combi
+
 ))
-    
+
+
+write.table(geo_ont, "/Users/claudiavasallovega/repolab/work/virusbeacon/ont_geo.txt", row.names = F, col.names = F)
+
+# Harmonize
 remove <- c(
-        "NA", "not applicable"
 )
-geo[which(geo %in% remove )] <- NA
-
-geo <- unique(geo)[!is.na(unique(geo))]
-
-write.table(geo, "~/repolab/work/virusbeacon/illum_geo.txt", row.names = F, col.names = F)
-
-# harmonize
-# Harmonize agains gisaid fixed one
-# source[which(source %in% c(
-#         "China:Wuhan"
-# ))] <- "Asia:China:Hubei:Wuhan"
-# 
-# source[which(source %in% c(
-#         "USA"  
-# ))] <- "North America:USA:-:-"
-#                            
+source[which(geo_ont %in% remove )] <- NA
 
 
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------                         
@@ -387,93 +420,51 @@ unique(unlist(filter(pair_table, tag=="Isolate" )$value)) # ISOLATE
 # Collection lab
 unique(unlist(filter(pair_table, tag=="collected_by")$value)) # empty
 unique(unlist(filter(pair_table, tag=="collecting institution")$value)) # empty
+# "collector name" 
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------   
 # Collection date
 unlist(unique(filter(pair_table, tag=="collection_date")$value)) # OK except "NA"
+unlist(unique(filter(pair_table, tag=="collection date")$value)) # OK except "NA"
+# "receipt date"
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------   
 # Source
 unlist(unique(filter(pair_table, tag=="host_tissue_sampled")$value)) # "nasopharynx"      "Oro-pharyngeal swab"
-unlist(unique(filter(pair_table, tag=="isolation_source")$value))
-unlist(unique(filter(pair_table, tag=="isolation source host-associated")$value))
+unlist(unique(filter(pair_table, tag=="isolation_source")$value)) # some new
+unlist(unique(filter(pair_table, tag=="isolation source host-associated")$value)) #  "not provided"  "not collected"
 
-source <- unique(c(
-        unlist(unique(filter(pair_table, tag=="host_tissue_sampled")$value)),
-        unlist(unique(filter(pair_table, tag=="isolation_source")$value)),
-        unlist(unique(filter(pair_table, tag=="isolation source host-associated")$value))
-        
-)) 
-
-remove <- c(
-        "passage","Seattle, WA", "USA, WA" ,  "missing", "unknown", "human"  ,"Tianmen"  ,
-        "Wuhan" , "Jingzhou" , "N/A","Vero E6 cells supernatant", "not applicable"  , "Cercopithecus aethiops" ,
-        "culture" , "not collected'" ,  "clinical sample"
-)
-source[which(source %in% remove )] <- NA
-
-source <- unique(source)[!is.na(unique(source))]
-
-write.table(source, "~/repolab/work/virusbeacon/illum_biosample_type.txt", row.names = F, col.names = F)
-
-
-# harmonize
-source[which(source %in% c("Oro-pharyngeal swab" ,  
-                           "swab" ,
-                           "respiratory nasopharyngeal sample" ,
-                           "Nasopharyngeal/throat swab",
-                           "Combined nasopharyngeal and oropharyngeal swab",
-                           "Diagnostic Swab" ,
-                           "oralpharyngeal",
-                           "nasal swab",
-                           "nasopharyngeal swab" ,
-                           "Nasopharingeal exudate" ,
-                           "Pharyngeal exudate"  ,
-                           "Nasopharyngeal exudate",
-                           "Nasopharyngeal aspirate",
-                           "Pharingeal exudate" ,
-                           "nasopharynx",
-                           "oropharyngeal swab" 
-                           ))] <- "oro/naso-pharyngeal swab"
-
-source[which(source %in% c( "bronchoalveolar lavage fluid(BALF)",
-                        "bronchoalveolar lavage" 
-             ))] <-"bronchoalveolar lavage fluid" 
-
-source[which(source %in% c( "tracheal swab")
-             
-)] <- "tracheal swab/wash"
-
-source[which(source %in% c( "sputum" )
-             
-)] <- "sputum" 
-
-unique(source)
-
-write.table(source, "~/repolab/work/virusbeacon/illum_biosample_type_fixed.txt", row.names = F, col.names = F)
-
-
-#unlist(unique(filter(pair_table, tag=="sample type")$value)) # "genomic RNA"
-
+# "sample capture status"
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------   
 # Host
+# taxon
 unique(unlist(filter(pair_table, tag=="host")$value)) # "Homo sapiens"
-
-unique(unlist(filter(pair_table, tag=="host_age")$value)) # 
-unique(unlist(filter(pair_table, tag=="host_sex")$value)) #
 unique(unlist(filter(pair_table, tag=="host_taxid")$value)) # "9606"
+# age
+unique(unlist(filter(pair_table, tag=="host_age")$value)) # 
+unique(unlist(filter(pair_table, tag=="host age")$value)) # "1337"
+# sex
+unique(unlist(filter(pair_table, tag=="host_sex")$value)) #  "male"   "female"
+unique(unlist(filter(pair_table, tag=="host sex")$value)) # "not provided"
+
+
+# lab
 #"Laboratory Host"
 # "passage_history"
 # "source_uvig"
 # "env_medium"
 #"env_local_scale"
 #"env_broad_scale"
+# "isolation source non-host-associated" 
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------   
 # Host disease
 unique(unlist(filter(pair_table, tag=="host_disease")$value)) # 
 unique(unlist(filter(pair_table, tag=="host_disease_stage")$value)) # 
-unique(unlist(filter(pair_table, tag=="host_disease_outcome")$value)) # 
-unique(unlist(filter(pair_table, tag=="host health state")$value)) # 
+unique(unlist(filter(pair_table, tag=="host_disease_outcome")$value)) #  "recovery"
+unique(unlist(filter(pair_table, tag=="host health state")$value)) # "not provided"  "not collected"
+unique(unlist(filter(pair_table, tag=="host behaviour" )$value)) #  "other"
+unlist(unique(filter(pair_table, tag=="sample capture status" )$value)) # "active surveillance in response to outbreak"
+unlist(unique(filter(pair_table, tag=="serotype (required for a seropositive sample)")$value)) # "not provided"
 
-unique(unlist(filter(pair_table, tag=="subtype")$value)) #  "not applicable"
+
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------   
 # Lab host
 unique(unlist(filter(pair_table, tag=="propagation")$value)) # "lytic"
@@ -483,232 +474,16 @@ unique(unlist(filter(pair_table, tag=="lab_host")$value)) # "Vero E6 cells"     
 # "Titer (Ct value)"
 #"isol_growth_condt"
 # ----------- -----------  ----------- ----------- ----------- ----------- -----------   
-# Methods
-unique(unlist(filter(pair_table, tag=="seq_methods")$value)) # "Illumina iSeq"
-unique(unlist(filter(pair_table, tag=="Sequencing Platform" )$value)) # "NextSeq" "Novaseq" "HiSeq"   "MiSeq" 
-
-
 
 
 
 
 ##### -----------#####--------------#####----------------#####--------------#####
-# 
-# 
-# # all unique tags unlisted
-# all_all <- lapply(illum_xml_list, function(xml){
-#         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES
-# })
-# unlist(all_all)
-# all_tags <- unlist(all_all)[which(names(unlist(all_all))=="SAMPLE_ATTRIBUTE.TAG")]
-# u_tags <- unique(all_tags)
-# all_values <- unlist(all_all)[which(names(unlist(all_all))=="SAMPLE_ATTRIBUTE.VALUE")]
-# 
-# 
-# # all tags per xml
-# all_tags_per_xml <- lapply(all_all, function(x){
-#         unique(
-#          unlist(x)[which(names(unlist(x))=="SAMPLE_ATTRIBUTE.TAG")]
-#                 )
-#         })
-# 
-# 
-# # all values per tags per xml
-# all_values_per_tag_per_xml <- list()
-# length(all_values_per_tag_per_xml) <- length(all_all)
-#       for (i in 1:length(all_all)) {
-#               
-#        dtable <- c("tag", "value")
-#               #colnames(dtable) <- c("tag", "value") # for each tag-value par
-#        for (j in  1:length(all_all[[i]])) {
-#                      
-#        dtable <- data.frame(rbind(dtable, as.character(c(all_all[[i]][j]$SAMPLE_ATTRIBUTE$TAG[[1]] , 
-#                                  all_all[[i]][j]$SAMPLE_ATTRIBUTE$VALUE[[1]]))), 
-#                             stringsAsFactors = F)
-#        
-#        
-#        }  
-#       dtable <- dtable[-1,]
-#       colnames(dtable) <- c("tag", "value")
-#       all_values_per_tag_per_xml[[i]] <- dtable  
-#        
-#       }
-#                
-# # Which file has each tag
-# which(str_detect(all_tags_per_xml,"host_disease_outcome"))
-# which(str_detect(all_values_per_tag_per_xml, "Cercopithecus aethiops"  )) # 2380 2381 2382 2384 2388
-# all_values_per_tag_per_xml[[2380]] 
-# 
-# # Values per TAG (51 tags)
-# 
-# sample_attributes_values <- lapply(u_tags, function(t){
-#         unique(all_values[which(all_tags==t)])
-# })
-# names(sample_attributes_values) <- u_tags
-
-
-# Unclasified tags
-sample_attributes_values$`ENA-FIRST-PUBLIC` # "2020-04-18" "2020-04-29" "2020-04-30"
-sample_attributes_values$`ENA-LAST-UPDATE` # "2020-04-18" "2020-04-29" "2020-04-30"
-sample_attributes_values$collected_by
-sample_attributes_values$`sample type`
-sample_attributes_values$host_health_state # missing
-sample_attributes_values$virus_enrich_appr #  "not applicable"
-sample_attributes_values$subtype #  "not applicable"
-sample_attributes_values$genotype # "not applicable"
-
-
-# Collection Date
-sample_attributes_values$collection_date
-
-# Host disease
-sample_attributes_values$host_disease_outcome #  "Survived" "missing"  "recovery"
-sample_attributes_values$host_disease # "nCoV pneumonia"   "COVID-19"   "severe acute respiratory syndrome"
-sample_attributes_values$host_disease_stage #   "Acute"        "missing"      "Hospitalized"
-
-
-# Host taxon
-sample_attributes_values$host_taxid # "9606"
-sample_attributes_values$host #  "Homo sapiens" # already removed apparently "Panthera tigris jacksoni"??? WHAT
-
-
-# Host sex
-sample_attributes_values$sex
-sample_attributes_values$host_sex
-
-
-# Sample source
-sample_attributes_values$BioSampleModel
-sample_attributes_values$source_uvig
-#sample_attributes_values$culture_collection
-sample_attributes_values$tissue    # good one # removed now?
-sample_attributes_values$isolation_source # good one   
-sample_attributes_values$host_tissue_sampled  # good one 
-sample_attributes_values$env_medium  # good one  "not applicable"
-
-source_values <- unique(c(#sample_attributes_values$BioSampleModel,
-        #sample_attributes_values$source_uvig,
-        sample_attributes_values$isolation_source,
-        sample_attributes_values$tissue,
-        sample_attributes_values$host_tissue_sampled
-))
-
-# Sample identification
-sample_attributes_values$isolate
-sample_attributes_values$Isolate
-sample_attributes_values$strain
-
-
-# Geo loc
-sample_attributes_values$geo_loc_name
-sample_attributes_values$`geographic location (country and/or sea)` #  "United Kingdom"
-sample_attributes_values$`geographic location (region and locality)` # "Scotland"
-
-geos_value <- unique(c(sample_attributes_values$geo_loc_name,
-                       sample_attributes_values$`geographic location (country and/or sea)`, #  "United Kingdom"
-                       sample_attributes_values$`geographic location (region and locality)` # "Scotland"
-                       
-))
-
-
-geo_illum <- unique(sample_attributes_values$geo_loc_name)
-
-write.table(geo_illum, "/Users/claudiavasallovega/repolab/work/virusbeacon/illum_geo.txt", row.names = F, col.names = F)
 
 
 
 
 
-# New way
-# "SAMPLE_ATTRIBUTES" 
-
-sample_attributes_tags <- #unique(
-        #unlist(
-        sapply(illum_xml_list, function(xml){
-                sapply(1:length(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES), function(a){
-                        xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES[[a]]$TAG[[1]]
-                })    
-                
-                
-        })
-# )
-#)
-
-
-length(sample_attributes_tags)  #   3310
-length(unique(unlist(sample_attributes_tags))) # 71
-
-sample_attributes_values <- #unique(
-        #unlist(
-        sapply(illum_xml_list, function(xml){
-              #  sapply(1:length(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES), function(a){
-               #         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES[[a]]$VALUE[[1]]
-                        sapply(1:length(xml$EXPERIMENT_PACKAGE$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES), function(a){
-                                xml$EXPERIMENT_PACKAGE$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_ATTRIBUTES[[a]]$SAMPLE_ATTRIBUTE$VALUE[[1]]
-                        
-                })    
-                
-                
-        })
-# )
-#)
-
-
-length(sample_attributes_values)  # 3310
-length(unique(sample_attributes_values)) #  2817
-
-tag <- sapply(sample_attributes_tags, function(l){
-        unlist(l)
-})
-length(tag)
-value <- sapply(sample_attributes_values, function(l){
-        unlist(l)
-})
-length(value)
-
-pair_table <- data_frame(tag, value)
-dim(pair_table)    
-colnames(pair_table) <- c("tag", "value")
-
-for (l in 1:length(pair_table$tag)) {
-        pair_table$tag[l] <- unlist(pair_table$tag[l], recursive = T)
-}
-
-for (l in 1:length(pair_table$value)) {
-        pair_table$value[l] <- unlist(pair_table$value[l], recursive = T)
-}
-unique(pair_table$tag)
-unique(pair_table$value)
-
-# # Values
-unique(unlist(filter(pair_table, tag=="strain")$value)) # strain
-unique(unlist(filter(pair_table, tag=="collected_by")$value)) # lab
-unique(unlist(filter(pair_table, tag=="collection_date")$value))
-unique(unlist(filter(pair_table, tag=="geo_loc_name")$value))
-unique(unlist(filter(pair_table, tag=="host")$value)) # host
-unique(unlist(filter(pair_table, tag=="host_disease")$value)) # empty
-unique(unlist(filter(pair_table, tag=="host_age")$value)) # age
-unique(unlist(filter(pair_table, tag=="host_sex")$value)) # empty
-unique(unlist(filter(pair_table, tag=="isolate" )$value)) # # empty
-unique(filter(pair_table, tag=="assembly_method")$value) # PIPELINE
-
-
-
-
-
-# Statistics on tags
-
-# Geo_location, sex, disease
-
-
-# Age
-sample_attributes_values$age
-sample_attributes_values$host_age
-length(intersect(which(str_detect(all_tags_per_xml,"age")),  # 
-                 which(str_detect(all_tags_per_xml,"host_age")))) # 329 
-
-length(setdiff(which(str_detect(all_tags_per_xml,"age")),  # 
-                 which(str_detect(all_tags_per_xml,"host_age")))) # 22
 # -------------------------------------------------------------------------------------------
 #############################################################################################
 
@@ -723,16 +498,17 @@ attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION)$accession
 #  "IDENTIFIERS"
 sub_primary_id <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION$IDENTIFIERS$PRIMARY_ID[[1]]
         })
         #)
 ) # same info as in ex primary id
+head(unique(sub_primary_id)) # "ERA2420837"
 
 #  accession attribute
 sub_accession <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SUBMISSION)$accession
         })
         #)
@@ -754,7 +530,7 @@ xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$City[[1]] # "
 
 org_country <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$Country[[1]]
         })
         #)
@@ -763,7 +539,7 @@ unique(org_country)
 
 org_sub<- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$Sub[[1]]
         })
         #)
@@ -772,7 +548,7 @@ unique(org_sub)
 
 org_city <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Organization$Address$City[[1]]
         })
         #)
@@ -795,31 +571,32 @@ attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY)$accession # "SRP
 # STUDY PRIMARY ID / ACCESSION
 study_primary_id <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]
         })
         #)
 ) 
 study_accession <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY)$accession
         })
         #)
 )  
-
+head(study_accession)
 identical(study_accession, study_primary_id) # TRUE
 
 # STUDY EXTERNAL ID / ALIAS
 study_external_id <- #unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$EXTERNAL_ID[[1]]
         })
 #)) 
 unique(study_external_id)
+
 study_alias <- unlist(
         #        unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY)$alias
         })
         #)
@@ -840,58 +617,44 @@ names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR)
 # STUDY_TITLE
 study_title <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TITLE[[1]]
         })
         #)
 )
-length(unique(study_title)) # 24
+length(unique(study_title)) # 19
 
 # STUDY_TYPE
 study_type <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TYPE)
         })
         #)
 ) 
-length(unique(study_type)) # 3
-#  "Metagenomics"  "Whole Genome Sequencing"  "Other"
+length(unique(study_type)) # 2
+unique(study_type)
+#"Other"                   "Whole Genome Sequencing"
 
 # STUDY_ABSTRACT
 study_abstract <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_ABSTRACT[[1]]
         })
         #)
 ) 
-length(unique(study_abstract)) # 26
+length(unique(study_abstract)) # 21
 
 # CENTER_PROJECT_NAME
-study_project_name <- unlist(
+study_center <- unlist(
         #unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$CENTER_PROJECT_NAME[[1]]
         })
         #)
 )
-length(unique(study_project_name)) # 6
-
-
-# CENTER
-
-center_name <- unlist(
-        #unique(
-        sapply(illum_xml_list, function(xml){
-                attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY)$center_name
-        })
-        #)
-)
-
-unique(center_name)
-
-
+length(unique(study_center)) # 6
 
 
 
@@ -906,29 +669,29 @@ attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$tax_id # "
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$organism # "Severe acute respiratory syndrome coronavirus 2"
 
 pool_sample_name <-  unlist(unique(
-       sapply(illum_xml_list, function(xml){
+       sapply(ont_xml_list, function(xml){
                attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$sample_name
                 }) )) 
 
 identical(pool_sample_name , sample_alias)
 
 pool_spots <-  unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$spots
         }))) 
 
 pool_bases <-  unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$bases
         }))) 
 
 pool_tax_id <-  unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$tax_id
         }))) 
 
 pool_organism <-  unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$Pool$Member)$organism
         }))) 
 
@@ -939,17 +702,13 @@ names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET) # "RUN"
 # "RUN"
 
 run_id <-  unlist(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
         xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$IDENTIFIERS$PRIMARY_ID[[1]] # "SRR10903401"
 })
 )
-length(run_id) # ]  3310
-length(unique(run_id)) # ]  3310
+length(run_id) # 2649
+length(unique(run_id)) # 2649
 
-
-run_id[which(exp_platform== "OXFORD_NANOPORE")]
-# "SRR11140745" "SRR11140747" "SRR11140749" "SRR11140751"
-# "ERR4085074" "ERR4085076" "ERR4085078" "ERR4085080"
 
 
 # names
@@ -993,22 +752,22 @@ attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN)$filtered_d
 
 
 run_spots <- unlist(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN)$total_spots # "476632"
         })) 
 
 run_bases <- unlist(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN)$total_bases # "143565674"
         })) 
 
 run_size <- unlist(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN)$size # "72426963"
         })) 
 
 run_sra_files <- unlist(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN)$size # "72426963"
         }))
 
@@ -1022,7 +781,7 @@ attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$CloudFiles$
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics)$nreads
 
 run_nreads <- unlist(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics)$nreads # "2"        "variable"
         })
         ) 
@@ -1031,7 +790,7 @@ run_nreads <- unlist(
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics)$nspots # (same as spots)
 
 run_nspots <- unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics)$nspots # (same as spots)
         })
 )) 
@@ -1041,28 +800,27 @@ run_nspots <- unlist(unique(
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$index # 0
 
 run_read_index <- unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$index # 0
         })
 )) 
 #count
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$count #  # (same as spots)
 run_read_count <- unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$count #  # (same as spots)
         })
 )) 
 #average
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$average # "150.55"
 run_read_ave <- unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$average
         })
 )) 
 #stdev
 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$stdev # "0.74"
 run_read_st <- unlist(unique(
-        sapply(illum_xml_list, function(xml){
+        sapply(ont_xml_list, function(xml){
                 attributes(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$RUN_SET$RUN$Statistics$Read)$stdev
         }))) 
-
