@@ -1,0 +1,5 @@
+original_value;final_value
+Homo sapiens;Homo sapiens
+Human	Homo;sapiens
+Isolated from clinical sample from the first case of nCov in US from Washington State;Homo sapiens
+sapiens;Homo sapiens
