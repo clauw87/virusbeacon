@@ -1,6 +1,0 @@
-"female"                                 
-"male" 
-"Female"                                 
-"Male" 
-"Woman"   
-"FEmale"

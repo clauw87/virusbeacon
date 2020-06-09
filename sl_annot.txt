@@ -1,6 +1,0 @@
-"start" "end" "name" "gene" "locus_tag"
-"1" "13476" "13503" "Coronavirus frameshifting stimulation element stem-loop 1" "orf1ab" "GU280_gp01"
-"2" "13488" "13542" "Coronavirus frameshifting stimulation element stem-loop 2" "orf1ab" "GU280_gp01"
-"3" "29609" "29644" "Coronavirus 3' UTR pseudoknot stem-loop 1" "ORF10" "GU280_gp11"
-"4" "29629" "29657" "Coronavirus 3' UTR pseudoknot stem-loop 2" "ORF10" "GU280_gp11"
-"5" "29728" "29768" "Coronavirus 3' stem-loop II-like motif (s2m)" NA NA
