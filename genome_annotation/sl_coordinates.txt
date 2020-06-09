@@ -1,0 +1,6 @@
+"start","end","stem_loop_name","stem_loop_locus_id","stem_loop_gene_id","stem_loop_gene_name"
+13476,13503,"Coronavirus frameshifting stimulation element stem-loop 1","GU280_gp01","43740578","ORF1ab"
+13488,13542,"Coronavirus frameshifting stimulation element stem-loop 2","GU280_gp01-2","43740578","ORF1ab"
+29609,29644,"Coronavirus 3' UTR pseudoknot stem-loop 1","GU280_gp11","43740576","ORF10"
+29629,29657,"Coronavirus 3' UTR pseudoknot stem-loop 2","GU280_gp11-2","43740576","ORF10"
+29728,29768,"Coronavirus 3' stem-loop II-like motif (s2m)","NC_045512.2:29728..29768",NA,NA

@@ -1,0 +1,5 @@
+"x"
+"1" "nasopharyngeal swab"
+"2" "Nasal-Swab and Oro-pharyngeal swab"
+"3" "Oro-pharyngeal swab"
+"4" NA

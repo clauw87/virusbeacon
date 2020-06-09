@@ -1,0 +1,6 @@
+"MiSeq"  
+"HiSeq 2500"  
+"iSeq 100"  
+"MiniSeq"  
+"NovaSeq 6000"
+
