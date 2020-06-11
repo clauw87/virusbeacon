@@ -1,7 +1,0 @@
-"x"
-"1" NA
-"2" "sputum"
-"3" "oro/naso-pharyngeal swab"
-"4" "oro/naso-pharyngeal swab, tracheal swab/wash"
-"5" "tracheal swab/wash"
-"6" "bronchoalveolar lavage fluid"

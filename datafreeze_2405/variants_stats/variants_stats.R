@@ -1,3 +1,5 @@
+rm(list=ls())
+
 library(data.table)
 library(tidyr)
 library(readr)
@@ -13,17 +15,59 @@ library(magrittr)
 source("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/files_stats/ggplot2_charts.R")
 
 
-# All variants SRA Illumina-Galaxy
-setwd( "/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/Galaxy_1497.annot")
+setwd( "/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/data")
 
-variant_file <- system("ls *.annot.variants.data | awk '{print $1}'", intern = TRUE)
 
-var <- fread(input = variant_file, sep = ";") 
+## All variants - by Resources
 
-# Get the number of samples of the run (less 1 bc of header)
-number_rows <- as.numeric(system("wc -l *.annot.variants.data | awk '{print $1}'", intern = TRUE))-1
-number_row
-#  51006
+resources_folders <-list.files("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/data")
+# SRA Illumina- Galaxy
+#for (f in resources_folders) {
+#resource <- f
+#print(f)
+f <- "sra_ont"
+f <- "sra_illumina"
+f <- "genbank"
+f <- "gisaid"
+
+
+variant_file <- paste0(f, "/3925.annot.variants.data")
+variant_file <- paste0(f, "/1497.annot.variants.data")
+variant_file <- paste0(f, "/3054.annot.variants.data")
+variant_file <- paste0(f, "/29629.annot.variants.data")
+
+
+#nwd <- paste0(getwd(), "/", f, "/")
+#setwd(nwd)
+#variant_file <- system("ls  f/*.annot.variants.data | awk '{print $1}'", intern = TRUE)
+var <- fread(input = variant_file, sep = ";")
+var$variant <- sapply(1:nrow(var), function(v){
+        paste(as.character(var$position[v]),var$reference[v],  var$alternate[v], sep = ">")
+})
+var$MyCount <- unlist(lapply(var$variant, function(v){
+        sum(var$sampleMatchingCount[which(var$variant==v)]) 
+}))
+var$MyFrequency <- unlist(lapply(var$variant, function(v){
+        sum(var$frequency[which(var$variant==v)]) 
+}))
+
+uvar <- var[which(!(duplicated(var$variant))),]
+uvar$res <- rep(f, nrow(uvar))
+assign(value=uvar, x=paste0(eval(as.character(f)), "_var"))
+
+save(gisaid_var, file = "gisaid.var.rda")
+#}
+
+
+
+
+
+########## Load all var in 1 dataframe
+var <- data.table::data.table(sra_illumina_var)
+var <- rbind(var, sra_ont_var)
+var <- rbind(var, genbank_var)
+var <- rbind(var, gisaid_var)
+nrow(var) # 100423
 
 colnames(var)
 # [1] "datasetId"           "Refseq"              "position"           
@@ -35,128 +79,113 @@ colnames(var)
 # [19] "Amino_Acid_length"   "Gene_Name"           "Transcript_BioType" 
 # [22] "Gene_Coding"         "Transcript_ID"       "Exon_Rank"          
 # [25] "Genotype"            "sampleMatchingCount"
+# [27] "variant"             "MyCount"
+# [29] "MyFrequency"         "res"                
+
 ################################################################################################################
-# "datasetId"
-head(unique(var$datasetId)) # 1 (not using)
-#  "Refseq" 
-head(unique(var$Refseq)) # 1 (only one refseq: ] "NC_045512")
-# "position"   
-length(unique(var$position)) #  26366
-head(unique(var$position)) #  #  27 30 34 39 40 44
-# "variantId" 
-head(unique(var$variantId)) # "." (not using)
-#  "reference"  
-head(unique(var$reference)) # 4 "A" "C" "G" "T"
-#  "alternate" 
-head(unique(var$alternate)) # 4 "A" "C" "G" "T"
-#  "end" 
-length(unique(var$end)) # 26366
-head(unique(var$end)) # 27 30 34 39 40 44
-# "svType"
-head(unique(var$svType))  # "SNP"
-# "svLength"  
-head(unique(var$svLength))  # NA (shouldn't it be 1)
-# "variantCount"  
-head(unique(var$variantCount)) #    1  2 13 20  3 15
-max(unique(var$variantCount)) # 795
-#  "callCount"
-head(unique(var$callCount)) #  2  4 26 40  6 30 # 
-max((unique(var$callCount))) # 1276
-# "sampleCount" 
-head(unique(var$sampleCount)) # 1  2 13 21  3 15
-max(unique(var$sampleCount)) # 800
-# "sampleMatchingCount"
-head(unique(var$sampleMatchingCount)) # 1  2 13 19  3 15  # in how many samples appear the variant?
-max(unique(var$sampleMatchingCount)) # 795
-############## STATS #######################################
-# Positions with variants
-length(unique(var$position)) #  26366
+# # "datasetId"
+# head(unique(var$datasetId)) # 1 (not using)
+# #  "Refseq" 
+# head(unique(var$Refseq)) # 1 (only one refseq: ] "NC_045512")
+# # "position"   
+# length(unique(var$position)) #  26366
+# head(unique(var$position)) #  #  27 30 34 39 40 44
+# # "variantId" 
+# head(unique(var$variantId)) # "." (not using)
+# #  "reference"  
+# head(unique(var$reference)) # 4 "A" "C" "G" "T"
+# #  "alternate" 
+# head(unique(var$alternate)) # 4 "A" "C" "G" "T"
+# #  "end" 
+# length(unique(var$end)) # 26366
+# head(unique(var$end)) # 27 30 34 39 40 44
+# # "svType"
+# head(unique(var$svType))  # "SNP"
+# # "svLength"  
+# head(unique(var$svLength))  # NA (shouldn't it be 1)
+# # "variantCount"  
+# head(unique(var$variantCount)) #    1  2 13 20  3 15
+# max(unique(var$variantCount)) # 795
+# #  "callCount"
+# head(unique(var$callCount)) #  2  4 26 40  6 30 # 
+# max((unique(var$callCount))) # 1276
+# # "sampleCount" 
+# head(unique(var$sampleCount)) # 1  2 13 21  3 15
+# max(unique(var$sampleCount)) # 800
+# # "sampleMatchingCount"
+# head(unique(var$sampleMatchingCount)) # 1  2 13 19  3 15  # in how many samples appear the variant?
+# max(unique(var$sampleMatchingCount)) # 795
+# 
+# 
+# 
+# 
+# 
+# ############## STATS #######################################
+# Number of variants
+lapply(list(sra_illumina_var, sra_ont_var, genbank_var, gisaid_var), function(d){
+        
+        nrow(d)
+        
+})
 
-# Proportion of # Positions with variants
+# # Positions with variants
+lapply(list(sra_illumina_var, sra_ont_var, genbank_var, gisaid_var), function(d){
+        
+        length(unique(d$position))
+        
+})
+
+# # Proportion of # Positions with variants
+# length(unique(var$position))/29903 *100
+# # 88.17176
+
+# total positions with variants of all databases
+length(unique(var$position)) # 28871
+
+# # Proportion of # Positions with variants
 length(unique(var$position))/29903 *100
-# 88.17176
-
-# Variants 
-
+# # 96.54884
 
 # Unique variants
-var$variant <- sapply(1:nrow(var), function(v){
-        paste(as.character(var$position[v]), var$alternate[v], sep = ">")
-})
-length(var$variant) # 51006
-length(unique(var$variant)) # 46359
-sum(duplicated(var$variant))  # 4647 *(These appear separate in original vcfs )
+length(var$variant) # 100424
+length(unique(var$variant)) # 80860
+sum(duplicated(var$variant))  # 19563
 var[duplicated(var$variant)]
 
 
-# See duplicated frequency
-# example61 <- read(file = "/Users/claudiavasallovega/repolab/work/virusbeacon/example61.rows.txt", stringsAsFactors = FALSE)
-# 
-# 
-# example5387 <- read(file = "/Users/claudiavasallovega/repolab/work/virusbeacon/example5387.rows.txt", stringsAsFactors = FALSE)
+# Unique variants across datasets
+uvar <- var[which(!(duplicated(var$variant))),]
 
 
+# Variant Type
+unique(var$svType) # "SNP"   "INDEL" "MNP"   "OTHER"
+# 2494 variants of type OTHER, all from ONT
 
 
+# Frequency
 
+min(var$sampleMatchingCount) # 0
+max(var$sampleMatchingCount) # 21083
 
-var$MyCount <- unlist(lapply(var$variant, function(v){
-        sum(var$sampleMatchingCount[which(var$variant==v)]) 
-}))
-
-
-var$MyFrequency <- unlist(lapply(var$variant, function(v){
+# across dataset sample matchin per pos
+var$dbfreq <- unlist(lapply(var$variant, function(v){
         sum(var$frequency[which(var$variant==v)]) 
 }))
 
 
-# See duplicated
-# head(var[duplicated(var$variant)]$position) # 61
-# 
-# dups <-  var[duplicated(var$variant)]$position
-# trips <- var[which(length(unique(var$alternate)))>2]
-# 
-# dup_trips <- dups[dups%in% trips]
-# 
-#         vp$Var1[which(vp$Freq==3)]
-# filter(var, position==61)
-# 
-# filter(var, position==5387)
-# # What happens with variants when more than one is found in a sample?????
-
-
-# Polymorphic sites: sites with multile alleles >1 alternate position
-# polymorphic in sample:  >1 alternate position
-# shared polymorphic position: polynorphic in > 1 sample
-
-
-
-# Unique variants
-uvar <- var[which(!(duplicated(var$variant))),]
-
-# Number of unique variant found
-nrow(uvar) #  46359
-
-
-
-
-
-
-# Variant Type
-unique(uvar$svType) # "SNP"
-
-
-# Frequency
-title <- "SAMPLE MATCHING FREQUENCY VARIANTS PER POSITION"
+#var_data <- sra_ont_var
+var_data <- filter(sra_ont_var, svType=="SNP")  # ONT SNP only
+title <- "SAMPLE MATCHING FREQUENCY OF VARIANTS PER POSITION: SRA-ONT (SNPs only)"
 # dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency)
-dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency, class=uvar$Functional_Class, stringsAsFactors = F)
+dat <- data.frame(pos=var_data$position, freq=var_data$MyFrequency, class=var_data$Functional_Class, stringsAsFactors = F)
+#dat <- data.frame(pos=var_data$position, freq=var_data$dbfreq, class=var_data$Functional_Class, stringsAsFactors = F)
 dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
 dat$class[which(dat$class!="NS")] <- "S"
 #dat_sil <- filter(dat, class=="SILENT")
 
 # Plot frequency per position
 # recontrabasic needle plot
-#plot(uvar$position, uvar$frequency, type = "h") 
+#plot(uvar_data$position, uvar_data$frequency, type = "h") 
 
 needle <- ggplot(dat, 
                  aes(x=pos, ymax=freq, ymin=0)) +
@@ -172,23 +201,38 @@ needle <- ggplot(dat,
         theme(legend.title = element_blank())+
         labs(y="Freq") 
 needle 
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/needle.pdf",  
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/ont_needle.pdf",  
     height =5.83,  width =8.27)
 needle 
 dev.off()
 
 
-
+# For SNP only
 # Total unique variants per position
-title <- "NUM VARIANTS PER POSITION"
-Var1 <- uvar$position
-unique(Var1)
-vp <-  as.data.frame(table(Var1))
+var_data <- filter(var, svType=="SNP")
+title <- "NUM VARIANTS (UNAMBIGUOUS ALT) PER POSITION"
+Var1 <- unique(var_data$position)
+Var2 <- sapply(Var1, function(p) {
+        length(unique(filter(var_data, position==p)$alternate))
+})
+Var3 <- sapply(Var1, function(p) {
+        length(unique(filter(var_data, position==p, alternate %in% c("A", "T", "C", "G"))$alternate))
+})
+
+#vp <-  as.data.frame(table(Var1))
+
+vp <-  data.frame(Var1, Var3)
+
 vp$Var1 <- as.numeric(vp$Var1)
-vp$Freq <- as.numeric(vp$Freq)
+vp$Var2 <- as.numeric(vp$Var2)
+vp$Var3 <- as.numeric(vp$Var3)
+
+
+#vp$Freq <- as.numeric(vp$Freq)
 
 vpp <- ggplot(vp,
-        aes(x=Var1, ymax=Freq, ymin=0)) + 
+        #aes(x=Var1, ymax=Freq, ymin=0)) + 
+        aes(x=Var1, ymax=Var3, ymin=0)) + 
         geom_linerange(color="orangered2") +
         theme_minimal() +
         ggtitle(title) +
@@ -196,12 +240,106 @@ vpp <- ggplot(vp,
         labs(x="Genomic Position") +
         labs(y="Number of variants") 
 vpp
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/needle_vpp.pdf",  height =5.83,  width =8.27)
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/needle_vpp_all.pdf",  height =5.83,  width =8.27)
 vpp
 dev.off()
 
+#
 
 
+
+
+
+# Polymorphic e intrahost
+
+
+############################################################
+
+# # Polymorphic sites: sites with multile alleles >1 alternate position
+# polymorphic in sample:  >1 alternate position
+#  positions are polymorphic in at least 1 sample
+pm <- vp$Var1[which(vp$Var3>1)]
+length(unique(pm)) # 18359
+head(pm)
+
+# shared polymorphic positions: polynorphic in > 1 sample
+
+head(filter(var, position %in% pm)$sampleMatchingCount)
+
+spm <- filter(var, position %in% pm, sampleMatchingCount>1)$position
+length(unique(spm)) # 16339 shared polymorphic positions
+
+# Shared Polynorphic positions in consensus
+length(unique(intersect(spm, consensus)))
+# samples with spm polynorphic
+
+# samples with spm monomorphic
+
+
+# # Intrahost
+
+# Position common to datasets
+length(intersect(unique(genbank_var$position), unique(gisaid_var$position)))
+# 4209
+
+length(intersect(unique(sra_illumina_var$position), unique(sra_ont_var$position)))
+# 14349
+
+
+
+# Consensus variants in Illumina 
+illum_ont <- intersect(unique(sra_illumina_var$variant), unique(sra_ont_var$variant))
+# 5802
+illum_genbank <- intersect(unique(sra_illumina_var$variant), unique(genbank_var$variant))
+# 1928
+illum_gisaid <- intersect(unique(sra_illumina_var$variant), unique(gisaid_var$variant))
+# 8655
+consensus <- c(illum_genbank, illum_gisaid)
+length(consensus)
+# 10583
+
+
+# Intrahost
+intrahost <- setdiff(unique(sra_illumina_var$variant), illum_consensus)
+length(intrahost)
+#37673
+length(intersect(intrahost, illum_ont))
+# 3243
+
+intrahost_var <- filter(var, variant %in% intrahost)
+nrow(intrahost_var)
+length(unique(intrahost_var$variant))
+#37673
+
+# Intrahost found in more than one sample
+length(filter(intrahost_var, MyCount >1)$variant)
+# 23851
+length(filter(intrahost_var, MyCount >10)$variant)
+# 8806
+length(filter(intrahost_var, MyCount >100)$variant)
+# 678
+
+
+# Polymorphic sites 
+
+# Intrahost in polymorphic sites
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###########################################################################################
 
 
 ########
@@ -228,60 +366,107 @@ unique(uvar$Gene_Name) # ""  (this is noncoding) : all genes     "orf1ab" "S"   
 
 # General statistics graphs
 
-# Total unique variants per frequency
+# Total unique variants per frequency group
 title <- "SAMPLE MATCHING FREQUENCY"
-Var1 <- uvar$frequency
-hist(uvar$frequency, breaks=c(0, 0.001,0.01,0.1, 0.6))
-hist( uvar$frequency,breaks=1000 )
-unique(Var1)
+# Var1 <- uvar$MyFrequency
+# hist(uvar$MyFrequency, breaks=c(0, 0.001,0.01,0.1, 0.6))
+# hist( uvar$MyFrequency,breaks=1000 )
+# unique(Var1)
+
+var$FreqGroup <- ifelse(var$MyFrequency <=0.001, "<0.001", var$FreqGroup) 
+var$FreqGroup <- ifelse(var$MyFrequency >0.001 & var$MyFrequency <=0.01, "0.001-0.01", var$FreqGroup) 
+var$FreqGroup <- ifelse(var$MyFrequency >0.01 & var$MyFrequency <=0.1, "0.01-0.1", var$FreqGroup) 
+var$FreqGroup <- ifelse(var$MyFrequency >0.1 & var$MyFrequency <=0.5, "0.1-0.5", var$FreqGroup) 
+var$FreqGroup <- ifelse(var$MyFrequency >0.5 ,">0.5", var$FreqGroup) 
+
 
 #quantiles <- quantile(uvar$frequency, prob=seq(0,1, length = 5), type = 5)
 # Var1 <- cut2(Var1, cuts = as.numeric(quantiles))
-vf <- as.data.frame(table(Var1), stringsAsFactors = F)
-vf$group <- rep(NA, length(vf$Var1))
-vf$group <- ifelse(vf$Var1<=0.001, "<0.001",vf$group) 
-vf$group <- ifelse(vf$Var1>0.001&vf$Var1<=0.01, "0.001-0.01", vf$group) 
-vf$group <- ifelse(vf$Var1>0.01&vf$Var1<=0.1, "0.01-0.1", vf$group) 
-vf$group <- ifelse(vf$Var1>0.1, ">0.1", vf$group) 
-vf$group <- ifelse(vf$Var1>0.9, ">0.9", vf$group) 
-vf$group <- ifelse(vf$Var1>0.90, ">0.98", vf$group) 
+#vf <- as.data.frame(table(Var1), stringsAsFactors = F)
+# vf$group <- rep(NA, length(vf$Var1))
+# vf$group <- ifelse(vf$Var1<=0.001, "<0.001",vf$group) 
+# vf$group <- ifelse(vf$Var1>0.001&vf$Var1<=0.01, "0.001-0.01", vf$group) 
+# vf$group <- ifelse(vf$Var1>0.01&vf$Var1<=0.1, "0.01-0.1", vf$group) 
+# vf$group <- ifelse(vf$Var1>0.1, ">0.1", vf$group) 
+# vf$group <- ifelse(vf$Var1>0.9, ">0.9", vf$group) 
+# vf$group <- ifelse(vf$Var1>0.90, ">0.98", vf$group) 
+
+
+
+
+# Variants vs   Frequency (sample matching count)
+
+
+
+
+
+# Num variants per frequency group
+
+var_res_ct <- var %>% 
+        group_by(res, FreqGroup) %>%
+        summarise(count=n())
+
+
+vf <- var_res_ct
 
 
 # vf <- vf  %>% mutate(quantile=ntile(Var1,10))
 # vf$Freq <- as.numeric(vf$Freq)
-vf$Var1 <- as.numeric(vf$Var1)
-vf$group <- as.character(vf$group)
+# vf$Var1 <- as.numeric(vf$Var1)
+# vf$group <- as.character(vf$group)
+# 
+# vf <- mutate(vf, group=fct_relevel(FreqGroup,
+#                                    "<0.001", "0.001-0.01", "0.01-0.1",">0.1",">0.9", ">0.98"
+# ))
+# 
+# vfg <- vf %>% group_by(group) %>% summarise_at(vars(Freq), funs(sum(., na.rm=TRUE)))
+# 
+# vfg$group <- as.character(vfg$group)
 
 vf <- mutate(vf, group=fct_relevel(group,
-                                   "<0.001", "0.001-0.01", "0.01-0.1",">0.1",">0.9", ">0.98"
+                                     "<0.001", "0.001-0.01", "0.01-0.1","0.1-0.5", ">0.5"
 ))
+# 
+# vfp <- ggplot(vf, aes(x=group, y=count)) +
+#         #geom_col(aes(x=quantile, y=Freq)) +
+#         geom_col(fill=res) +
+#         theme_minimal() +
+#         ggtitle(title) +
+#         theme(plot.title = element_text(hjust = 0.5)) +
+#         #theme(title = element_text(vjust = 0.5, colour = "red")) +
+#         labs(x="") +
+#         labs(y="Number of variants") +
+#         geom_text(aes(label=count, vjust=-0.1), size=2.5) +
+#         theme(axis.text.x = element_text(angle = 0, hjust=1, vjust = 1))
+# vfp
 
-vfg <- vf %>% group_by(group) %>% summarise_at(vars(Freq), funs(sum(., na.rm=TRUE)))
-
-vfg$group <- as.character(vfg$group)
-
-vfg <- mutate(vfg, group=fct_relevel(group,
-                                     "<0.001", "0.001-0.01", "0.01-0.1",">0.1", ">0.9", ">0.98"
-))
-
-vfp <- ggplot(vfg, aes(x=group, y=Freq)) +
-        #geom_col(aes(x=quantile, y=Freq)) +
-        geom_col(fill="dodgerblue4") +
-        ggtitle(title) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        #theme(title = element_text(vjust = 0.5, colour = "red")) +
+resource_colors <- c("red", "olivedrab1", "royalblue", "orange")
+vfp  <- ggplot(vf, aes(x=group, y=count, fill=res)) +
+        geom_bar(position='dodge', stat='identity') +
+        #geom_bar(position='stack', stat='identity') +
+        ggtitle("NUM VARIANTS PER FREQ GROUP") +
+        theme(title = element_text(size = 3)) +
         labs(x="") +
-        labs(y="Number of variants") +
+        labs(y="Count of variants in dataset") +
         theme_minimal() +
-        geom_text(aes(label=Freq, vjust=-0.1), size=2.5) +
-        theme(axis.text.x = element_text(angle = 0, hjust=1, vjust = 1))
+        theme(plot.title = element_text(hjust = 0.5)) +
+        theme(legend.title = element_blank()) +
+        scale_fill_manual(values=resource_colors) +
+        #geom_text(label=data$count, vjust=-0.1, size=1) + # 
+        theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1, size=7)) # size=5, 
 vfp
 
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/vars_per_fg_all.pdf",  
+    height =5.83,  width =8.27)
+vfp
+dev.off()
 
 
 
 # Total unique variants per variant type
-vt <- data.frame(Var1=c("SNP","INDEL" ), Freq=c(34951, 0))
+vt <- data.frame(Var1=c("SNP","INDEL" ), Freq=c(sum(uvar$svType=="SNP")
+, sum(uvar$svType=="INDEL")
+))
 vt <-  mutate(vt, Var1=fct_relevel(Var1,   
                                      "SNP","INDEL"))
 vtp <- ggplot(vt) +
@@ -317,6 +502,10 @@ vtp_pie <- vtp_bp +
         scale_fill_manual(values=my_colors) +
         theme(axis.text.x = element_blank()) 
 vtp_pie 
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variant_type.pdf",  
+    height =5.83,  width =8.27)
+vtp_pie
+dev.off()
 
 
 # Total unique variants per Region class
@@ -351,6 +540,11 @@ rcp_pie <- rcp_bp +
         scale_fill_manual(values=my_colors) +
         theme(axis.text.x = element_blank()) 
 rcp_pie 
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/region_class.pdf",  
+    height =5.83,  width =8.27)
+rcp_pie 
+
+dev.off()
 
 
 
@@ -394,7 +588,11 @@ vep_pie <- vep_bp  +
         scale_fill_manual(values=my_colors) +
         theme(axis.text.x = element_blank()) 
 vep_pie 
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/var_effect.pdf",  
+    height =5.83,  width =8.27)
+vep_pie 
 
+dev.off()
 
 
 
@@ -433,21 +631,27 @@ fcp_pie <- fcp_bp  +
         theme(axis.text.x = element_blank()) 
 fcp_pie
 
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/fun_class.pdf",  
+    height =5.83,  width =8.27)
+fcp_pie 
 
-
-
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variants_stats_all_pies.pdf", width = 16, height = 8)
-#grid.arrange(ep, nrow=2, ncol=3 ) #
-# using cowplot this would look better
-grid.arrange(vtp_pie, rcp_pie,
-             vep_pie,fcp_pie, 
-             ncol=3, nrow=3,
-             layout_matrix=rbind(
-                     c(1,2),
-                     c(3,4)
-                   )) 
 dev.off()
 
+
+# 
+# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variants_stats_all_pies.pdf", 
+#     width = 26, height = 8)
+# #grid.arrange(ep, nrow=2, ncol=3 ) #
+# # using cowplot this would look better
+# grid.arrange(vtp_pie, rcp_pie,
+#              vep_pie,fcp_pie, 
+#              ncol=3, nrow=3,
+#              layout_matrix=rbind(
+#                      c(1,2),
+#                      c(3,4)
+#                    )) 
+# dev.off()
+# 
 
 ####################### Region query 
 utrs_table <- read_csv("~/repolab/work/virusbeacon/genome_annotation/utr_coordinates.txt")
@@ -531,7 +735,7 @@ vgenes <- ggplot(dat, aes(reg, count)) +
         labs(x="") +
         labs(y="Unique variant counts") +
         geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
-        
+        theme(plot.title = element_text(hjust = 0.5)) +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 vgenes
 pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variants_per_gene.pdf",  
@@ -628,6 +832,7 @@ dev.off()
 # Total unique aminoacid changes per region
 aa <- ggplot(dat) +
         geom_col(aes(reg, aa_changes), fill="dodgerblue4") +
+        theme_minimal() +
         ggtitle("AA changes per mature protein") +
         theme(plot.title = element_text(hjust = 0.5)) +
         #theme(title = element_text(vjust = 0.5, colour = "red")) +
@@ -635,10 +840,10 @@ aa <- ggplot(dat) +
         labs(x="") +
         labs(y="Unique aa changes") +
         #geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
-        theme_minimal() +
+        theme(plot.title = element_text(hjust = 0.5)) +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 aa
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/aa_per_protein.pdf",  height =5.83,  width =8.27)
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/aa_per_protein.pdf",  height =5.83,  width =8.27)
 aa
 dev.off()
 
@@ -696,7 +901,7 @@ stacked <- ggplot(dat, aes(fill=class, y=count, x=reg))+
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 
 stacked
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/variants_per_protein.pdf",  height =5.83,  width =8.27)
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variants_per_protein.pdf",  height =5.83,  width =8.27)
 stacked
 dev.off()
 
@@ -738,10 +943,10 @@ reg <- ggplot(dat, aes(Var1, Freq)) +
         labs(x="") +
         labs(y="Unique variant counts") +
         #geom_text(label=dat$Freq, vjust=-0.1, size=2.5, colour = "red") +
-        
+        theme(plot.title = element_text(hjust = 0.5)) +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 reg
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/region_class.pdf",  height =5.83,  width =8.27)
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/region_class.pdf",  height =5.83,  width =8.27)
 reg
 dev.off()
 
@@ -801,10 +1006,11 @@ vnc <- ggplot(dat, aes(reg, count)) +
         #theme(title = element_text(vjust = 0.5, colour = "red")) +
         labs(x="") +
         labs(y="Unique variant counts") +
+        theme(plot.title = element_text(hjust = 0.5)) +
         geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 vnc
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/variants_per_nc.pdf",  height =5.83,  width =8.27)
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variants_per_nc.pdf",  height =5.83,  width =8.27)
 vnc
 dev.off()
 
@@ -833,13 +1039,14 @@ dat <-  mutate(dat, reg=fct_relevel(reg,
 vsl <- ggplot(dat, aes(reg, count)) +
         geom_col(fill="honeydew3") +
         ggtitle("Variants per stem loops") +
+        theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5)) +
         #theme(title = element_text(vjust = 0.5, colour = "red")) +
         #theme(title = element_text(size = 3)) +
         labs(x="") +
         labs(y="Unique variant counts") +
         geom_text(label=dat$count, vjust=-0.1, size=2.5, colour = "red") +
-        theme_minimal() +
+        theme(plot.title = element_text(hjust = 0.5)) +
         theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 1))
 vsl
 pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/variants_per_sl.pdf",  height =5.83,  width =8.27)
@@ -848,13 +1055,13 @@ dev.off()
 
 
 # # Both as a grid
-# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/variants_per_nc.pdf",  height =5.83,  width =8.27)
+# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/variants_per_nc.pdf",  height =5.83,  width =8.27)
 # vnc
 # dev.off()
 # 
 # 
 # 
-# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/nc_sl.pdf",  height =5.83,  width =3.5)
+# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/nc_sl.pdf",  height =5.83,  width =3.5)
 # 
 # #grid.arrange(ep, nrow=2, ncol=3 ) #
 # grid.arrange(vnc, vsl,

@@ -10,13 +10,14 @@
 * exp_lib_strategy: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_STRATEGY`
 * exp_lib_selection:  `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_SELECTION[[1]]`
 * exp_lib_layout: `names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$DESIGN$LIBRARY_DESCRIPTOR$LIBRARY_LAYOUT)`
-* exp_platform: names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM)
+(NOTE: ignore for GISAID and Genbank until we fix xml of those which are showing PAIRED by default)
+* exp_platform: `names(xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM)` (NOTE: ignore for GISAID and Genbank until we fix xml of those which are showing ILLUMINA by default)
 * exp_platform_model:
 	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]`
-	* xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$NANOPORE$INSTRUMENT_MODEL[[1]]
-	* xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ION_TORRENT$INSTRUMENT_MODEL[[1]]
+	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$NANOPORE$INSTRUMENT_MODEL[[1]]`
+	* `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ION_TORRENT$INSTRUMENT_MODEL[[1]]`
 
-* pipeline: (show in UI as column ASSEMBLY METHOD): `sample_attributes_values$assembly_method`
+* pipeline: (only for GISAID and Genbank datasets, show in UI as column ASSEMBLY METHOD): `sample_attributes_values$assembly_method`
 
 * INFO
 	* experiment_info
@@ -34,7 +35,7 @@
 	* study_info: 
 		* study_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$IDENTIFIERS$PRIMARY_ID[[1]]`
 		* study_title: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$STUDY$DESCRIPTOR$STUDY_TITLE[[1]]`
-		* study_ref: (article PUMED ID or URL) : 
+		* study_ref: 
 			* `STUDY/STUDY_LINKS/STUDY_LINK/XREF_LINK/ID`
 			* `STUDY/STUDY_LINKS/STUDY_LINK/XREF_LINK/DB`
 
@@ -69,6 +70,9 @@
 	* `sample_attributes_values$host_sex`
 	* `sample_attributes_values$sex`
 * geo_origin: `sample_attributes_values$geo_loc_name`
+	* `sample_attributes_values$geo_loc_name`
+	* `sample_attributes_values$Country`
+	* `geographic location (country and/or sea)`:`geographic location (region and locality)`
 * host_disease: `sample_attributes_values$host_disease`
 * host_disease_stage: `sample_attributes_values $host_disease_stage` 
 * host_disease_outcome: `sample_attributes_values$host_disease_outcome`
@@ -80,6 +84,5 @@
 ### VIRUS
 * taxon_id: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_NAME$TAXON_ID[[1]]`
 * taxon_name: `xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$SAMPLE$SAMPLE_NAME$SCIENTIFIC_NAME[[1]]`
-* [x] strain_id: 
-* strain_name: sample_attributes_values$strain,  
-* isolate: sample_attributes$isolate  
+* strain: `sample_attributes_values$strain`,  
+* isolate: `sample_attributes$isolate`  
