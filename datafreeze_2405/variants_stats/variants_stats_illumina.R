@@ -102,13 +102,68 @@ setwd( "/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/data"
 # 
 
 
+load("rdas/sra_illumina_uvar.rda")
+load("rdas/sra_illumina_af.rda")
+load("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/metadata/rdas/sra_illumina_metadata.rda")
+
+
+
+# samples to run match
+load("/Users/claudiavasallovega/repolab/work/beaconv2/all\ virus\ beacon/datafreeze_2405/sra_illumina/sra_illumina_metadata.rda")
+run_sample <- data.frame(run=run_id, sample=sample_id, stringsAsFactors = F)
+
+af$sample <- sapply(af$Run, function(r) {
+        ifelse(r %in% run_sample$run, run_sample$sample[which(run_sample$run==r)], NA)
+})
+length(unique(af$sample)) # 1414
+length(unique(af$Run)) # 1435
+
+# For each variant Samples matching
+af$Sam_Var <-unlist(mclapply(af$variant, function(v) {
+                length(unique(filter(af, variant==v)$sample))
+        },mc.cores = 4))
+
+# geo to run match
+run_geo <- data.frame(run=run_id, geo=geo_loc, stringsAsFactors = F)
+
+af$geo <- sapply(af$Run, function(r) {
+        ifelse(r %in% run_geo$run, run_geo$geo[which(run_geo$run==r)], NA)
+})
+
+
+run_date <- data.frame(run=run_id, date=collection_date, stringsAsFactors = F)
+
+af$date <- sapply(af$Run, function(r) {
+        ifelse(r %in% run_date$run, run_date$date[which(run_date$run==r)], NA)
+})
+
+run_age <- data.frame(run=run_id, age=host_age, stringsAsFactors = F)
+af$age <- sapply(af$Run, function(r) {
+        ifelse(r %in% run_age$run, run_age$age[which(run_age$run==r)], NA)
+})
+
+
+run_platform_model <- data.frame(run=run_id, platform_model=platform_model, stringsAsFactors = F)
+af$platform_model <- sapply(af$Run, function(r) {
+        ifelse(r %in% run_platform_model$run, run_platform_model$platform_model[which(run_platform_model$run==r)], NA)
+})
+
+
+# # SampleMtaching OK
+# af$SampleVar <- unlist(
+#         mclapply(af$variant, function(v) {
+#         length(unique(filter(af, variant==v)$sample))
+# }, mc.cores = 4)
+# )
+# identical(af$sampleMatchingCount, af$SampleVar)
+
+
+save(af, file="rdas/illumina_af.rda")
+
+merge <- merge(af, uvar, by = "variant")
+
 
 # ############## STATS ########################################################
-
-load("sra_illumina_uvar.rda")
-load("sra_illumina_af.rda")
-
-
 
 ####### Positions --------------------------------------------------------------
 
@@ -134,12 +189,19 @@ length(illum_alt_per_pos) # 26366
 
 num_alt_per_pos <- sapply(illum_alt_per_pos, length)
 
+num_alt_per_pos_full <- sapply(uvar$position, function(p) {
+        length(unique(filter(uvar, position==p)$alternate))
+})
+
+uvar$morphic <- num_alt_per_pos_full
+
+
    3540   /29906*100
 sum(num_alt_per_pos==1)/29906*100 # 11135
 sum(num_alt_per_pos==2)#/29906*100 # 10469
 sum(num_alt_per_pos==3)/29906*100 # 4762
 
-
+uvar$morphic <- num_alt_per_pos
 ###### Variants ###############################################################
 
 # Number of variants
@@ -201,16 +263,9 @@ max(uvar$VarCount) # 795
 
 
 title <- "RUNS WITH VARIANTS PER POSITION"
-# dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency)
-#dat <- data.frame(pos=var_data$position, freq=var_data$dbfreq, class=var_data$Functional_Class, stringsAsFactors = F)
-#dat <- data.frame(pos=uvar$position, freq=uvar$PosCount/1497, 
-#                  class=uvar$Functional_Class, stringsAsFactors = F)
-# dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
-# dat$class[which(dat$class=="SILENT")] <- "S"
-# dat$class[which(dat$class=="")] <- "NC"
+subtitle <- "Illumina intrahost (Galaxy LoFreq) data"
 dat <- data.frame(pos=uvar$position, freq=uvar$PosCount/1497, 
                   class=uvar$class, stringsAsFactors = F)
-
 
 smc_needle <- ggplot(dat, 
                  aes(x=pos, ymax=freq, ymin=0, color=class)) +
@@ -220,9 +275,9 @@ smc_needle <- ggplot(dat,
         geom_linerange(stat="identity", position = "dodge") +
         scale_color_manual(values = c("green","orangered2", "blue")) +
         theme_minimal() +
-        ggtitle(title) +
-        #theme(title = element_text(size = 3)) +
+        labs(title=title, subtitle = subtitle) +
         theme(plot.title = element_text(hjust = 0.5)) +
+        theme(plot.subtitle = element_text(hjust = 0.5)) +
         labs(x="Genomic Position") +
         theme(legend.title = element_blank())+
         theme(legend.position = "top") +
@@ -233,6 +288,54 @@ pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants
     height =5.83,  width =8.27)
 smc_needle
 dev.off()
+
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_smc_needle_panelB.pdf",
+    height =5.83,  width =8.27)
+plot_grid(smc_needle, labels=c("B"), label_size = 18)
+dev.off()
+
+
+# top mutated positions
+max(dat$freq) # 0.5350
+sort(dat$freq, decreasing = T)[1:50]
+#polymorphic positions, mutated in more than 10% runs
+tpms <- unique(filter(dat, freq>0.1)$pos)
+length(unique(filter(dat, freq>0.1)$pos)) # 294 positions
+tpms_df <- filter(merge, position %in% tpms) 
+length(unique(tpms_df$variant)) # 765
+tpms_var <- unique(tpms_df$variant)
+sum(tpms_var %in% consensus_variants) # 286
+sum(tpms_var %in% lofreq_var) # 646
+sum(tpms_var %in% ihp$variant) # 156
+sum(tpms_var %in% lfp$variant) # 101
+
+
+#----------#----------#----------#----------#----------#----------#----------#----------#----------#
+# Number of variants per prevalence (number of samples)
+length(unique(merge$sample)) # 1414 samples with variants
+var_prev <- sapply(unique(sort(merge$Sam_Var,decreasing = F)), function(n) {
+        length(unique(filter(merge, Sam_Var==n)$variant))
+        
+})
+
+title <- "NUM VARIANTS PER FREQUENCY IN DATASET"
+dat <- data.frame(num_sam= unique(sort(merge$Sam_Var,decreasing = F)),
+                  num_var= var_prev, stringsAsFactors = F)
+
+lp <- ggplot(dat,
+             aes(x=num_sam/1473, y=num_var)) +
+        #geom_point(size=0.1, color="dodgerblue") + 
+        geom_point(size=1, color="goldenrod1") + 
+        theme_minimal() +
+        ggtitle(title) +
+        theme(title = element_text(size = 10)) +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        labs(y="Number of variants") +
+        labs(x="Frequency in dataset (mathing samples)") +
+        theme(legend.position = "top") +
+        theme(legend.title = element_blank())
+lp
+
 
 
 
@@ -414,6 +517,7 @@ dev.off()
 
 genomic_regions <-  as.character(mature_proteins_table$protein_name)
 genomic_regions <- genomic_regions[-c(1,2)] # remove polyproteins
+
 
 # Number of variants per region - Codig region : CDS+ mature proteins
 n <- sapply(genomic_regions, function(q) {
@@ -715,8 +819,43 @@ dev.off()
 
 
 
+#####################################################################################
 
 
+#  Invariant, monomorphic and complete concordance variants
+
+
+##################################################################
+# Invariant
+invar <- setdiff(1:29906, unique(var$position))
+length(invar) # 3540
+# Which genes have invariant positions?
+# Are invariant positions enriched in some genes?
+
+gis_invar <- setdiff(1:29906, unique(gisaid_var$position))
+length(gis_invar)
+
+# Rarely mutated 
+# less than 1 % runs ?
+
+
+# Plot number of variants per position 
+
+
+# Monomorphic: positions where only one variant has been found
+monovar <- filter(uvar, morphic==1)$position 
+# 11135
+unique(filter(uvar, position %in% monovar)$Gene_Name)
+#  [1] "orf1ab" ""       "S"      "ORF3a"  "E"      "M"     
+#  [7] "ORF6"   "ORF7a"  "ORF7b"  "ORF8"   "N"      "ORF10" 
+
+
+# Variants in complete concordance in at least one sample (fixed or almost fixed)
+length(unique(filter(var, AF>0.98)$variant)) # 244
+length(unique(filter(var, AF==1)$variant)) # 65
+length(unique(filter(var, AF==1)$Run)) # 157 runs have some fixed variant
+fixed_variants <- unique(filter(var, AF>0.98)$variant)
+# interestingly, there are a few runs with other variants in fixed variants position 14408
 
 
 #####################################################################################
@@ -740,7 +879,6 @@ dat <- data.frame(pos=af$Pos, #meanfreq=meanfreq, minfreq=minfreq, maxfreq=maxfr
 
 dat <- mutate(dat, class= fct_relevel(class,   
                                       "NS","S", "NC"))
-
 afg <- ggplot(dat,
               aes(x=pos, y=freq, color=class)) +
         #ggplot(data=dat, aes(x=pos, y=meanfreq, ymin=minfreq, ymax=maxfreq)) +
@@ -752,14 +890,16 @@ afg <- ggplot(dat,
         theme(title = element_text(size = 10)) +
         theme(plot.title = element_text(hjust = 0.5)) +
         labs(x="Genomic Position") +
-        labs(y="Allele Frequency")
+        labs(y="Allele Frequency") +
+        theme(legend.position = "top") +
+        theme(legend.title = element_blank())
 #         theme(legend.title = element_blank())+
 #         labs(y="Freq")
 afg
 pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_afg.pdf",
     height =5.83,  width =8.27)
-afg
-plot_grid(af, labels=c("A"), label_size = 18)
+#afg
+plot_grid(afg, labels=c("A"), label_size = 18)
 dev.off()
 
 
@@ -816,13 +956,14 @@ sum(filter(dat, maxfreq!=minfreq)$pos %in% illum_ppm_sites) # 15227
 
 
 plot(var$PosCount, var$VarCount)
-
 # VAR VS POS
 title <- "VARIANT COUNTS VS POSITION COUNTS PER POSITION"
-dat <- data.frame(pos=var$position, run_var=var$VarCount, run_pos=var$PosCount, class=var$Functional_Class, stringsAsFactors = F)# dat <- data.frame(pos=var_data$position, freq=var_data$frequency, class=var_data$Functional_Class, stringsAsFactors = F)
-dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
-dat$class[which(dat$class=="SILENT")] <- "S"
-dat$class[which(dat$class=="")] <- "NC"
+dat <- data.frame(pos=var$position, run_var=var$VarCount, run_pos=var$PosCount, 
+                  class=var$class, stringsAsFactors = F)
+# dat <- data.frame(pos=var_data$position, freq=var_data$frequency, class=var_data$Functional_Class, stringsAsFactors = F)
+# dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
+# dat$class[which(dat$class=="SILENT")] <- "S"
+# dat$class[which(dat$class=="")] <- "NC"
 
 
 mm2 <- ggplot(dat,
@@ -861,50 +1002,49 @@ plot(uvar$VarCount/1497, uvar$frequency)
 
 # Posible intra hosts, 
 # where a lot of samples bear a variant that is nevertheless low freq in dataset
-title <- "RUN MATHCING COUNTS VS AF IN RUN"
-dat <- data.frame(pos=var$position, run_var=var$VarCount, run_pos=var$PosCount, 
-                  freq=var$frequency, class=var$class, stringsAsFactors = F)
-
-mm3 <- ggplot(dat,
-              aes(x=run_var/1497, y=freq, color=class)) +
-        #ggplot(data=dat, aes(x=pos, y=meanfreq, ymin=minfreq, ymax=maxfreq)) +
-        geom_point(size=1) +  #, color="dodgerblue
-        scale_color_manual(values = c("green", "orangered2", "blue")) +
-        theme_minimal() +
-        ggtitle(title) +
-        theme(title = element_text(size = 10)) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        labs(y="AF in run") +
-        labs(x="Frequency in dataset (mathing runs)") +
-        theme(legend.position = "top") +
-        theme(legend.title = element_blank())
-#mm3
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_mm3.pdf",
-    height =5.83,  width =8.27)
-#mm3
-plot_grid(mm3, labels=c("D"), label_size = 18)
-dev.off()
-length(filter(var, VarCount!=PosCount)$pos) # 39871
-length(unique(filter(var, VarCount!=PosCount)$pos)) # 15231
+# title <- "FREQUENCY IN DATASET VS AF IN RUN"
+# dat <- data.frame(pos=var$position, run_var=var$VarCount, run_pos=var$PosCount, 
+#                   freq=var$frequency, class=var$class, stringsAsFactors = F)
+# 
+# mm3 <- ggplot(dat,
+#               aes(x=run_var/1497, y=freq, color=class)) +
+#         #ggplot(data=dat, aes(x=pos, y=meanfreq, ymin=minfreq, ymax=maxfreq)) +
+#         geom_point(size=1) +  #, color="dodgerblue
+#         scale_color_manual(values = c("green", "orangered2", "blue")) +
+#         theme_minimal() +
+#         ggtitle(title) +
+#         theme(title = element_text(size = 10)) +
+#         theme(plot.title = element_text(hjust = 0.5)) +
+#         labs(y="AF in run") +
+#         labs(x="Frequency in dataset (mathing runs)") +
+#         theme(legend.position = "top") +
+#         theme(legend.title = element_blank())
+# #mm3
+# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_mm3.pdf",
+#     height =5.83,  width =8.27)
+# #mm3
+# plot_grid(mm3, labels=c("D"), label_size = 18)
+# dev.off()
+# length(filter(var, VarCount!=PosCount)$pos) # 39871
+# length(unique(filter(var, VarCount!=PosCount)$pos)) # 15231
 
 
 ######################
 ######################
 #####################
 
-
 # FIXED ONE: WITH TRUE AF IN RUN
-# Posible intra hosts, 
+# Posible intra hosts,
 # where a lot of samples bear a variant that is nevertheless low freq in dataset
-title <- "AF VS RUN COUNTS IN DATASET"
+title <- "FREQUENCY IN DATASET VS AF IN RUN"
 #dat <- data.frame(pos=var$position, run_var=var$VarCount, run_pos=var$PosCount, af=var$frequency, class=var$Functional_Class, stringsAsFactors = F)# dat <- data.frame(pos=var_data$position, freq=var_data$frequency, class=var_data$Functional_Class, stringsAsFactors = F)
-dat <- data.frame(pos=af$Pos, run_var=af$sampleMatchingCount, #run_pos=af$PosCount, 
+dat <- data.frame(pos=af$Pos, run_var=af$sampleMatchingCount, #run_pos=af$PosCount,
                   freq=af$AF, class=af$class, stringsAsFactors = F)
 # dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
 # dat$class[which(dat$class=="SILENT")] <- "S"
 # dat$class[which(dat$class=="")] <- "NC"
 mm4 <- ggplot(dat,
-              aes(x=run_var, y=freq, color=class)) +
+              aes(x=run_var/1497, y=freq, color=class)) +
         #ggplot(data=dat, aes(x=pos, y=meanfreq, ymin=minfreq, ymax=maxfreq)) +
         geom_point(size=0.1) +  #, color="dodgerblue
         scale_color_manual(values = c("green", "orangered2", "blue")) +
@@ -913,7 +1053,7 @@ mm4 <- ggplot(dat,
         theme(title = element_text(size = 10)) +
         theme(plot.title = element_text(hjust = 0.5)) +
         labs(y="AF in run") +
-        labs(x="Number of runs with variant") +
+        labs(x="Frequency in dataset (mathing runs)") +
         theme(legend.position = "top") +
         theme(legend.title = element_blank())
 mm4
@@ -924,305 +1064,27 @@ plot_grid(mm4, labels=c("D"), label_size = 18)
 dev.off()
 
 
-################################################################################################
-
 
 ################################################################################################
 
 
 ################################################################################################
 
-var <- merge(af, uvar, all = TRUE)
 
+################################################################################################
 
 
-length(unique(filter(var, VarCount<PosCount)$Pos)) # 15077
-length(unique(filter(var, VarCount<PosCount)$position)) # 15231
 
-identical(var$position, var$Pos)
-setdiff(var$position, var$Pos)
 
 
-# # Polymorphic sites: sites with multile alleles > 1 alternate position in a sample
-# polymorphic in sample:  > 1 alternate position
 
-# polymorphic in dataset / population > Positions have more than one different alternates in dataset
-iupac <- setdiff(unique(uvar$alternate), c("A", "T", "C", "G"))
 
-illum_alt_per_pos <- sapply(unique(uvar$position), function(p) {
-        unique(filter(uvar, position==p)$alternate)
-})
-length(illum_alt_per_pos) # 26366
 
 
-illum_ppm_sites <- unique(filter(var, position %in% which(sapply(
-        illum_alt_per_pos, function(a){
-        length(a)>1| sum(iupac %in% a)>0
-})))$position)
 
-length(illum_ppm_sites) # 13412 
 
-head(illum_ppm_sites) # 100 10000 10001 10003
 
 
-# Variants in polymorphic sites
-length(unique(filter(var, VarCount<PosCount)$variant)) # 35224
-
-
-
-
-#  Polymorphic in samples > positions are polymorphic in at least 1 sample
-pmss <- lapply(var$Run, function(r){
-        
-        unique(var$position)[sapply(unique(var$position), function(p) {
-                length(unique(filter(var, Run==r, position==p)$alternate))>1
-        })]
-})
-
-pmss <- lapply(var$Run[1], function(r){
-        
-        unique(var$position)[sapply(unique(var$position), function(p) {
-                length(unique(filter(var, Run==r, position==p)$alternate))>1
-        })]
-})
-
-
-runs <- unique(var$Run)
-positions <- illum_ppm_sites
-pmss <- lapply(runs, function(r){
-        positions[sapply(positions, function(p) {
-        length(unique(filter(var, Run==r, position==p)$alternate))>1})]
-})
-length(unlist(pmss)) 
-
-
-# Shared polymprhic sites > in more than one sample 
-length(duplicated(unlist(pmss)))
-spmss <- pmss[duplicated(unlist(pmss))]
-
-
-# Runs with polymorphic sites polymorphic vs monomorphic
-
-
-
-
-
-
-
-
-
-# Shared polymorphic positions: polymorphic in > 1 sample
-# FIXME: pending of sample matching count for minor
-
-# head(filter(var, position %in% pm)$sampleMatchingCount)
-# 
-# spm <- filter(var, position %in% pm, sampleMatchingCount>1)$position
-# length(unique(spm)) # 16339 shared polymorphic positions
-
-
-gisaid_spm_sites <- read_delim("gisaid_spm_sites.txt", delim="\n")
-
-# Shared Polymorphic positions in gisaid consensus
-length(unique(intersect(illum_ppm_sites, gisaid_spm_sites)))
-
-# samples with spm polynorphic
-
-
-# samples with spm monomorphic
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Runs with variants in Polymorphic sites 
-
-# Intrahost in polymorphic sites
-
-title <- "RUNS WITH VARIANTS IN PMS PER POSITION"
-# dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency)
-pvar <- filter(var, position %in% illum_ppm_sites)
-dat <- data.frame(pos=pvar$position, freq=pvar$PosCount/1497, class=pvar$class, stringsAsFactors = F)
-
-pms_needle <- ggplot(dat, 
-                     aes(x=pos, ymax=freq, ymin=0)) +
-        geom_linerange() + #color="orangered2"
-        aes(x=pos, ymax=freq, ymin=0, color=class) +
-        geom_linerange() +
-        scale_color_manual(values = c("green","orangered2", "blue")) +
-        theme_minimal() +
-        ggtitle(title) +
-        #theme(title = element_text(size = 3)) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        labs(x="Genomic Position") +
-        theme(legend.title = element_blank())+
-        labs(y="Freq") 
-pms_needle 
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_pms_needle.pdf",  
-    height =5.83,  width =8.27)
-pms_needle 
-dev.off()
-
-
-
-# # Runs with non polymorphic sites
-# 
-# title <- "RUNS WITH VARIANTS IN non-PMS PER POSITION"
-# # dat <- data.frame(pos=uvar$position, freq=uvar$MyFrequency)
-# non_pm_sites <- var$position[which(!(var$position %in% illum_pm_sites))]
-# 
-# npvar <- filter(var, position %in% non_pm_sites )
-# dat <- data.frame(pos=npvar$position, freq=npvar$PosCount/1497, class=npvar$Functional_Class, stringsAsFactors = F)
-# 
-# 
-# npms_needle <- ggplot(dat, 
-#                      aes(x=pos, ymax=freq, ymin=0)) +
-#         geom_linerange() + #color="orangered2"
-#         aes(x=pos, ymax=freq, ymin=0, color=class) +
-#         geom_linerange() +
-#         scale_color_manual(values = c("green","orangered2", "blue")) +
-#         theme_minimal() +
-#         ggtitle(title) +
-#         #theme(title = element_text(size = 3)) +
-#         theme(plot.title = element_text(hjust = 0.5)) +
-#         labs(x="Genomic Position") +
-#         theme(legend.title = element_blank())+
-#         labs(y="Freq") 
-# npms_needle 
-# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_npms_needle.pdf",  
-#     height =5.83,  width =8.27)
-# npms_needle 
-# dev.off()
-# 
-
-
-
-
-
-# AF in polymorphic sites
-# AF
-plot(pvar$position, pvar$frequency)
-
-
-# Max and Min AF per position
-minfreq <- unlist(lapply(unique(pvar$position), function(p) {
-        min(filter(pvar, position==p)$frequency)      
-}))
-meanfreq <-  unlist(lapply(unique(pvar$position), function(p) {
-        mean(filter(pvar, position==p)$frequency)      
-}))
-maxfreq <- unlist(lapply(unique(pvar$position), function(p) {
-        max(filter(pvar, position==p)$frequency)      
-}))
-
-
-# samples with spm polynorphic
-# samples with spm monomorphic
-
-# ## ?AF IN DATASET -NOT POSIBBLE TO PLOT- more than one frequency per position if many alternates
-title <- "RANGE OF AF OF VARIANTS PER POSITION IN PMS"
-dat <- data.frame(pos=unique(pvar$position), meanfreq=meanfreq, minfreq=minfreq, maxfreq=maxfreq)
-paf <- ggplot(dat,
-             aes(x=pos, y=maxfreq)) +
-        #ggplot(data=dat, aes(x=pos, y=meanfreq, ymin=minfreq, ymax=maxfreq)) +
-        geom_linerange(ymin=minfreq, ymax=maxfreq, size=0.1) +
-        theme_minimal() +
-        ggtitle(title) +
-        theme(title = element_text(size = 10)) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        labs(x="Genomic Position") +
-        labs(y="Allele Frequency range")
-#         theme(legend.title = element_blank())+
-#         labs(y="Freq")
-paf
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_pms_af.pdf",
-    height =5.83,  width =8.27)
-paf
-dev.off()
-
-
-
-
-# AF in non-polymorphic sites
-# AF
-plot(npvar$position, npvar$frequency)
-
-
-# Max and Min AF per position
-minfreq <- unlist(lapply(unique(npvar$position), function(p) {
-        min(filter(npvar, position==p)$frequency)      
-}))
-meanfreq <-  unlist(lapply(unique(npvar$position), function(p) {
-        mean(filter(npvar, position==p)$frequency)      
-}))
-maxfreq <- unlist(lapply(unique(npvar$position), function(p) {
-        max(filter(npvar, position==p)$frequency)      
-}))
-
-
-# samples with spm polynorphic
-
-# ## ?AF IN DATASET -NOT POSIBBLE TO PLOT- more than one frequency per position if many alternates
-title <- "RANGE OF AF OF VARIANTS PER POSITION IN PMS"
-dat <- data.frame(pos=unique(npvar$position), meanfreq=meanfreq, minfreq=minfreq, maxfreq=maxfreq)
-npaf <- ggplot(dat,
-              aes(x=pos, y=maxfreq)) +
-        #ggplot(data=dat, aes(x=pos, y=meanfreq, ymin=minfreq, ymax=maxfreq)) +
-        geom_linerange(ymin=minfreq, ymax=maxfreq, size=0.1) +
-        theme_minimal() +
-        ggtitle(title) +
-        theme(title = element_text(size = 10)) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        labs(x="Genomic Position") +
-        labs(y="Allele Frequency range")
-#         theme(legend.title = element_blank())+
-#         labs(y="Freq")
-npaf
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_npms_af.pdf",
-    height =5.83,  width =8.27)
-npaf
-dev.off()
-
-
-
-
-
-
-
-
-# Cowplot grid
-# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/cowplot_grid.pdf",
-#     height =5.83,  width =8.27)
-# plot_grid(af, mm, mm2, mm3, labels=c("A", "B", "C", "D"), align = "h")
-# dev.off()
-# 
-# 
-# 
-# plot_grid(af, mm, mm2, mm3, labels=c("A", "B", "C", "D"), align="h")
-# 
-# 
-# plot_grid(af, labels=c("A"))
-# 
-# pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/illumina_af2.pdf",
-#     height =5.83,  width =8.27)
-# plot_grid(af, labels=c("A"))
-# dev.off()
 
 
 

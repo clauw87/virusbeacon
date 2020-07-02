@@ -17,47 +17,105 @@ source("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/files
 
 setwd( "/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/data")
 
-
-## All variants
-resources_folders <-list.files("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/data")
-# GISAID
-f <- "gisaid"
-variant_file <- paste0(f, "/29629.annot.variants.data")
-var <- fread(input = variant_file, sep = ";")
-var$variant <- sapply(1:nrow(var), function(v){
-        paste(as.character(var$position[v]),var$reference[v],  var$alternate[v], sep = ">")
-})
-
-var$VarCount <- unlist(lapply(var$variant, function(v){
-        sum(filter(var, variant==v)$sampleMatchingCount)
-}))
-
-var$PosCount <- unlist(lapply(var$position, function(p){
-        sum(filter(var, position==p)$sampleMatchingCount)
-}))
-
-var$resource <- rep(f, nrow(var))
-
-assign(value=var, x=paste0(as.character(f), "_var"))
-
-save(gisaid_var, file = "gisaid_var.rda")
-
-
+# 
+# ## All variants
+# resources_folders <-list.files("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/data")
+# # GISAID
+# f <- "gisaid"
+# variant_file <- paste0(f, "/29629.annot.variants.data")
+# var <- fread(input = variant_file, sep = ";")
+# var$variant <- sapply(1:nrow(var), function(v){
+#         paste(as.character(var$position[v]),var$reference[v],  var$alternate[v], sep = ">")
+# })
+# 
+# var$VarCount <- unlist(lapply(var$variant, function(v){
+#         sum(filter(var, variant==v)$sampleMatchingCount)
+# }))
+# 
+# var$PosCount <- unlist(lapply(var$position, function(p){
+#         sum(filter(var, position==p)$sampleMatchingCount)
+# }))
+# 
+# var$resource <- rep(f, nrow(var))
+# 
+# 
+# assign(value=var, x=paste0(as.character(f), "_var"))
+# 
+# save(gisaid_var, file = "gisaid_var.rda")
+# 
 
 #### Load 
 
-load("gisaid_var.rda")
+load("gisaid/gisaid_var.rda")
 var <- gisaid_var
 
 
-duvar <- var[which(duplicated(var$variant)),]
-length(unique(duvar$variant)) # 0
+gisaid_variants <- unique(var$variant)
 
+iupac <- setdiff(unique(var$alternate), c("A", "T", "C", "G"))
+iupac
+# "Y" "V" "B" "H" "D" "K" "W" "M" "R" "S"
+# Y: C,T
+# V: A,C,G
+# B: C,G,T
+# H: A,C,T
+# D: A,G,T
+# K: G,T
+# W: A,T
+# M: A,C
+# R: A,G
+# S: C,G 
 
-uvar <- var[which(!(duplicated(var$variant))),]
-length(unique(uvar$variant)) # 20288
+iupac_df <- data_frame(codes=list("Y", "V", "B", "H", "D", "K", "W", "M", "R", "S"), 
+                       replacements= list(
+                               c("C", "T"), 
+                               c("A", "C", "G"),
+                               c("C", "G", "T"),
+                               c("A", "C", "T"),
+                               c("A", "G", "T"),
+                               c("G", "T"),
+                               c("A", "T"),
+                               c("A", "C"),
+                               c("A", "G"),
+                               c("C", "G")
+                               ))
+#for each iupac code:
+subs <- c()
+for (i in 1:length(iupac_df$codes)) {
+        code <- iupac_df$codes[[i]]
+        replacements <- iupac_df$replacements[[i]]
+        for (r in replacements) {
+        subs <- c(subs, gsub(x = gisaid_variants, pattern = code, replacement = r))        
+        }
+        # lapply(replacements, function(r) {
+        #         gsub(x = gisaid_variants[1:10], pattern = code, replacement = r)
+        # })
+        # 
+}
+length(subs) # 486912
+length(unique(subs)) # 32681
+
+length(unique(var$variant)) # 20288
+
+sum(gisaid_variants %in% subs) # 20288
+head(gisaid_variants %in% subs) # 20288
+
+rm <- unique(subs[unlist(sapply(iupac, function(u){
+        grep(u, subs)}))])
+
+length(rm) # 8154
+
+gisaid_variants_ok <- unique(setdiff(subs, rm))
+
+length(gisaid_variants)
+length(gisaid_variants_ok) # 24527
+
+sum(gisaid_variants %in% gisaid_variants_ok) # 12134 
+
+write.table(x=gisaid_variants_ok, "gisaid.variants.txt", col.names = F, row.names = F)
+
 ####################################################################################
-
+# Polymorphic positions, positions with more than 1 alt
 
 
 
@@ -81,23 +139,31 @@ length(unique(uvar$position))/29906 *100
 
 
 
-# snp alternates per position
-gis_alt_per_pos <- sapply(unique(uvar$position), function(p) {
-        unique(filter(uvar, position==p)$alternate)
-})
-length(gis_alt_per_pos) # 13987
-
-num_alt_per_pos <- sapply(gis_alt_per_pos, length)
+# # snp alternates per position
+# gis_alt_per_pos <- sapply(unique(uvar$position), function(p) {
+#         unique(filter(uvar, position==p)$alternate)
+# })
+# length(gis_alt_per_pos) # 13987
+# 
+# num_alt_per_pos <- sapply(gis_alt_per_pos, length)
+# 
+# 
+# num_alt_per_pos_full <- sapply(uvar$position, function(p) {
+#         length(unique(filter(uvar, position==p)$alternate))
+# })
+# 
+# uvar$morphic <- num_alt_per_pos_full
+# 
 
 (29906-length(unique(uvar$position))  )  /29906*100
-sum(num_alt_per_pos==1)/29906*100 # 11135
-sum(num_alt_per_pos==2)/29906*100 # 10469
-sum(num_alt_per_pos==3)/29906*100 # 4762
+sum(num_alt_per_pos==1) # 9145
+sum(num_alt_per_pos==2) # 3725..7450
+sum(num_alt_per_pos==3) # 876 ..2628
 
 
+save(uvar, file = "gisaid/gisaid_uvar.rda")
 
-
-
+load("gisaid/gisaid_uvar.rda")
 
 
 
@@ -164,12 +230,14 @@ max(uvar$VarCount) # 21083
 
 
 title <- "RUNS WITH VARIANTS PER POSITION"
-dat <- data.frame(pos=uvar$position, freq=uvar$PosCount/1497, class=uvar$Functional_Class, stringsAsFactors = F)
+subtitle <- "GISAID consensus data"
+dat <- data.frame(pos=gisaid_var$position, freq=gisaid_var$PosCount/29629, class=gisaid_var$Functional_Class, stringsAsFactors = F)
+#dat <- data.frame(pos=uvar$position, freq=uvar$PosCount/1497, class=uvar$Functional_Class, stringsAsFactors = F)
 dat$class[which(dat$class=="MISSENSE"|dat$class=="NONSENSE")] <- "NS"
 dat$class[which(dat$class=="SILENT")] <- "S"
 dat$class[which(dat$class=="")] <- "NC"
 
-smc_needle <- ggplot(dat, 
+gis_smc_needle <- ggplot(dat, 
                      aes(x=pos, ymax=freq, ymin=0, color=class)) +
         #geom_linerange() + #color="orangered2"
         #aes(x=pos, ymax=freq, ymin=0, ) +
@@ -177,25 +245,27 @@ smc_needle <- ggplot(dat,
         geom_linerange(stat="identity", position = "dodge") +
         scale_color_manual(values = c("green","orangered2", "blue")) +
         theme_minimal() +
-        ggtitle(title) +
-        #theme(title = element_text(size = 3)) +
+        labs(title=title, subtitle = subtitle) +
         theme(plot.title = element_text(hjust = 0.5)) +
+        theme(plot.subtitle = element_text(hjust = 0.5)) +
         labs(x="Genomic Position") +
         theme(legend.title = element_blank())+
         theme(legend.position = "top") +
         labs(y="Freq") 
-smc_needle
+gis_smc_needle
 
-pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/gisaid_smc_needle.pdf",
+pdf("/Users/claudiavasallovega/repolab/work/virusbeacon/datafreeze_2405/variants_stats/gisaid_smc_needle_panelA.pdf",
     height =5.83,  width =8.27)
-smc_needle
+plot_grid(gis_smc_needle, labels=c("A"), label_size = 18)
 dev.off()
 
 
 
 
-
-
+#aqui
+#----------#----------#----------#----------#----------#----------#----------#----------#----------#
+# Number of variants per prevalence (number of samples)
+# Need sample matching for gisaid
 ###########################################################################################
 
 
@@ -1029,7 +1099,7 @@ gis_spm_sites <- unique(filter(uvar, position %in% gis_pm_sites,
                                VarCount>1)$position)
 length(gis_spm_sites) # 1627
 gis_spm_sites
-write(gis_spm_sites, "gisaid_spm_sites.txt")
+write.table(gis_spm_sites, "gisaid_spm_sites.txt", col.names = F, row.names = F)
 
 
 
