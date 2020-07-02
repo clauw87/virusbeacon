@@ -52,10 +52,14 @@
 	* `sample_attributes_values$env_medium`
 	* `sample_attributes_values$$host_tissue_sampled`
 	* `sample_attributes_values$tissue`
+	* `sample_attributes_values$isolation source host-associated`
+	
 *[x] procedure
 	* culture_cell: 
 		* `sample_attributes_values$Laboratory Host`
 		* `sample_attributes_values$passage_history`
+		* `sample_attributes_values$propagation`
+		
 	* procedure:
 		* culture_passage_history: `sample_attributes_values$passage_history`
 	
@@ -66,9 +70,12 @@
 * host_age: 
 	* `sample_attributes_values$host_age`
 	* `sample_attributes_values$age`
+	* `sample_attributes_values$host age`
+	
 * host_sex: 
 	* `sample_attributes_values$host_sex`
 	* `sample_attributes_values$sex`
+	* `sample_attributes_values$host sex`
 * geo_origin: `sample_attributes_values$geo_loc_name`
 	* `sample_attributes_values$geo_loc_name`
 	* `sample_attributes_values$Country`
