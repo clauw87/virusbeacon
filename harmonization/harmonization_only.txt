@@ -92,6 +92,9 @@ NOTE: dont extract or ignore this field for gisaid and genbank, because they are
   * "Nasal-Swab and Oro-pharyngeal swab"  
   * "oral swab; nasal swab; tracheal wash"
 
+  * "Nasopharingeal exudate" 
+  * "Pharyngeal exudate"    
+  * "Nasopharyngeal exudate"
 
   Rest of values in the column change to NULL 
 
@@ -193,6 +196,7 @@ e.g
 * **XML tags**
   * age
   * host_age
+  * host age
 
 * **Valid values**
   * all
@@ -232,6 +236,7 @@ e.g
 
 * **XML tags**
   * host_sex
+  * host sex
 
 * **Valid values**
 - only values in list in host_sex.txt (also here since they are few:)

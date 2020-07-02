@@ -1,29 +1,34 @@
-"value","fixed"
-"Human BALF sample","bronchoalveolar lavage fluid "
-"Bronchoalveolar lavage fluid","bronchoalveolar lavage fluid "
-"bronchoalveolar lavage fluid(BALF)","bronchoalveolar lavage fluid  "
-"Oro-pharyngeal swab","oro/naso-pharyngeal swab "
-"oropharyngeal swab ","oro/naso-pharyngeal swab "
-"nasopharynx","oro/naso-pharyngeal swab "
-"swab ","oro/naso-pharyngeal swab "
-"respiratory nasopharyngeal sample ","oro/naso-pharyngeal swab  "
-"Nasopharyngeal/throat swab","oro/naso-pharyngeal swab  "
-"Combined nasopharyngeal and oropharyngeal swab ","oro/naso-pharyngeal swab "
-"Diagnostic Swab ","oro/naso-pharyngeal swab "
-"tracheal swab ","tracheal swab/wash"
-"bronchoalveolar lavage","bronchoalveolar lavage fluid"
-"sputum","sputum"
-"oralpharyngeal ","oro/naso-pharyngeal swab "
-"nasal swab  ","oro/naso-pharyngeal swab  "
-"oropharynx","oro/naso-pharyngeal swab "
-"Stool","feces"
-"nasopharyngeal swab ","oro/naso-pharyngeal swab "
-"Sputum                  ","sputum"
-"nasopharynx, oropharynx","oro/naso-pharyngeal swab"
-"saliva ","oro/naso-pharyngeal swab"
-"Nasal-Swab and Oro-pharyngeal swab  ","oro/naso-pharyngeal swab"
-"oral swab; nasal swab; tracheal wash","oro/naso-pharyngeal swab, tracheal swab/wash"
-"Saliva ","oro/naso-pharyngeal swab"
-"NPA/TS","oro/naso-pharyngeal swab, tracheal swab/wash"
-"NPS/TS","oro/naso-pharyngeal swab, tracheal swab/wash"
-"Nasopharyngeal Swab","oro/naso-pharyngeal swab "
+value,fixed
+Human BALF sample,bronchoalveolar lavage fluid 
+Bronchoalveolar lavage fluid,bronchoalveolar lavage fluid 
+bronchoalveolar lavage fluid(BALF),bronchoalveolar lavage fluid  
+Oro-pharyngeal swab,oro/naso-pharyngeal swab 
+oropharyngeal swab ,oro/naso-pharyngeal swab 
+nasopharynx,oro/naso-pharyngeal swab 
+swab ,oro/naso-pharyngeal swab 
+respiratory nasopharyngeal sample ,oro/naso-pharyngeal swab  
+Nasopharyngeal/throat swab,oro/naso-pharyngeal swab  
+Combined nasopharyngeal and oropharyngeal swab ,oro/naso-pharyngeal swab 
+Diagnostic Swab ,oro/naso-pharyngeal swab 
+tracheal swab ,tracheal swab/wash
+bronchoalveolar lavage,bronchoalveolar lavage fluid
+sputum,sputum
+oralpharyngeal ,oro/naso-pharyngeal swab 
+nasal swab  ,oro/naso-pharyngeal swab  
+oropharynx,oro/naso-pharyngeal swab 
+Stool,feces
+nasopharyngeal swab ,oro/naso-pharyngeal swab 
+Sputum                  ,sputum
+"nasopharynx, oropharynx",oro/naso-pharyngeal swab
+saliva ,oro/naso-pharyngeal swab
+Nasal-Swab and Oro-pharyngeal swab  ,oro/naso-pharyngeal swab
+oral swab; nasal swab; tracheal wash,"oro/naso-pharyngeal swab, tracheal swab/wash"
+Saliva ,oro/naso-pharyngeal swab
+NPA/TS,"oro/naso-pharyngeal swab, tracheal swab/wash"
+NPS/TS,"oro/naso-pharyngeal swab, tracheal swab/wash"
+Nasopharyngeal Swab,oro/naso-pharyngeal swab 
+Nasopharingeal exudate,oro/naso-pharyngeal swab 
+Pharyngeal exudate,oro/naso-pharyngeal swab 
+Nasopharyngeal exudate,oro/naso-pharyngeal swab 
+nasopharyngeal swabs,oro/naso-pharyngeal swab 
+Nasopharyngeal sample  ,oro/naso-pharyngeal swab 
