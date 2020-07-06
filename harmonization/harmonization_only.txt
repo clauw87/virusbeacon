@@ -2,13 +2,13 @@
 
 NOTE: Now that we are getting Nanopore data we should start showing the two objects run_platform and run_platform_model. Note that before we were showing only run_platform_model and the column name in Beacon UI is now PLATFORM, so we now need to change that column name to PLATFORM MODEL and add the new column PLATFORM to the UI table
 
-NOTE: “valid values"are the only values that should be extracted/kept in database (since other values coming from tags in those cases are unrelated and should therefore not been shown. These cases are accompanied by statement “Rest of values in the column change to NULL (leave empty)”)
+NOTE: "valid values" are the only values that should be extracted/kept in database (since other values coming from tags in those cases are unrelated and should therefore not been shown. These cases are accompanied by statement “Rest of values in the column change to NULL (leave empty))
 
 ## RUN
 
 1. run_platform
  
-NOTE: dont extract or ignore this field for gisaid and genbank, because they are wrongly set in xml (because of template Mau used, but the info is not true!!!!)
+NOTE: dont extract or ignore this field for GISAID and GENBANK (ENA consensus), because they are wrongly set in xml (because of template Mau used, but the info is not true!!!!)
 
 
 * **XML tags**
@@ -22,21 +22,13 @@ NOTE: dont extract or ignore this field for gisaid and genbank, because they are
 * **XML tags**
   * xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ILLUMINA$INSTRUMENT_MODEL[[1]]
   * xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$NANOPORE$INSTRUMENT_MODEL[[1]]
-  * xml$EXPERIMENT_PACKAGE_SET$EXPERIMENT_PACKAGE$EXPERIMENT$PLATFORM$ION_TORRENT$INSTRUMENT_MODEL[[1]]
+
 
 * **Valid values**
   * all
 
 * **Values to fix**
-- paired values in txt lists run_platform_model.txt and run_platform_model_fixed.txt (also here, since they are few:)
-  * "Illumina MiSeq"  ->  "MiSeq"  
-  * "Illumina HiSeq 2500"  ->  "HiSeq 2500"  
-  * "Illumina iSeq 100"     ->  "iSeq 100"  
-  * "Illumina MiniSeq"   ->     "MiniSeq"  
-  * "Illumina NovaSeq 6000" -> "NovaSeq 6000"
-  * "Illumina HiSeq 2000"  ->  "HiSeq 2000"
-  * "Illumina HiSeq 1500"  ->  "HiSeq 1500"
-
+- paired values in harmonization.ods
 
 2. library_source 
 
@@ -66,42 +58,14 @@ NOTE: dont extract or ignore this field for gisaid and genbank, because they are
 
 
 * **Valid values**
-- only values in list in biosample_type.txt (also here since they are few:)
-  * "Human BALF sample"
-  * "Bronchoalveolar lavage fluid" 
-  * "bronchoalveolar lavage fluid(BALF)"
-  * "Oro-pharyngeal swab"
-  * "oropharyngeal swab"  
-  * "nasopharynx"
-  * "swab" 
-  * "respiratory nasopharyngeal sample" 
-  * "Nasopharyngeal/throat swab"
-  * "Combined nasopharyngeal and oropharyngeal swab" 
-  * "Diagnostic Swab" 
-  * "tracheal swab" 
-  * "bronchoalveolar lavage"
-  * "sputum"
-  * "oralpharyngeal" 
-  * "nasal swab"  
-  * "oropharynx"
-  * "Stool"
-  * "Sputum"
-  * "nasopharyngeal swab
-  * "nasopharynx, oropharynx"
-  * "saliva" 
-  * "Nasal-Swab and Oro-pharyngeal swab"  
-  * "oral swab; nasal swab; tracheal wash"
-
-  * "Nasopharingeal exudate" 
-  * "Pharyngeal exudate"    
-  * "Nasopharyngeal exudate"
+- only values in values list in harmonization.ods
 
   Rest of values in the column change to NULL 
 
 * **Values to harmonize**
-- paired values in txt lists in biosample_type.txt and biosample_type_fixed.txt
+- paired values in txt lists in harmonization.ods
 
-NOTE: last value, "oral swab; nasal swab; tracheal wash" is converted to two values, I have separated them by commas in on single string in biosample_type_fixed.txt
+NOTE: last value, "oral swab; nasal swab; tracheal wash" is converted to two values, I have separated them by commas in on single string in harmonization.ods
 
 
 2. collection_date
@@ -115,31 +79,9 @@ NOTE: last value, "oral swab; nasal swab; tracheal wash" is converted to two val
 
  
 * **Values to harmonize**
-  * "%d-%B-%Y"
-  * "%Y-%m"
-  * "%Y"
-
-  Harmonize all to “%Y-%m-%d”
-
-e.g
-
-  * "%d-%B-%Y" values 
-    * "01-Mar-2020"
-    * "19-MAR-2020"
-
-
-    convert to “%Y-%m-%d"to get:
-    * "2020-03-01"
-    * "2020-03-19"
-
-
-* **Value to fix**
-  * "2019-01-19"->  "2020-01-19" 
-  * "Jan-2020" -> "2020-01"
-  * "feb-2020")] <- "2020-02"
-  * "Apr-2020" <- "2020-04"
-
-
+  * "%d-%B-%Y"  -> "%Y-%m-%d"
+  * "%Y-%m"  -> "%Y-%m-%d"
+  * "%Y"  -> "%Y-%m-%d"
   * "missing"  -> NULL
   * "not applicable"  -> NULL
   * "NA" -> NULL
@@ -183,13 +125,8 @@ e.g
      
 
 * **Values to fix/ harmonize**
-- paired values in txt lists geo_loc_name.txt and geo_loc_name_fixed.txt
-- and these two after extracting the combined tags above: (NO, NOW THEY ARE IN LISTS)
-  * United Kingdom: Scotland -> "Europe:United Kingdom:Scotland:-"
-  * United Kingdom: England -> "Europe:United Kingdom:England:-"
-- "not applicable" -> NULL
-- "not collected" -> NULL
-- "not collected:not collected" -> NULL
+- paired values in harmonization.ods
+
 
 3. host_age
 
@@ -202,12 +139,7 @@ e.g
   * all
 
 * **Values to fix** 
--paired values in txt lists host_age.txt and host_age_fixed.txt (here since they are a few:)
-  * "missing"-> NULL
-  * "4 years"-> "4"
-  * "35 y"-> "35"
-  * "5 y"-> "5"
-
+-paired values in harmonization.ods
 
 4. host_disease
 
@@ -215,21 +147,11 @@ e.g
   * host_disease
 
 * **Valid values**
-  * "nCoV pneumonia"                                 
-  * "COVID-19"    
-  * "Covid-2019"                                                                             
-  * "severe acute respiratory syndrome"   
-  * "respiratory infection"     
-  * "pneumonia"                        
-  * "Respiratory diease"                
-  * "Acue infection"      
-
-  Rest of values in the column change to NULL 
+- only values in list in harmonization.ods
+ Rest of values in the column change to NULL 
 
 * **Values to fix** 
-"Respiratory diease"  -> "respiratory disease" 
-"Acue infection"  -> "acute infection"
-"Covid-2019" -> "COVID-19" 
+- paired values in harmonization.ods
 
 
 4. host_sex
@@ -239,19 +161,11 @@ e.g
   * host sex
 
 * **Valid values**
-- only values in list in host_sex.txt (also here since they are few:)
-  * "female"                                 
-  * "male" 
-  * "Female"                                 
-  * "Male" 
-  * "Woman"   
-  * "FEmale"
-
-
+- only values in list in harmonization.ods
  Rest of values in the column change to NULL 
 
 * **Values to harmonize/fix**
--paired values in txt lists host_sex.txt and host_sex_fixed.txt
+-paired values in harmonization.ods
 
 
 ## VIRUS
@@ -265,9 +179,7 @@ e.g
   * all
 
 * **Values to harmonize/fix**
-- paired values in txt lists taxon_id.txt and taxon_id_fixed.txt (here since they are a few:)
-  * "9606"  (Homo sapiens) -> "2697049"
-  * "433733"("human lung metagenome" ) -> "2697049"
+- paired values in harmonization.ods
 
 
 

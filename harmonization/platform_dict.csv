@@ -1,0 +1,42 @@
+value,fixed
+NextSeq500,NextSeq500
+Nanopore,- 
+Nanopore; Sanger dideoxy sequencing,- & -
+Illumina; MGISEQ 2000,- & MGI
+MGISEQ 2000,MGISEQ 2000
+Sanger dideoxy sequencing,- 
+Illumina; Nanopore,- & -
+Illumina,- 
+Illumian NextSeq 500,Illumina NextSeq 500
+IonTorrent,- 
+IonTorrent; Sanger dideoxy sequencing,- & -
+BioelectronSeq 4000,BioelectronSeq 4000
+Illumina; Sanger dideoxy sequencing,BioelectronSeq 4000
+MGISEQ2000,MGISEQ2000
+Oxford Nanopore MinION; Sanger dideoxy,MinION & -
+Illumina MiSeq,Illumina MiSeq
+Illumina NextSeq 500,Illumina NextSeq 500
+Nanopore MinION; Sanger dideoxy sequencing,MinION & -
+Illumina; Nanopore MinION; Sanger dideoxy,- & MinION & - 
+Oxford Nanopore MinION,MinION
+MinION Oxford Nanopore,MinION
+Illumina; Oxford Nanopore,- & -
+ONT (Oxford Nanopore Technologies),- 
+Illumina; Oxford Nanopore; Sanger dideoxy,- & - & - 
+ThermoFisher S5Plus,S5Plus
+Ion Torrent X5Plus,X5Plus
+Oxford Nanopore Technologies,- 
+Nanopore MinION,MinION
+Oxford Nanopore GridION,GridION
+Illumina; MGI,- & -
+Oxford Nanopore Technology; Sanger dideoxy,- & -
+Oxford Nanopore,- 
+MinION,MinION
+Illumina; IonTorrent,- & -
+Oxford Nanopore technology; Sanger dideoxy,- & -
+Sanger dideoxy sequencing; Illumina,- & -
+Illumina NovaSeq,Illumina NovaSeq
+Sanger dideoxy sequencing; Nanopore MinION,- & MinION
+Oxford Nanopore Sequencing,- 
+BGI-Seq,BGI-Seq
+Sanger dideoxy sequencing; Nanopore,- & -
