@@ -1,0 +1,176 @@
+\documentclass[a4paper, 10pt]{article}        %\documentclass{} slides report proc book 
+\usepackage[margin=1in]{geometry}
+\usepackage{indentfirst}
+\usepackage[]{graphicx}
+\usepackage{standalone}
+\usepackage[hyperref]{xcolor}
+\definecolor{teal}{RGB}{0, 128, 128}
+
+
+\usepackage{hyperref, xcolor}
+\hypersetup{
+        colorlinks = true,
+        allcolors={teal},
+        linkcolor={teal}
+       %urlcolor=[rgb]{0,128,128},
+     }
+\title{Viral Beacon Data freeze 20200701 - Variant files statistics}     
+
+\begin{document}
+\date{}
+\maketitle
+%\author{{\color{teal}Claudia Vasallo}}
+
+
+% General Statistics
+\section{Summary stats}
+%Statistics are calculated using \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/filters.pdf}{\texttt{Filters}}.
+
+\begin{enumerate}
+
+\item  70593 variant files %(from  70478 total samples) % 1473 + 3925 (- 26 common to illumina) 
+%\item   37942 samples % 5260  + 3053 + 29629 %(from  X total samples and total ) % 1473 + 3925 (- 26 common to illumina) 
+%\item  X virus isolates %(from  X total samples and total ) % 1473 + 3925 (- 26 common to illumina) 
+
+
+%%%%%% OVERALL PIES %%%%%%
+% GEO LOC  >SRA, ENA AND GISAID
+
+
+% RESOURCES: SRA, ENA AND GISAID
+% VARIANT FILES TYPE: RAW/ CONSENSUS
+\item[] \textsl{by source data type} : \\
+raw sequences = 6917 \\
+consensus sequences=  63676\\
+
+
+   \begin{figure}[!htb]
+     \centering
+     \includegraphics[width=0.4\textwidth]{all_type_pie.pdf}
+       \includegraphics[width=0.4\textwidth]{all_reso_pie.pdf}
+       \caption{Distribution of variant files by source data type and resource}
+     \label{fig:illu}
+ \end{figure}
+
+
+%GWH=?\\
+% SEQ TECHNOLOGY - PIPELINE
+\item[] \textsl{by resource \& pipeline}: \\
+ENA-Illumina (Galaxy LoFreq): 3378  (intrahost variants) \\
+ENA-ONT (Medaka): 3539 (consensus variants)\\
+ENA-consensus: 5430 (consensus variants)\\
+GISAID: 58246 (consensus variants)\\
+
+% SEQUENCING TECHNOLOGY, OVERALL AND SPLIT BY RESOURCE>SRA, ENA AND GISAID
+
+%\item[] \textsl{by sequencing technology}: \\
+%SRA: Illumina=1497, Oxford Nanopore=3830,  \\ %IonTorrent=95,
+%ENA, GISAID: (many, mixes, see by resource stats) \\
+%\item[\textsl{option}] Split by sequencing platform model
+%\item[\textsl{option}] Split by sequencing library layout          
+
+
+
+% GEO LOC
+% COL DATE
+% AGE GROUPS
+% SEX
+% SAMPLE SOURCE
+
+
+
+%%%%%% OVERALL FACETED BAR BLOTS %%%%%%
+%\item 70478(*) samples  (SRA: 5260, ENA: 3053, GISAID: 29629) % (37942) 
+%* unique samples based on common samples that are cross-references
+%(*) This number is based on unique sample id and common samples that are cross-referenced across the databases.  
+%\item[] \textsl{Note}: Some variant files have the same samples as source: 24 SRA samples have more than one Illumina run, 17 SRA samples have more than one ONT run, and 26 SRA samples have both Illumina and ONT runs. There are 246 samples are common to SRA (ONT) and GISAID datasets. We don't have crossreference on whether some samples are also common to ENA-Illumina and GISAID, ENA-consensus and GISAID or ENA-Illumina  and ENA-consensus.
+
+
+
+ \end{enumerate}
+ 
+ \newpage
+\section{Stats variant files metadata by resources (ENA-consensus, ENA-Illumina, ENA-ONT, GISAID)}
+
+
+% GEO LOC  >SRA, ENA AND GISAID
+   \begin{figure}[!htb]
+     \centering
+       \includegraphics[width=1\textwidth]{all_loc_res_facet.pdf}
+     \caption{Distribution of variant files by country by resource}
+     \label{fig:loc}
+ \end{figure}
+
+
+
+% COL DATE > SRA, ENA AND GISAID
+  % \begin{figure}[!htb]
+     %\centering
+       %\includegraphics[width=1\textwidth]{all_grid.pdf}
+     %\caption{Distribution of variant files by collection date, host age, host sex, sample source by resource}
+     %\label{fig:illu}
+ %\end{figure}
+
+
+
+
+ 
+ % SEQ TECH  >SRA, ENA AND GISAID
+   \begin{figure}[!htb]
+     \centering
+       \includegraphics[width=1\textwidth]{all_plat_res_facet.pdf}
+     \caption{Distribution of variant files by sequencing technology by resource}
+     \label{fig:plat}
+ \end{figure}
+
+ 
+
+ 
+ 
+
+
+
+% COL DATE > SRA, ENA AND GISAID
+   \begin{figure}[!htb]
+     \centering
+       \includegraphics[width=1\textwidth]{all_date_res_facet.pdf}
+     \caption{Distribution of variant files by collection date by resource}
+     \label{fig:illu}
+ \end{figure}
+
+
+
+% HOST AGE  >SRA, ENA AND GISAID
+   \begin{figure}[!htb]
+     \centering
+       \includegraphics[width=1\textwidth]{all_age_res_facet.pdf}
+     \caption{Distribution of variant files by host age by resource}
+     \label{fig:illu}
+ \end{figure}
+
+
+
+
+% HOST SEX  >SRA, ENA AND GISAID
+   \begin{figure}[!htb]
+     \centering
+       \includegraphics[width=1\textwidth]{all_sex_res_facet.pdf}
+     \caption{Distribution of variant files by host sex by resource}
+     \label{fig:illu}
+ \end{figure}
+ 
+
+ 
+% SAMPLE SOURCE  >SRA, ENA AND GISAID
+   \begin{figure}[!htb]
+     \centering
+       \includegraphics[width=1\textwidth]{all_sample_res_facet.pdf}
+     \caption{Distribution of variant files by sample source by resource}
+     \label{fig:illu}
+ \end{figure}
+
+
+\end{document}
+
+
+

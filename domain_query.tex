@@ -1,0 +1,104 @@
+\documentclass[a4paper, 10pt]{article}        
+\usepackage[margin=1in]{geometry}
+\usepackage[]{graphicx}
+\usepackage{indentfirst}
+\usepackage[section]{placeins}
+
+
+\usepackage[hyperref]{xcolor}
+\definecolor{teal}{RGB}{0, 128, 128}
+
+
+\usepackage{hyperref, xcolor}
+\hypersetup{
+        colorlinks = true,
+        allcolors={teal},
+        linkcolor={teal}
+     }
+
+\title{Spec for Feature query - Subprotein level}  
+
+
+\begin{document}
+\date{}
+\maketitle
+
+
+%\pagenumbering{roman}
+    % \tableofcontents
+     %\newpage
+     %\pagenumbering{arabic}
+
+
+\section{Definition}
+This will allow for querying protein domains, features. 
+
+This query will use name/aliases of protein domains that will be mapped from protein positions or genomic positions based on \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/uniprot-2697049.gff}{Uniprot annotation file} for viral proteins to allow querying for annotated functional or topological domains or motifs within proteins. These features could be added to Query by features/ aliases but the implementation in backend will be somewhat different in that it will rely on region query (mature peptide coordinates) plus aminoacid position in Amino_Acid_Change column from variant metadata table.
+
+
+Furin:S 
+
+\section{Query specifications}
+
+
+\section{Prerequisites}
+We could do one of two things:
+1. Perform query by aminoacids, based on specific aminoacids in aminoacid field. Whether or not some of the queried region is found in aminoacid field.
+2. Perform query by region. We would need a codon-aware converter to convert from aa positions to genomic positions to perform a query by region in beacon.
+
+Let's try first 1.
+
+For this we will use \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/uniprot-2697049.gff}{Uniprot annotation file}.
+
+There are 19 feature types annotated:  "Signal peptide"       "Chain"                "Topological domain"   "Transmembrane"        "Repeat"               "Domain"               "Zinc finger"          "Nucleotide binding"   "Active site"          "Metal binding"        "Site"                 "Motif"                "Disulfide bond"       "Glycosylation"        "Region"               "Modified residue"    
+"Binding site"         "Non-terminal residue" "Natural variant"  
+For each of them, distinct notes.
+
+
+
+
+\section{Implementation} 
+\begin{itemize}
+\item[1] A table with protein id (Uniprot), protein name (ORF), short name, aliases, feature type, start and end position of feauture, feauture name (specific instance) when available,  feature characteristics/note e.g 
+"P0DTC2"; "Spike glycoprotein"; "S"; "E2, Peplomer protein", "Motif", 1269, 1273, "KxHxx" ""
+"P0DTC2"; "Spike glycoprotein"; "S"; "E2, Peplomer protein", "Region", 437, 508, "Receptor-binding motif" "binding to human ACE2"
+
+\item[2] A table with mature proteins and their start and end positions in their ORF (only important for polyprotein products). These coordinates will be used to convert positions given as positions in polyprotein to mature peptide positions, as most researcher publish/will search for mutations.
+e.g nsp3 chain goes from 819 to 2763 of polyprotein positions, so position 819 will be its position 1. 
+
+D614G on S and P323L mutation on RdRp (from literature, associated to severely affected COVID19 patients) 
+
+%Note: A row for the full length peptide will also be included, named as "sequence region" with start 1 and en equal to length of the full peptide.
+ 
+Note: Chain will be somewhat similar to mature peptide in Feature query, but this is a different query, mature protein will contain for example signal peptide while chain won't.
+
+\item[2] Allow to filter/select first type of feature: chain, motif, topological, domain.
+
+\item[3] For Domains Show in dropdown: shortname:feature type:feature name:start-end (eg. S:Region:Receptor-binding motif)
+
+\item[3] Search in DB will use 
+
+
+\end{itemize}
+
+
+
+
+\section{Response}
+Response will be same as that of a \texttt{query by aminoacid} 
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
