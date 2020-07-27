@@ -1,0 +1,46 @@
+Notes:
+
+Illumina dataset:
+
+-ERR4164767.xml and ERR4128990.xml are in illumina variants file….but it is Nanopore
+(they had empty xmls, (if I understood right, those were removed by submitter so you told Sabela to remove from database as well) 
+
+
+-Removed the Runs in variant file with empty xml (so, in general I guess they are removed now)
+
+-Removed Runs having both data and metadata but which are from other platforms "OXFORD_NANOPORE" "BGISEQ"   "ION_TORRENT"  (I guess these ones were also removed/ sent in list to remove to Sabela?, otherwise we need to tell her now, and dataset frequency for this dataset needs to be recalculated)
+
+
+-Just to check: 3378 is the final number of Runs that should be now in Illumina dataset, having with both data and metadata.
+
+
+
+Annotations, multiple annotations:
+
+The order of multiple annotations from SnpEff is a bit messy, not the same order for every variant, I suggest that we reorder to have 1 order eg Genes, proteins in every field so it’s easier to match among fields
+
+
+
+
+ONT:
+
+-There are now 3539 xmls (vs 3643 runs in variants files), so 104 runs in variants files have no xml. Guess data for these extra runs is to be removed, so I removed from my tables for plots.
+
+-Dataset frequency in files I have is calculated with base in total number of runs (* not samples) from dietmar’s total: 3643. So, this frequency is not right because: 1) duplicated customID variants which are the same and not added together 2) samples not removed? i.e no xml , 3) runs instead of samples was used (and many runs can come from the same sample, frequency in dataset should be calculated with base in samples)
+
+
+
+
+
+
+
+
+   
+I had to send to Sabela some new harmonization since Illumina dataset has now a few more samples than it did last time I sent harmonization to Sabela.
+
+I needed to readapt code for multiple annotations (reordering and match).
+
+Generated samples statistics plots with metadata ..but they might not be right if total of files differ from Sabela ones
+
+Generated variants statistics plots ..but they might not be right if total of files differ from Sabela ones.. also no AF (have to ask file to Sabela) 
+
