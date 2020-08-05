@@ -1,0 +1,45 @@
+# total number of variants across all datasets (including INS and DEL) is 120377
+# Notice that not all files have country information!
+
+Illumina
+
+length(unique(illumina_met$run_id)) #  3378
+
+
+length(unique(mer_sam$variant)) #  100325
+length(unique(filter(mer_sam, svType=="SNP")$variant)) #  57133
+length(unique(filter(mer_sam, svType=="DEL")$variant)) #  31181
+length(unique(filter(mer_sam, svType=="INS")$variant)) #  12011
+
+
+
+Ont
+length(unique(ont_met$run_id)) #  3539
+length(unique(mer_met$run_id)) #  3539
+
+length(unique(mer_sam$variant)) #  28042
+length(unique(filter(mer_sam, svType=="SNP")$variant)) #  15275
+length(unique(filter(mer_sam, svType=="DEL")$variant)) #  3882
+length(unique(filter(mer_sam, svType=="INS")$variant)) #  8885
+
+
+Gisaid
+length(unique(gisaid_met$run_id)) #  58246
+length(unique(mer_met$run_id)) #  52925
+
+
+length(unique(mer_sam$variant)) #   30592
+length(unique(filter(mer_sam, svType=="SNP")$variant)) #  30592
+
+
+
+ENA consensus
+length(unique(enacons_met$run_id)) #  5430
+length(unique(mer_met$run_id)) # 5430
+
+length(unique(mer_sam$variant)) #  6865
+length(unique(filter(mer_sam, svType=="SNP")$variant)) # 6865
+
+
+
+
