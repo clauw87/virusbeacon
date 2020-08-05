@@ -1,94 +1,94 @@
-"country","numvars"
-"China",32879
-"USA",53757
-"Taiwan",311
-"France",394
-"Australia",70235
-"Germany",1067
-"Singapore",1093
-"United Kingdom",24073
-"Japan",166
-"South Korea",71
-"Belgium",784
-"Vietnam",93
-"Nepal",25223
-"Italy",343
-"Cambodia",10
-"Sweden",655
-"Hong Kong",185
-"Canada",1761
-"Finland",29
-"Mexico",101
-"Switzerland",7640
-"New Zealand",235
-"India",2682
-"Nigeria",41
-"Netherlands",4691
-"Luxembourg",320
-"Portugal",489
-"Brazil",589
-"Czech Republic",87
-"Spain",3594
-"Chile",314
-"Ireland",29
-"Democratic Republic of the Congo",217
-"Panama",20
-"Georgia",101
-"Denmark",524
-"Russia",274
-"Peru",197
-"Hungary",56
-"Kuwait",59
-"Poland",127
-"Lithuania",11
-"Malaysia",1265
-"South Africa",9709
-"Turkey",5146
-"Pakistan",37
-"Iceland",356
-"Ecuador",53
-"Norway",105
-"Slovakia",14
-"Colombia",180
-"Senegal",131
-"Greece",138
-"Israel",1952
-"Austria",539
-"Latvia",65
-"Belarus",14
-"Estonia",46
-"Slovenia",15
-"Ghana",63
-"Thailand",361
-"Uruguay",71
-"Qatar",75
-"Sri Lanka",29
-"Gambia",21
-"Croatia",99
-"Jordan",50
-"Philippines",19
-"Egypt",253
-"Costa Rica",39
-"Myanmar",5
-"Kazakhstan",64
-"United Arab Emirates",94
-"Indonesia",89
-"Brunei",21
-"Serbia",25
-"Saudi Arabia",187
-"Iran",16
-"Bangladesh",4828
-"Guam",9
-"Romania",129
-"Lebanon",123
-"Jamaica",25
-"Uganda",293
-"Timor-Leste",12836
-"Oman",133
-"Kenya",120
-"Morocco",2332
-"Tunisia",60
-"Bosnia and Herzegovina",119
-"Cyprus",17
-"Venezuela",11
-"Benin",52
+"country","num_vars","num_samples"
+"Australia",70235,3407
+"Austria",539,424
+"Bangladesh",4828,173
+"Belarus",14,3
+"Belgium",784,822
+"Benin",52,11
+"Bosnia and Herzegovina",119,31
+"Brazil",589,600
+"Brunei",21,5
+"Cambodia",10,2
+"Canada",1761,897
+"Chile",314,142
+"China",32879,882
+"Colombia",180,129
+"Costa Rica",39,6
+"Croatia",99,22
+"Cyprus",17,8
+"Czech Republic",87,62
+"Democratic Republic of the Congo",217,152
+"Denmark",524,736
+"Ecuador",53,9
+"Egypt",253,60
+"Estonia",46,19
+"Finland",29,13
+"France",394,365
+"Gambia",21,17
+"Georgia",101,18
+"Germany",1067,384
+"Ghana",63,15
+"Greece",138,198
+"Guam",9,6
+"Hong Kong",185,120
+"Hungary",56,42
+"Iceland",356,589
+"India",2682,1294
+"Indonesia",89,16
+"Iran",16,8
+"Ireland",29,17
+"Israel",1952,79
+"Italy",343,142
+"Jamaica",25,14
+"Japan",166,166
+"Jordan",50,26
+"Kazakhstan",64,56
+"Kenya",120,111
+"Kuwait",59,8
+"Latvia",65,25
+"Lebanon",123,11
+"Lithuania",11,3
+"Luxembourg",320,271
+"Malaysia",1265,27
+"Mexico",101,28
+"Morocco",2332,36
+"Myanmar",5,1
+"Nepal",25223,3
+"Netherlands",4691,1756
+"New Zealand",235,255
+"Nigeria",41,19
+"Norway",105,55
+"Oman",133,45
+"Pakistan",37,9
+"Panama",20,1
+"Peru",197,3
+"Philippines",19,9
+"Poland",127,100
+"Portugal",489,640
+"Qatar",75,12
+"Romania",129,27
+"Russia",274,228
+"Saudi Arabia",187,121
+"Senegal",131,41
+"Serbia",25,18
+"Singapore",1093,462
+"Slovakia",14,4
+"Slovenia",15,4
+"South Africa",9709,283
+"South Korea",71,56
+"Spain",3594,1755
+"Sri Lanka",29,10
+"Sweden",655,529
+"Switzerland",7640,573
+"Taiwan",311,133
+"Thailand",361,198
+"Timor-Leste",12836,35
+"Tunisia",60,15
+"Turkey",5146,75
+"Uganda",293,19
+"United Arab Emirates",94,31
+"United Kingdom",24073,27171
+"Uruguay",71,45
+"USA",53757,16128
+"Venezuela",11,3
+"Vietnam",93,55
