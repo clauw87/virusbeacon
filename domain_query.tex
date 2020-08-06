@@ -16,7 +16,7 @@
         linkcolor={teal}
      }
 
-\title{Spec for Feature query - Subprotein level}  
+\title{Spec for additions to Feature query - Subprotein level features}  
 
 
 \begin{document}
@@ -31,61 +31,85 @@
 
 
 \section{Definition}
-This will allow for querying protein domains, features. 
+This will add to feature query, allowing for querying protein features.
 
-This query will use name/aliases of protein domains that will be mapped from protein positions or genomic positions based on \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/uniprot-2697049.gff}{Uniprot annotation file} for viral proteins to allow querying for annotated functional or topological domains or motifs within proteins. These features could be added to Query by features/ aliases but the implementation in backend will be somewhat different in that it will rely on region query (mature peptide coordinates) plus aminoacid position in Amino_Acid_Change column from variant metadata table.
+This query will use name/aliases of protein domains that will be mapped from protein positions to genomic positions based on \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/uniprot-2697049.gff}{Uniprot annotation file} and genomic annotations used in feature query for viral proteins to allow querying for annotated functional or topological domains or motifs within proteins. 
+
+These features will be added on top of the ones already implemented in feature query. In order the make simpler the query for the now too long list of features, for old as well as for new ones, we should implement a different UI approach, where UI shows dropdown menus to specify (select) type of feature (gene, cds, stem loop, ..then the new ones aded here: topological domain, region, ..), and specific types thereof when available (e.g. cytoplasmic, within topological domain), and allow filter by cds or mature peptide aliases to narrow down the search (select all as default will search for instances of the selected feature type across all genome). 
+
+%These features could be added to Query by features/ aliases but the implementation in backend will be somewhat different in that it will rely on region query (gene/cds coordinates) plus aminoacid position in Amino\_Acid\_Change column from variant metadata table.
+
+\section{Prerequisites}
+%We could do one of two things:
+%1. Perform query by aminoacids, based on specific aminoacids in aminoacid field. Whether or not some of the queried region is found in aminoacid field.
+%2. Perform query by region. We would need a codon-aware converter to convert from aa positions to genomic positions to perform a query by region in beacon.
+
+%Let's try first 2
+For the new features, here is \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/anomer.csv}{a table} with protein ids (Uniprot IDs) of gene product (i.e, cds), protein name, short name, aliases, feature type, start and end position of feature, feature name (specific instance) when available,  feature characteristics/note, e.g.\\
+\begin{enumerate}
+\item "P0DTC2"; "Spike glycoprotein"; "S"; "E2, Peplomer protein", "Motif", 1269, 1273, "KxHxx"\\
+\item "P0DTC2"; "Spike glycoprotein"; "S"; "E2, Peplomer protein", "Region", 437, 508, "Receptor-binding motif" "binding to human ACE2"
+\end{enumerate}
+There are 19 feature types annotated in the table, column \textit{feature\_type}:  
+"Signal peptide"       "Chain"                "Topological domain"   "Transmembrane"        "Repeat"               "Domain"               "Zinc finger"          "Nucleotide binding"   "Active site"          "Metal binding"        "Site"                 "Motif"                "Disulfide bond"       "Glycosylation"        "Region"               "Modified residue"    "Binding site"         "Non-terminal residue" "Natural variant"  \\
+%For each of them, distinct notes.
+If I was to choose just some of them to start, I will choose "Chain" , "Region" , "Domain", "Repeat", "Active site", "Topological domain"
 
 
-Furin:S 
+Note: "Chain" will be somewhat similar to mature peptide already present in feature query, although this is a different query: while mature protein contains signal peptide and stop codon, chain will not. Also, it includes Spike protein chains, that are not annotated in mature peptides.
+
+
+
 
 \section{Query specifications}
 
 
-\section{Prerequisites}
-We could do one of two things:
-1. Perform query by aminoacids, based on specific aminoacids in aminoacid field. Whether or not some of the queried region is found in aminoacid field.
-2. Perform query by region. We would need a codon-aware converter to convert from aa positions to genomic positions to perform a query by region in beacon.
 
-Let's try first 1.
-
-For this we will use \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/uniprot-2697049.gff}{Uniprot annotation file}.
-
-There are 19 feature types annotated:  "Signal peptide"       "Chain"                "Topological domain"   "Transmembrane"        "Repeat"               "Domain"               "Zinc finger"          "Nucleotide binding"   "Active site"          "Metal binding"        "Site"                 "Motif"                "Disulfide bond"       "Glycosylation"        "Region"               "Modified residue"    
-"Binding site"         "Non-terminal residue" "Natural variant"  
-For each of them, distinct notes.
-
-
-
-
-\section{Implementation} 
 \begin{itemize}
-\item[1] A table with protein id (Uniprot), protein name (ORF), short name, aliases, feature type, start and end position of feauture, feauture name (specific instance) when available,  feature characteristics/note e.g 
-"P0DTC2"; "Spike glycoprotein"; "S"; "E2, Peplomer protein", "Motif", 1269, 1273, "KxHxx" ""
-"P0DTC2"; "Spike glycoprotein"; "S"; "E2, Peplomer protein", "Region", 437, 508, "Receptor-binding motif" "binding to human ACE2"
 
-\item[2] A table with mature proteins and their start and end positions in their ORF (only important for polyprotein products). These coordinates will be used to convert positions given as positions in polyprotein to mature peptide positions, as most researcher publish/will search for mutations.
-e.g nsp3 chain goes from 819 to 2763 of polyprotein positions, so position 819 will be its position 1. 
+% For aminoacid query
+%\item[2] A table with mature proteins and their start and end positions in their ORF (only important for polyprotein products). These coordinates will be used to convert positions given as positions in polyprotein to mature peptide positions, as most researcher publish/will search for mutations.
+%e.g nsp3 chain goes from 819 to 2763 of polyprotein positions, so position 819 will be its position 1. 
 
-D614G on S and P323L mutation on RdRp (from literature, associated to severely affected COVID19 patients) 
+%D614G on S and P323L mutation on RdRp (from literature, associated to severely affected COVID19 patients) 
 
 %Note: A row for the full length peptide will also be included, named as "sequence region" with start 1 and en equal to length of the full peptide.
+ \item[1] A filter by Gene/CDSs products or mature proteins (select all option by default, checkboxes for the desired ones). Here, include all cds and mature peptides by their name/alias as options.
  
-Note: Chain will be somewhat similar to mature peptide in Feature query, but this is a different query, mature protein will contain for example signal peptide while chain won't.
+ \item[I] Gene/CDS product selection can be filtered directly in table using columns \textit{cds\_name}. Mature proteins, which come from one or both of the two polyproteins in CDSs ORF1a/ ab will be mapped upon query to one or both of these CDS using newly added column \textit{locus\_mapping} in table \href{https://github.com/clauw87/virusbeacon/blob/raw_ideas/annot_coord_table.csv}{annot\_coord\_table.csv} (the one being used so far in feature query). The corresponding CDS(s) will be then used for the search in DB, since the coordinates in \textit{nt\_coord\_start} and \textit{nt\_coord\_end} are based on these and not the mature proteins. However, the search for mature peptides will work as a "filter" to narrow down the hits to those found between the mature protein genomic coordinates, as in annot\_coord\_table.csv.
 
-\item[2] Allow to filter/select first type of feature: chain, motif, topological, domain.
+\item[2] A dropdown menu to select first the type of feature to be queried: this menu contains all unique values of \textit{feature\_type}, e.g. "Modified residue". 
 
-\item[3] For Domains Show in dropdown: shortname:feature type:feature name:start-end (eg. S:Region:Receptor-binding motif)
+\item[3] A Dropdown to select a specific subtype within feature type or the desired instance of feature, e.g. "Lumenal", "Receptor-binding motif" :  values from \textit{feature\_name} column  (select all as default)
 
-\item[3] Search in DB will use 
+ \item[I] After the feature type is selected, the list in dropdown would show only the values corresponding to the selected feature type (I would imagine this menu would appear only in the cases needed, listed below:) 
 
+This is the list of feature types for which we should have this "feature\_name/note" dropdown menu:
+"Chain", "Domain" , "Region", "Motif", "Active site", "Repeat" , "Metal binding"  (for these values are subtypes, in case you want to add subtypes and names as a different dropdown menus)
+"Glycosylation", "Topological domain" , "Transmembrane" , "Site", "Metal binding", "Repeat", "Modified residue", "Zinc finger", "Nucleotide binding" (for these ones, they are actual feature names, identification of just one feature in the genome and not a group).
+
+
+%\item[3] For Domains Show in dropdown: shortname:feature type:feature name:start-end (eg. S:Region:Receptor-binding motif)
+
+%\item[3] For Domains Show in dropdown: shortname:feature type:feature name:start-end (eg. S:Region:Receptor-binding motif)
+
+
+
+%\item[4] Search in DB will use 
+\item[I] After user selections have being used to filter columns in table, the resulting hit(s) will be searched in DB using the columns \textit{nt\_coord\_start} and \textit{nt\_coord\_end} to perform a region query of the region, including both.
 
 \end{itemize}
 
 
 
 
+
+
+
+
+
 \section{Response}
-Response will be same as that of a \texttt{query by aminoacid} 
+Response will be same as that of a \texttt{feature query} 
 
 
 \end{document}

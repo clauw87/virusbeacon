@@ -1,0 +1,47 @@
+class,type,start,end,name,syn_alias,locus_tag,locus_mapping,id,accession,annot
+gene,coding,266,21555,ORF1ab,NA,GU280_gp01,,43740578,NA,NA
+gene,coding,21563,25384,S,spike glycoprotein,GU280_gp02,,43740568,NA,NA
+gene,coding,25393,26220,ORF3a,NA,GU280_gp03,,43740569,NA,NA
+gene,coding,26245,26472,E,NA,GU280_gp04,,43740570,NA,NA
+gene,coding,26523,27191,M,NA,GU280_gp05,,43740571,NA,NA
+gene,coding,27202,27387,ORF6,NA,GU280_gp06,,43740572,NA,NA
+gene,coding,27394,27759,ORF7a,NA,GU280_gp07,,43740573,NA,NA
+gene,coding,27756,27887,ORF7b,NA,GU280_gp08,,43740574,NA,NA
+gene,coding,27894,28259,ORF8,NA,GU280_gp09,,43740577,NA,NA
+gene,coding,28274,29533,N,NA,GU280_gp10,,43740575,NA,NA
+gene,coding,29558,29674,ORF10,NA,GU280_gp11,,43740576,NA,NA
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,NA,ORF1ab,NA,YP_009724389.1,NA
+cds,product,266,13483,ORF1a polyprotein,pp1a,NA,ORF1a,NA,YP_009725295.1,NA
+functional,mature peptide,206,805,leader protein,"leader, nsp1",NA,"ORF1ab, ORF1a",NA,"YP_009725297.1, YP_009742608.1",non-structural protein
+functional,mature peptide,806,2719,nsp2,nsp2,NA,"ORF1ab, ORF1a",NA,"YP_009725298.1, YP_009742609.1",non-structural protein
+functional,mature peptide,2720,8554,nsp3,nsp3,NA,"ORF1ab, ORF1a",NA,"YP_009725299.1, YP_009742610.1",non-structural protein
+functional,mature peptide,8555,10054,nsp4,nsp4,NA,"ORF1ab, ORF1a",NA,"YP_009725300.1, YP_009742611.1",non-structural protein
+functional,mature peptide,10055,10972,3C-like proteinase,"nsp5, main proteinase (Mpro), 3C-like",NA,"ORF1ab, ORF1a",NA,"YP_009725301.1, YP_009742612.1",non-structural protein
+functional,mature peptide,10973,11842,nsp6,nsp6,NA,"ORF1ab, ORF1a",NA,"YP_009725302.1, YP_009742613.1",non-structural protein
+functional,mature peptide,11843,12091,nsp7,nsp7,NA,"ORF1ab, ORF1a",NA,"YP_009725303.1, YP_009742614.1",non-structural protein
+functional,mature peptide,12092,12685,nsp8,nsp8,NA,"ORF1ab, ORF1a",NA,"YP_009725304.1, YP_009742615.1",non-structural protein
+functional,mature peptide,12686,13024,nsp9,ssRNA-binding protein,NA,"ORF1ab, ORF1a",NA,"YP_009725305.1, YP_009742616.1",non-structural protein
+functional,mature peptide,13025,13441,nsp10,nsp10,NA,"ORF1ab, ORF1a",NA,"YP_009725306.1, YP_009742617.1",non-structural protein
+functional,mature peptide,13442,13480,nsp11,nsp11,NA,ORF1a,NA,YP_009725312.1,non-structural protein
+functional,mature peptide,13442,16236,RNA-dependent RNA polymerase,RdRp,NA,ORF1ab,NA,YP_009725307.1,non-structural protein
+functional,mature peptide,16237,18039,helicase,"nsp13, helicase, zinc-binding domain (ZD), NTPase/helicase",NA,ORF1ab,NA,YP_009725308.1,non-structural protein
+functional,mature peptide,18040,19620,3'-to-5' exonuclease,"3'-5' exoN, nsp14",NA,ORF1ab,NA,YP_009725309.1,non-structural protein
+functional,mature peptide,19621,20658,endoRNAse,nsp15,NA,ORF1ab,NA,YP_009725310.1,non-structural protein
+functional,mature peptide,20659,21552,2'-O-ribose methyltransferase,"2'-o-MT, nsp16",NA,,NA,YP_009725311.1,non-structural protein
+cds,product,21563,25384,surface glycoprotein,Spike,NA,,NA,YP_009724390.1,structural protein
+cds,product,25393,26220,ORF3a protein,NA,NA,,NA,YP_009724391.1,NA
+cds,product,26245,26472,envelop protein,E protein,NA,,NA,YP_009724392.1,structural protein
+cds,product,26523,27191,membrane glycoprotein,membrane,NA,,NA,YP_009724393.1,structural protein
+cds,product,27202,27387,ORF6 protein,NA,NA,,NA,YP_009724394.1,NA
+cds,product,27394,27759,ORF7a protein,NA,NA,,NA,YP_009724395.1,NA
+cds,product,27756,27887,ORF7b,NA,NA,,NA,YP_009725318.1,NA
+cds,product,27894,28259,ORF8 protein,NA,NA,,NA,YP_009724396.1,NA
+cds,product,28274,29533,nucleocapsid phosphoprotein,nucleocapsid,NA,,NA,YP_009724397.2,structural protein
+cds,product,29558,29674,ORF10 protein,NA,NA,,NA,YP_009725255.1,NA
+non-coding,utr,1,265,5'UTR,NA,NA,,NA,NA,NA
+non-coding,utr,29675,29903,3'UTR,NA,NA,,NA,NA,NA
+functional,stem loop,13476,13503,Coronavirus frameshifting stimulation element stem-loop 1,fsSE SL1,NA,,NA,NA,NA
+functional,stem loop,13488,13542,Coronavirus frameshifting stimulation element stem-loop 2,fsSE SL2,NA,,NA,NA,NA
+functional,stem loop,29609,29644,Coronavirus 3' UTR pseudoknot stem-loop 1,3utr pk SL1,NA,,NA,NA,NA
+functional,stem loop,29629,29657,Coronavirus 3' UTR pseudoknot stem-loop 2,3utr pk SL2,NA,,NA,NA,NA
+functional,stem loop,29728,29768,Coronavirus 3' stem-loop II-like motif (s2m),s2m,NA,,NA,NA,NA
