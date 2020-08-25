@@ -1,0 +1,229 @@
+class,type,cds_start,cds_end,cds_name,cds_syn_alias,feature_type,feature_name_ori,feature_name,mat_syn_alias,nt_coord_start,nt_coord_end
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 11,Non-structural protein 11,nsp11,13442,13480
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,6941,7003
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 8,Non-structural protein 8,nsp8,12092,12685
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 10,Non-structural protein 10,nsp10,13025,13441
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 6,Non-structural protein 6,nsp6,10973,11842
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 7,Non-structural protein 7,nsp7,11843,12091
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Replicase polyprotein 1a,Replicase polyprotein 1a,pp1a,266,13480
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,11024,11086
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,11090,11152
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,11168,11230
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,9758,9820
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,7217,7279
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,7280,7342
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,7346,7408
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,11285,11347
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 9,Non-structural protein 9,nsp9,12686,13024
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,3C-like proteinase,3C-like proteinase,"nsp5, main proteinase (Mpro), 3C-like",10055,10972
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,13439,13444
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,9563,9625
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,9647,9709
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,8591,8653
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,11453,11515
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,11600,11662
+cds,product,266,13483,ORF1a polyprotein,pp1a,Domain,Macro,Macro,,3338,3847
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,11840,11845
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,9398,9460
+cds,product,266,13483,ORF1a polyprotein,pp1a,Transmembrane,Helical,Helical,,9494,9556
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,12683,12688
+cds,product,266,13483,ORF1a polyprotein,pp1a,Domain,Peptidase C16,Peptidase C16,,5165,5959
+cds,product,266,13483,ORF1a polyprotein,pp1a,Domain,Peptidase C30,Peptidase C30,,10055,10972
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,12089,12094
+cds,product,266,13483,ORF1a polyprotein,pp1a,Active site,For PL1-PRO activity,For PL1-PRO activity,,5285,5287
+cds,product,266,13483,ORF1a polyprotein,pp1a,Active site,For PL2-PRO activity,For PL2-PRO activity,,5768,5770
+cds,product,266,13483,ORF1a polyprotein,pp1a,Active site,For 3CL-PRO activity,For 3CL-PRO activity,,10175,10177
+cds,product,266,13483,ORF1a polyprotein,pp1a,Active site,For 3CL-PRO activity,For 3CL-PRO activity,,10487,10489
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by PL-PRO,Cleavage; by PL-PRO,,803,808
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by PL-PRO,Cleavage; by PL-PRO,,2717,2722
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by PL-PRO,Cleavage; by PL-PRO,,8552,8557
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,10052,10057
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,10970,10975
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 1,Non-structural protein 1,"nsp1, leader protein",266,805
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 2,Non-structural protein 2,nsp2,806,2719
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 4,Non-structural protein 4,nsp4,8555,10054
+cds,product,266,13483,ORF1a polyprotein,pp1a,Zinc finger,C4-type,C4-type,,5519,5632
+cds,product,266,13483,ORF1a polyprotein,pp1a,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,13022,13027
+cds,product,266,13483,ORF1a polyprotein,pp1a,Chain,Non-structural protein 3,Non-structural protein 3,nsp3,2720,8554
+cds,product,21563,25384,surface glycoprotein,Spike,Chain,NA,Spike,NA,21599,25381
+cds,product,21563,25384,surface glycoprotein,Spike,Region,Receptor-binding motif; binding to human ACE2,Receptor-binding motif,,22871,23086
+cds,product,21563,25384,surface glycoprotein,Spike,Signal peptide,NA,NA,,21563,21598
+cds,product,21563,25384,surface glycoprotein,Spike,Region,Heptad repeat 2,Heptad repeat 2,,25049,25168
+cds,product,21563,25384,surface glycoprotein,Spike,Coiled coil,NA,NA,,24407,24541
+cds,product,21563,25384,surface glycoprotein,Spike,Region,Fusion peptide,Fusion peptide,,23924,23980
+cds,product,21563,25384,surface glycoprotein,Spike,Region,Heptad repeat 1,Heptad repeat 1,,24320,24472
+cds,product,21563,25384,surface glycoprotein,Spike,Domain,BetaCoV S1-CTD,BetaCoV S1-CTD,,22562,23143
+cds,product,21563,25384,surface glycoprotein,Spike,Region,Receptor-binding domain (RBD),Receptor-binding domain (RBD),,22517,23185
+cds,product,21563,25384,surface glycoprotein,Spike,Coiled coil,NA,NA,,25088,25171
+cds,product,21563,25384,surface glycoprotein,Spike,Domain,BetaCoV S1-NTD,BetaCoV S1-NTD,,21599,22471
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,25034,25036
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,25079,25081
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,25142,25144
+cds,product,21563,25384,surface glycoprotein,Spike,Chain,Spike protein S1,Spike protein S1,S1,21599,23617
+cds,product,21563,25384,surface glycoprotein,Spike,Chain,Spike protein S2,Spike protein S2,S2,23618,25381
+cds,product,21563,25384,surface glycoprotein,Spike,Chain,Spike protein S2',Spike protein S2',S2’,24008,25381
+cds,product,21563,25384,surface glycoprotein,Spike,Topological domain,Extracellular,Extracellular,,21599,25201
+cds,product,21563,25384,surface glycoprotein,Spike,Transmembrane,Helical,Helical,,25202,25264
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,22733,23137
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,23174,23332
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,23411,23509
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,23546,23575
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,23774,23842
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,23789,23809
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,24656,24691
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,24806,24940
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,21605,21970
+cds,product,21563,25384,surface glycoprotein,Spike,Motif,KxHxx,KxHxx,,25367,25381
+cds,product,21563,25384,surface glycoprotein,Spike,Site,Cleavage,Cleavage,,23615,23620
+cds,product,21563,25384,surface glycoprotein,Spike,Site,Cleavage,Cleavage,,24005,24010
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,23687,23689
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,23711,23713
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,23963,23965
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,24782,24784
+cds,product,21563,25384,surface glycoprotein,Spike,Topological domain,Cytoplasmic,Cytoplasmic,,25265,25381
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,22055,22057
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,22262,22264
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,22406,22408
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,22007,22009
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,22589,22591
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,23369,23371
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,23408,23410
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,22553,22555
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,21611,21613
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,21743,21745
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,21782,21784
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,21926,21928
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,24854,24856
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked ,,24962,24964
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,22697,22858
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,21953,22060
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,22433,22465
+cds,product,21563,25384,surface glycoprotein,Spike,Disulfide bond,NA,NA,,22568,22645
+cds,product,21563,25384,surface glycoprotein,Spike,Glycosylation,N-linked (GlcNAc...) asparagine; by host,N-linked (GlcNAc...) asparagine; by host,,23531,23533
+cds,product,25393,26220,ORF3a protein,NA,Transmembrane,Helical,Helical,,25603,25665
+cds,product,25393,26220,ORF3a protein,NA,Transmembrane,Helical,Helical,,25672,25734
+cds,product,25393,26220,ORF3a protein,NA,Chain,NA,ORF3a protein,NA,25393,26217
+cds,product,25393,26220,ORF3a protein,NA,Transmembrane,Helical,Helical,,25495,25557
+cds,product,25393,26220,ORF3a protein,NA,Site,Involved in polymerization,Polymerization,,25789,25791
+cds,product,25393,26220,ORF3a protein,NA,Glycosylation,O-linked (GalNAc...) threonine; by host,O-linked,,25486,25488
+cds,product,25393,26220,ORF3a protein,NA,Glycosylation,O-linked (GalNAc...) threonine; by host,O-linked,,25492,25494
+cds,product,26245,26472,envelop protein,E protein,Topological domain,Virion surface,Virion surface,,26245,26292
+cds,product,26245,26472,envelop protein,E protein,Chain,NA,envelop protein,E protein,26245,26469
+cds,product,26245,26472,envelop protein,E protein,Motif,PDZ-binding; required for interaction with human MPP5,PDZ-binding,,26458,26469
+cds,product,26245,26472,envelop protein,E protein,Transmembrane,Helical,Helical,,26293,26355
+cds,product,26245,26472,envelop protein,E protein,Topological domain,Intravirion,Intravirion,,26356,26469
+cds,product,26523,27191,membrane glycoprotein,membrane,Topological domain,Intravirion,Intravirion,,26643,26672
+cds,product,26523,27191,membrane glycoprotein,membrane,Transmembrane,Helical,Helical,,26760,26822
+cds,product,26523,27191,membrane glycoprotein,membrane,Transmembrane,Helical,Helical,,26673,26735
+cds,product,26523,27191,membrane glycoprotein,membrane,Topological domain,Virion surface,Virion surface,,26736,26759
+cds,product,26523,27191,membrane glycoprotein,membrane,Topological domain,Intravirion,Intravirion,,26823,27188
+cds,product,26523,27191,membrane glycoprotein,membrane,Topological domain,Virion surface,Virion surface,,26526,26579
+cds,product,26523,27191,membrane glycoprotein,membrane,Transmembrane,Helical,Helical,,26580,26642
+cds,product,26523,27191,membrane glycoprotein,membrane,Chain,NA,membrane glycoprotein,membrane,26523,27188
+cds,product,27202,27387,ORF6 protein,NA,Chain,NA,ORF6 protein,NA,27202,27384
+cds,product,27394,27759,ORF7a protein,NA,Disulfide bond,NA,NA,,27496,27594
+cds,product,27394,27759,ORF7a protein,NA,Transmembrane,Helical,Helical,,27679,27741
+cds,product,27394,27759,ORF7a protein,NA,Chain,Protein 7a,ORF7a protein,Protein 7a,27439,27756
+cds,product,27394,27759,ORF7a protein,NA,Signal peptide,NA,NA,,27394,27438
+cds,product,27394,27759,ORF7a protein,NA,Disulfide bond,NA,NA,,27460,27567
+cds,product,27394,27759,ORF7a protein,NA,Motif,Di-lysine motif,Di-lysine motif,,27742,27756
+cds,product,27394,27759,ORF7a protein,NA,Domain,X4e,X4e,,27439,27636
+cds,product,27894,28259,ORF8 protein,NA,Natural variant,NA,NA,,28143,28145
+cds,product,27894,28259,ORF8 protein,NA,Chain,NA,ORF8 protein,NA,27939,28256
+cds,product,27894,28259,ORF8 protein,NA,Signal peptide,NA,NA,,27894,27938
+cds,product,28274,29533,nucleocapsid phosphoprotein,nucleocapsid,Chain,NA,nucleocapsid phosphoprotein,nucleocapsid,28274,29530
+cds,product,28274,29533,nucleocapsid phosphoprotein,nucleocapsid,Modified residue,Phosphoserine; by host,Phosphoserine; by host,,28799,28801
+cds,product,28274,29533,nucleocapsid phosphoprotein,nucleocapsid,Region,RNA-binding,RNA-binding,,28394,28831
+cds,product,28274,29533,nucleocapsid phosphoprotein,nucleocapsid,Region,Dimerization,Dimerization,,29045,29356
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 2,LRR 2,,2354,2422
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,Macro,Macro,,3338,3847
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,Peptidase C16,Peptidase C16,,5165,5959
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 3,LRR 3,,5303,5371
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 4,LRR 4,,9818,9883
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,Peptidase C30,Peptidase C30,,10055,10972
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 5,LRR 5,,12068,12142
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,11153,11167
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,11168,11230
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Lumenal,Lumenal,,11516,11599
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,11600,11662
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,11663,21553
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 1,LRR 1,,1898,1972
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 6,Non-structural protein 6,nsp6,10973,11842
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 3,Non-structural protein 3,nsp3,2720,8554
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,NA,Replicase polyprotein 1ab,pp1ab,266,21553
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Host translation inhibitor nsp1,Leader protein ,"nsp1, host translation inhibitor nsp1",266,805
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,2'-O-methyltransferase,2'-O-methyltransferase,"nsp16, 2'-o-MT",20660,21553
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 4,Non-structural protein 4,nsp4,8555,10054
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,6941,7003
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 6,LRR 6,,12194,12277
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 10,Non-structural protein 10,nsp10,13025,13441
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,RNA-directed RNA polymerase,RNA-directed RNA polymerase,"nsp12, RdRp",13442,16237
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Helicase,Helicase,nsp13,16238,18040
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 2,Non-structural protein 2,nsp2,806,2719
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,3C-like proteinase,3C-like proteinase,"nsp5, main proteinase (Mpro), 3C-like",10055,10972
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 7,Non-structural protein 7,nsp7,11843,12091
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,9563,9625
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Lumenal,Lumenal,,11087,11089
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,11090,11152
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,9710,11023
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,11024,11086
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Lumenal,Lumenal,,11231,11284
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 9,Non-structural protein 9,nsp9,12686,13024
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,11348,11452
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,11453,11515
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,10052,10057
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; aby 3CL-PRO,Cleavage; aby 3CL-PRO,,10970,10975
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,11840,11845
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,12089,12094
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,12683,12688
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,13022,13027
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,13439,13444
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,16235,16240
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,18038,18043
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,19619,19624
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by 3CL-PRO,Cleavage; by 3CL-PRO,,20657,20662
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Active site,Nucleophile; for 3CL-PRO activity,Nucleophile; for 3CL-PRO activity,,10487,10489
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 7,LRR 7,,14036,14113
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,RdRp catalytic,RdRp catalytic,,15275,15763
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,CV ZBD,CV ZBD,,16238,16489
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,3'-to-5' exonuclease ,3'-to-5' exonuclease ,"nsp14, 3'-5' exoN, proofreading exoribonuclease",18041,19621
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,EndoRNAse,EndoRNAse,"nsp15, uridylate-specific endoribonuclease",19622,20659
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,(+)RNA virus helicase C-terminal,(+)RNA virus helicase C-terminal,,17552,18061
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 9,LRR 9,,20714,20788
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Zinc finger,C4-type,C4-type,,5519,5632
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Nucleotide binding,NTP,NTP,,17081,17104
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Active site,For PL1-PRO activity,For PL1-PRO activity,,5285,5287
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,7280,8590
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,8591,8653
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Lumenal,Lumenal,,7004,7216
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,7217,7279
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,266,6940
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Chain,Non-structural protein 8,Non-structural protein 8,nsp8,12092,12685
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Lumenal,Lumenal,,9626,9646
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,9647,9709
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 2; via tele nitrogen,Zinc 2; via tele nitrogen,,16322,16324
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 2; via pros nitrogen,Zinc 2; via pros nitrogen,,16334,16336
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 2,Zinc 2,,16352,16354
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 3,Zinc 3,,16385,16387
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 3; via pros nitrogen,Zinc 3; via pros nitrogen,,16400,16402
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 3,Zinc 3,,16451,16453
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 3,Zinc 3,,16460,16462
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,11285,11347
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Lumenal,Lumenal,,8654,9397
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Transmembrane,Helical,Helical,,9398,9460
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Topological domain,Cytoplasmic,Cytoplasmic,,9461,9562
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 2,Zinc 2,,16283,16285
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Repeat,LRR 8,LRR 8,,16919,16981
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Domain,(+)RNA virus helicase ATP-binding,(+)RNA virus helicase ATP-binding,,17006,17551
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 1,Zinc 1,,16250,16252
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Active site,For PL2-PRO activity,For PL2-PRO activity,,5768,5770
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Active site,For 3CL-PRO activity,For 3CL-PRO activity,,10175,10177
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by PL-PRO,Cleavage; by PL-PRO,,803,808
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 1,Zinc 1,,16259,16261
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by PL-PRO,Cleavage; by PL-PRO,,8552,8557
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Site,Cleavage; by PL-PRO,Cleavage; by PL-PRO,,2717,2722
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 1,Zinc 1,,16292,16294
+cds,product,266,21555,ORF1ab polyprotein,pp1ab,Metal binding,Zinc 1,Zinc 1,,16313,16315
+cds,product,27756,27887,ORF7b,NA,Chain,NA,ORF7b,NA,27756,27884
+cds,product,27756,27887,ORF7b,NA,Transmembrane,Helical,Helical,,27780,27842
+cds,product,27756,27887,ORF7b,NA,Transmembrane,Helical,Helical,,27780,27842
